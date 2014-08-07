@@ -9,7 +9,8 @@ replaceable package MediumCW =
     "Nominal pressure difference";
   package CoolingTowerSection
     "Cooling Tower plus components that interact with it"
-    model CoolingTowerComponents
+    model CoolingTowerSystem
+      "Components directly interacting with the Cooling Tower"
      replaceable package MediumCW =
           Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
           annotation (choicesAllMatching = true);
@@ -18,26 +19,29 @@ replaceable package MediumCW =
       parameter Modelica.SIunits.Pressure dp_nominal=100
         "Nominal pressure difference";
 
-      Buildings.Fluid.Sources.Boundary_pT bou(nPorts=2, redeclare package
-          Medium = MediumCW) "Boundry for realistic circumstances" annotation (
+      Buildings.Fluid.Sources.Boundary_pT bou(          redeclare package
+          Medium = MediumCW, nPorts=1) "Boundry for realistic circumstances"
+                                                                   annotation (
           Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=-90,
-            origin={-42,40})));
+            origin={-50,30})));
       Buildings.Fluid.HeatExchangers.CoolingTowers.FixedApproach CooTow(
-          redeclare package Medium = MediumCW) "Cooling Tower"
-        annotation (Placement(transformation(extent={{-30,10},{-10,-10}})));
+          redeclare package Medium = MediumCW,
+        m_flow_nominal=mWater_flow_nominal,
+        dp_nominal=dp_nominal) "Cooling Tower"
+        annotation (Placement(transformation(extent={{-28,10},{-8,-10}})));
       Buildings.Fluid.Movers.FlowMachine_m_flow Pum(
         addPowerToMedium=false,
         redeclare package Medium = MediumCW,
         m_flow_nominal=mWater_flow_nominal,
         m_flow(start=mWater_flow_nominal),
         dp(start=dp_nominal)) "pump corresponding to the cooling tower"
-        annotation (Placement(transformation(extent={{10,-10},{30,10}})));
+        annotation (Placement(transformation(extent={{20,-10},{40,10}})));
       Buildings.Fluid.Sensors.TemperatureTwoPort TemSen(m_flow_nominal=
             mWater_flow_nominal, redeclare package Medium = MediumCW)
         "Temperature sensor of water after going through cooling tower"
-        annotation (Placement(transformation(extent={{38,-10},{58,10}})));
+        annotation (Placement(transformation(extent={{60,-10},{80,10}})));
       Modelica.Fluid.Interfaces.FluidPort_b port_b1
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{92,-70},{112,-50}})));
@@ -54,40 +58,40 @@ replaceable package MediumCW =
             iconTransformation(extent={{-124,56},{-100,80}})));
     equation
       connect(CooTow.port_b, Pum.port_a) annotation (Line(
-          points={{-10,0},{10,0}},
+          points={{-8,0},{20,0}},
           color={0,127,255},
           thickness=1,
           smooth=Smooth.None));
       connect(Pum.port_b, TemSen.port_a) annotation (Line(
-          points={{30,0},{38,0}},
-          color={0,127,255},
-          smooth=Smooth.None,
-          thickness=1));
-      connect(CooTow.port_a, bou.ports[1]) annotation (Line(
-          points={{-30,0},{-40,0},{-40,30}},
+          points={{40,0},{60,0}},
           color={0,127,255},
           smooth=Smooth.None,
           thickness=1));
       connect(TemSen.port_b, port_b1) annotation (Line(
-          points={{58,0},{60,0},{60,-60},{102,-60}},
-          color={0,127,255},
-          smooth=Smooth.None,
-          thickness=1));
-      connect(CooTow.port_a, port_a1) annotation (Line(
-          points={{-30,0},{-60,0},{-60,40},{-100,40}},
+          points={{80,0},{80,-60},{102,-60}},
           color={0,127,255},
           smooth=Smooth.None,
           thickness=1));
       connect(CooTow.TAir, TWea) annotation (Line(
-          points={{-32,-4},{-40,-4},{-40,-60},{-120,-60}},
+          points={{-30,-4},{-40,-4},{-40,-60},{-120,-60}},
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
       connect(Pum.m_flow_in, m_flo_in) annotation (Line(
-          points={{19.8,12},{20,12},{20,60},{-120,60}},
+          points={{29.8,12},{20,12},{20,60},{-120,60}},
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
+      connect(port_a1, CooTow.port_a) annotation (Line(
+          points={{-100,40},{-80,40},{-80,0},{-28,0}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          thickness=1));
+      connect(bou.ports[1], CooTow.port_a) annotation (Line(
+          points={{-50,20},{-50,0},{-28,0}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          thickness=1));
       annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics), Icon(coordinateSystem(
               preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -166,9 +170,9 @@ replaceable package MediumCW =
               fillColor={255,255,0},
               fillPattern=FillPattern.Solid,
               textString="%name")}));
-    end CoolingTowerComponents;
+    end CoolingTowerSystem;
 
-    model CoolingTowerControls
+    model CoolingTowerWithControls
       "Cooling tower components with controls included"
      replaceable package MediumCW =
           Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
@@ -178,10 +182,10 @@ replaceable package MediumCW =
       parameter Modelica.SIunits.Pressure dp_nominal=100
         "Nominal pressure difference";
 
-      CoolingTowerComponents CooTowCom(
+      CoolingTowerSystem CooTowSys(
         redeclare package MediumCW = MediumCW,
         mWater_flow_nominal=mWater_flow_nominal,
-        dp_nominal=dp_nominal) "Cooling Tower Components"
+        dp_nominal=dp_nominal) "Cooling Tower System"
         annotation (Placement(transformation(extent={{-30,-28},{26,30}})));
       Modelica.Blocks.Sources.Constant TWea(k=273.15 + 23.5)
         "Weather temperature"
@@ -198,26 +202,26 @@ replaceable package MediumCW =
         annotation (Placement(transformation(extent={{90,-90},{110,-70}}),
             iconTransformation(extent={{90,-90},{110,-70}})));
     equation
-      connect(CooTowCom.m_flow_in1, m_flo_in) annotation (Line(
-          points={{-29.44,20.2},{-60,20.2},{-60,60},{-120,60}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash));
-      connect(CooTowCom.TWeather, TWea.y) annotation (Line(
-          points={{-30,-14.08},{-60,-14.08},{-60,-40},{-71,-40}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash));
-      connect(CooTowCom.port_a1, port_a1) annotation (Line(
+      connect(CooTowSys.port_a1, port_a1) annotation (Line(
           points={{-30,12.6},{-80.72,12.6},{-80.72,20},{-100,20}},
           color={0,127,255},
           smooth=Smooth.None,
           thickness=1));
-      connect(CooTowCom.port_b1, port_b1) annotation (Line(
+      connect(CooTowSys.port_b1, port_b1) annotation (Line(
           points={{26.56,-16.4},{59.28,-16.4},{59.28,-80},{100,-80}},
           color={0,127,255},
           smooth=Smooth.None,
           thickness=1));
+      connect(m_flo_in, CooTowSys.m_flo_in) annotation (Line(
+          points={{-120,60},{-60,60},{-60,20.72},{-33.36,20.72}},
+          color={0,0,127},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(TWea.y, CooTowSys.TWea) annotation (Line(
+          points={{-71,-40},{-60,-40},{-60,-14.08},{-33.36,-14.08}},
+          color={0,0,127},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
       annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}),      graphics), Icon(coordinateSystem(
               preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -309,7 +313,7 @@ replaceable package MediumCW =
               lineThickness=1,
               fillColor={95,95,95},
               fillPattern=FillPattern.Solid)}));
-    end CoolingTowerControls;
+    end CoolingTowerWithControls;
   end CoolingTowerSection;
 
   package HeatPumpSection
@@ -430,24 +434,24 @@ replaceable package MediumCW =
           color={255,127,0},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
-      connect(HeaPumBoi.HPTSen, HeaPum.THeaPum) annotation (Line(
-          points={{-38.4,67.56},{-30,67.56},{-30,-40},{-10,-40},{-10,-52},{-18,
-              -52}},
-          color={0,0,127},
-          smooth=Smooth.None,
-          pattern=LinePattern.Dash));
       connect(HeaPumBoi.port_a1, BouHeaPum.ports[4]) annotation (Line(
           points={{-40,60},{7,60}},
           color={0,127,255},
           smooth=Smooth.None,
           thickness=1));
-      connect(HeaPumBoi.BoiTSenSig, Tboi) annotation (Line(
-          points={{-82.4,67.56},{-82.4,40},{60,40},{60,110}},
+      connect(HeaPum.THeaPum, THeaPum) annotation (Line(
+          points={{-18,-52},{-10,-52},{-10,-40},{60,-40},{60,-110}},
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
-      connect(HeaPum.THeaPum, THeaPum) annotation (Line(
-          points={{-18,-52},{-10,-52},{-10,-40},{60,-40},{60,-110}},
+      connect(HeaPum.THeaPum, HeaPumBoi.HPTSen) annotation (Line(
+          points={{-18,-52},{-10,-52},{-10,67.56},{-38.4,67.56}},
+          color={0,0,127},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(HeaPumBoi.TBoi, Tboi) annotation (Line(
+          points={{-82.4,67.56},{-82.4,68},{-90,68},{-90,40},{60,40},{60,110}},
+
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
@@ -663,16 +667,11 @@ replaceable package MediumCW =
           "Heat pump temperature sensor signall" annotation (Placement(
               transformation(extent={{-120,30},{-100,50}}), iconTransformation(
                 extent={{-116,34},{-100,50}})));
-        Modelica.Blocks.Interfaces.RealOutput BoiTSenSig
+        Modelica.Blocks.Interfaces.RealOutput TBoi
           "Signal of the output temperature after it has gone through the boiler"
           annotation (Placement(transformation(extent={{100,30},{120,50}}),
               iconTransformation(extent={{104,34},{120,50}})));
       equation
-        connect(bolCon.BoilerControl, boi.BoilerControl) annotation (Line(
-            points={{-39,54},{-32,54},{-32,17.48},{-12.96,17.48}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
         connect(senMasFlo.port_b, boi.port_a1) annotation (Line(
             points={{-60,0},{-10,0}},
             color={0,127,255},
@@ -693,27 +692,32 @@ replaceable package MediumCW =
             color={0,127,255},
             smooth=Smooth.None,
             thickness=1));
-        connect(bolCon.StabilityControl, Sta) annotation (Line(
-            points={{-64,60},{-110,60}},
-            color={255,127,0},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(BoiTSen.T, BoiTSenSig) annotation (Line(
-            points={{60,11},{60,40},{110,40}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
         connect(port_a1, port_a1) annotation (Line(
             points={{-100,0},{-100,4},{-100,4},{-100,0}},
             color={0,127,255},
             smooth=Smooth.None));
-        connect(bolCon.TMea, HPTSen) annotation (Line(
-            points={{-62,50},{-80,50},{-80,40},{-110,40}},
+        connect(Sta, bolCon.sta) annotation (Line(
+            points={{-110,60},{-62,60}},
+            color={255,127,0},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(HPTSen, bolCon.TMea) annotation (Line(
+            points={{-110,40},{-80,40},{-80,50},{-62,50}},
             color={0,0,127},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
-        connect(bolCon.Valve4Control, boi.valCon) annotation (Line(
-            points={{-39,60},{-36,60},{-36,8.2},{-10.8,8.2}},
+        connect(bolCon.Val4Ctr, boi.valCon) annotation (Line(
+            points={{-39,60},{-24,60},{-24,8.2},{-10.8,8.2}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(bolCon.BoiCtr, boi.boiCon) annotation (Line(
+            points={{-39,54},{-20,54},{-20,12},{-10.8,12}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(BoiTSen.T, TBoi) annotation (Line(
+            points={{60,11},{60,40},{110,40}},
             color={0,0,127},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
@@ -776,22 +780,22 @@ replaceable package MediumCW =
 
         Modelica.Blocks.Math.IntegerToReal integerToReal
           annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
-        Modelica.Blocks.Routing.Replicator replicator(nout=3)
+        Modelica.Blocks.Routing.Replicator replicator(nout=2)
           annotation (Placement(transformation(extent={{-20,30},{0,50}})));
-        Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1,1,1,0; 2,1,1,
-              0; 3,0,0,1; 4,0,0,1; 5,0,0,1; 6,0,0,1; 7,0,0,1])
-          annotation (Placement(transformation(extent={{20,30},{40,50}})));
-        Modelica.Blocks.Sources.Constant TSetBoi(k=kTSetBoi)
+        Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1,1,0; 2,1,0; 3,
+              0,1; 4,0,1; 5,0,1; 6,0,1; 7,0,1])
+          annotation (Placement(transformation(extent={{22,30},{42,50}})));
+        Modelica.Blocks.Sources.Constant TSetBoi(k=273.15 + 100)
           "Set point temperature of boiler"
-          annotation (Placement(transformation(extent={{-40,-30},{-20,-10}})));
+          annotation (Placement(transformation(extent={{-40,-36},{-20,-16}})));
         Buildings.Controls.Continuous.LimPID conPID
-          annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
+          annotation (Placement(transformation(extent={{0,-36},{20,-16}})));
         Modelica.Blocks.Math.Product product
           annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
-        Modelica.Blocks.Interfaces.RealOutput BoilerControl
+        Modelica.Blocks.Interfaces.RealOutput BoiCtr
           "Connector of Real output signal"
           annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
-        Modelica.Blocks.Interfaces.RealOutput Valve4Control
+        Modelica.Blocks.Interfaces.RealOutput Val4Ctr
           "Connector of Real output signals"
           annotation (Placement(transformation(extent={{100,30},{120,50}})));
         Modelica.Blocks.Interfaces.RealInput TMea
@@ -802,43 +806,43 @@ replaceable package MediumCW =
           annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
       equation
         connect(replicator.y, combiTable1D.u) annotation (Line(
-            points={{1,40},{18,40}},
+            points={{1,40},{20,40}},
             color={0,0,127},
             smooth=Smooth.None));
         connect(integerToReal.y, replicator.u) annotation (Line(
             points={{-59,40},{-22,40}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(TSetBoi.y, conPID.u_s) annotation (Line(
-            points={{-19,-20},{-2,-20}},
-            color={0,0,127},
-            smooth=Smooth.None));
         connect(conPID.y, product.u2) annotation (Line(
-            points={{21,-20},{42,-20},{42,-26},{58,-26}},
+            points={{21,-26},{58,-26}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(combiTable1D.y[1], product.u1) annotation (Line(
-            points={{41,39.3333},{50,39.3333},{50,-14},{58,-14}},
-            color={0,0,127},
-            smooth=Smooth.None));
-        connect(product.y, BoilerControl) annotation (Line(
+        connect(product.y, BoiCtr) annotation (Line(
             points={{81,-20},{110,-20}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(combiTable1D.y, Valve4Control) annotation (Line(
-            points={{41,40},{110,40}},
-            color={0,0,127},
-            smooth=Smooth.None));
         connect(conPID.u_m, TMea) annotation (Line(
-            points={{10,-32},{10,-60},{-120,-60}},
+            points={{10,-38},{10,-60},{-120,-60}},
             color={0,0,127},
             smooth=Smooth.None));
         connect(integerToReal.u, sta) annotation (Line(
             points={{-82,40},{-120,40}},
             color={255,127,0},
             smooth=Smooth.None));
-        connect(BoilerControl, BoilerControl) annotation (Line(
+        connect(BoiCtr, BoiCtr) annotation (Line(
             points={{110,-20},{110,-20}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(TSetBoi.y, conPID.u_s) annotation (Line(
+            points={{-19,-26},{-2,-26}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(combiTable1D.y[1], Val4Ctr) annotation (Line(
+            points={{43,39.5},{64,39.5},{64,40},{110,40}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(combiTable1D.y[2], product.u1) annotation (Line(
+            points={{43,40.5},{50,40.5},{50,-14},{58,-14}},
             color={0,0,127},
             smooth=Smooth.None));
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -1042,7 +1046,7 @@ replaceable package MediumCW =
         HeatPump HeaPum(
           redeclare package MediumCW = MediumCW,
           dp_nominal=dp_nominal,
-          mWater_flow_nominal=mWater_flow_nominalMasFloHeatPum)
+          mWater_flow_nominal=mWater_flow_nominal)
           "Heat pump with all components directly interacting with it"
           annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
         Modelica.Fluid.Interfaces.FluidPort_a port_a1
@@ -1070,18 +1074,18 @@ replaceable package MediumCW =
             color={0,127,255},
             smooth=Smooth.None,
             thickness=1));
-        connect(HeaPum.HeatTempOut, THeaPum) annotation (Line(
-            points={{20,8},{60,8},{60,40},{110,40}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(MasFloHeaPum.y, HeaPum.massFlowPump) annotation (Line(
-            points={{-59,40},{-40,40},{-40,8},{-21.2,8}},
+        connect(MasFloHeaPum.y, HeaPum.masFloPum) annotation (Line(
+            points={{-59,40},{-40,40},{-40,8},{-22.4,8}},
             color={0,0,127},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
         connect(Q_floIn.y, HeaPum.Q_flow) annotation (Line(
             points={{-59,-40},{-40,-40},{-40,-8},{-22.4,-8}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(HeaPum.THeaPum, THeaPum) annotation (Line(
+            points={{22,8},{60,8},{60,40},{110,40}},
             color={0,0,127},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
@@ -1381,28 +1385,27 @@ replaceable package MediumCW =
             color={0,127,255},
             smooth=Smooth.None,
             thickness=1));
-        connect(heatExchangeControls.ValveCtrl3, Hex.ValveCtrl1) annotation (
-            Line(
-            points={{-4,48},{-6,48},{-6,10.2}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(heatExchangeControls.ValveCtrl2, Hex.ValveCtrl2) annotation (
-            Line(
-            points={{0,48},{0,10.2}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(heatExchangeControls.ValveCtrl1, Hex.ValveCtrl3) annotation (
-            Line(
-            points={{4,48},{6,48},{6,10.2}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
         connect(heatExchangeControls.u1, SuperCtrl) annotation (Line(
             points={{0,70},{0,112}},
             color={255,127,0},
-            smooth=Smooth.None));
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(heatExchangeControls.ValveCtrl3, Hex.ValCtrl1) annotation (Line(
+            points={{-4,47},{-6,47},{-6,11.2}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(heatExchangeControls.ValveCtrl2, Hex.ValCtrl2) annotation (Line(
+            points={{0,47},{0,11.2}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(heatExchangeControls.ValveCtrl1, Hex.BypValCtrl) annotation (
+            Line(
+            points={{4,47},{6,47},{6,11.2}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}),        graphics), Icon(coordinateSystem(
                 preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
@@ -1479,16 +1482,16 @@ replaceable package MediumCW =
             points={{-62,0},{-120,0}},
             color={255,127,0},
             smooth=Smooth.None));
-        connect(combiTable1D.y, ValveCtrl2) annotation (Line(
+        connect(combiTable1D.y[1], ValveCtrl1) annotation (Line(
+            points={{41,-0.666667},{60,-0.666667},{60,40},{110,40}},
+            color={0,0,127},
+            smooth=Smooth.None));
+        connect(combiTable1D.y[2], ValveCtrl2) annotation (Line(
             points={{41,0},{110,0}},
             color={0,0,127},
             smooth=Smooth.None));
-        connect(combiTable1D.y, ValveCtrl1) annotation (Line(
-            points={{41,0},{60,0},{60,40},{110,40}},
-            color={0,0,127},
-            smooth=Smooth.None));
-        connect(combiTable1D.y, ValveCtrl3) annotation (Line(
-            points={{41,0},{60,0},{60,-40},{110,-40}},
+        connect(combiTable1D.y[3], ValveCtrl3) annotation (Line(
+            points={{41,0.666667},{60,0.666667},{60,-40},{110,-40}},
             color={0,0,127},
             smooth=Smooth.None));
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

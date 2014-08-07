@@ -49,10 +49,9 @@ replaceable package MediumCW =
         "Entering air dry or wet bulb temperature" annotation (Placement(
             transformation(extent={{-140,-80},{-100,-40}}), iconTransformation(
               extent={{-124,-64},{-100,-40}})));
-      Modelica.Blocks.Interfaces.RealInput m_flow_in
-        "Prescribed mass flow rate" annotation (Placement(transformation(extent={{-140,40},
-                {-100,80}}),          iconTransformation(extent={{-124,56},{
-                -100,80}})));
+      Modelica.Blocks.Interfaces.RealInput m_flo_in "Prescribed mass flow rate"
+        annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
+            iconTransformation(extent={{-124,56},{-100,80}})));
     equation
       connect(CooTow.port_b, Pum.port_a) annotation (Line(
           points={{-10,0},{10,0}},
@@ -84,7 +83,7 @@ replaceable package MediumCW =
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
-      connect(Pum.m_flow_in, m_flow_in) annotation (Line(
+      connect(Pum.m_flow_in, m_flo_in) annotation (Line(
           points={{19.8,12},{20,12},{20,60},{-120,60}},
           color={0,0,127},
           smooth=Smooth.None,

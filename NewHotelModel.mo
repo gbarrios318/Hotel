@@ -314,6 +314,46 @@ replaceable package MediumCW =
               fillColor={95,95,95},
               fillPattern=FillPattern.Solid)}));
     end CoolingTowerWithControls;
+
+    package CoolingTowerTest "Testing and simulating Cooling Tower"
+      model TestwithConstant
+        "Testing Cooling Tower with Controls being constant"
+       replaceable package MediumCW =
+            Modelica.Media.Interfaces.PartialMedium
+          "Medium for condenser water"
+            annotation (choicesAllMatching = true);
+        parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+          "Nominal mass flow rate of water";
+        parameter Modelica.SIunits.Pressure dp_nominal=100
+          "Nominal pressure difference";
+        CoolingTowerWithControls CooTow(
+          redeclare package MediumCW = MediumCW,
+          mWater_flow_nominal=mWater_flow_nominal,
+          dp_nominal=dp_nominal) "Cooling Tower with Controls"
+          annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
+        Buildings.Fluid.Sources.Boundary_pT bou(
+          nPorts=1,
+          redeclare package Medium = MediumCW,
+          p=dp_nominal)
+          annotation (Placement(transformation(extent={{-80,-6},{-60,14}})));
+        Buildings.Fluid.Sources.Boundary_pT bou1(
+          nPorts=1,
+          redeclare package Medium = MediumCW,
+          p=dp_nominal)
+          annotation (Placement(transformation(extent={{78,-26},{58,-6}})));
+      equation
+        connect(bou.ports[1], CooTow.port_a1) annotation (Line(
+            points={{-60,4},{-20,4}},
+            color={0,127,255},
+            smooth=Smooth.None));
+        connect(CooTow.port_b1, bou1.ports[1]) annotation (Line(
+            points={{20,-16},{58,-16}},
+            color={0,127,255},
+            smooth=Smooth.None));
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent=
+                  {{-100,-100},{100,100}}), graphics));
+      end TestwithConstant;
+    end CoolingTowerTest;
   end CoolingTowerSection;
 
   package HeatPumpSection
@@ -451,10 +491,10 @@ replaceable package MediumCW =
           pattern=LinePattern.Dash));
       connect(HeaPumBoi.TBoi, Tboi) annotation (Line(
           points={{-82.4,67.56},{-82.4,68},{-90,68},{-90,40},{60,40},{60,110}},
-
           color={0,0,127},
           smooth=Smooth.None,
           pattern=LinePattern.Dash));
+
       annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                 -100},{100,100}}), graphics), Icon(coordinateSystem(
               preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

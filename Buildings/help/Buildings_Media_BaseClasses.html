@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Buildings.Media.BaseClasses</title>
+<meta name="HTML-Generator" content="Dymola">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="&quot;Package with base classes for Buildings.Media&quot;">
+<style type="text/css">
+*       { font-size: 10pt; font-family: Arial, sans-serif; }
+.modelica, .modelica * { font-size: 9pt; font-family: Courier, monospace; white-space: pre; }
+h4      { font-size: 10pt; font-weight: bold; color: green; }
+h3      { font-size: 11pt; font-weight: bold; color: green; }
+h2      { font-size: 13pt; font-weight: bold; color: green; }
+address { font-weight: normal; }
+td      { border: 1px solid #808080; vertical-align: top; }
+th      { border: 1px solid #808080; vertical-align: top; font-weight: bold; }
+table   { border: 1px solid #808080; border-collapse: collapse; }
+</style>
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="../Resources/www/modelicaDoc.css">
+</HEAD>
+<body>
+<!-- --- header ------ -->
+<div class="headerStyle">
+<img src="../Resources/www/lbl-logo.png" alt="LBL logo"/>
+</div>
+<div class="headerLinks">
+<ul><li><a href="http://simulationresearch.lbl.gov/modelica">Home</a> &gt; <a href="Buildings.html">Modelica</a></li></ul>
+</div>
+<!-- --- end header -- -->
+
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE BaseClasses<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2><a name="Buildings.Media.BaseClasses"></a><a href="Buildings_Media.html#Buildings.Media"
+>Buildings.Media</a>.BaseClasses</h2>
+<p>
+<b>Package with base classes for Buildings.Media</b><br>
+</p>
+<h3>Information</h3>
+
+<p>
+This package contains base classes that are used to construct the models in
+<a href="Buildings_Media.html#Buildings.Media"
+>Buildings.Media</a>.
+</p>
+
+<p>Extends from <a href="../../msl/Modelica%203.2.1/help/Modelica_Icons_BasesPackage.html#Modelica.Icons.BasesPackage"
+>Modelica.Icons.BasesPackage</a> (Icon for packages containing base classes).</p>
+<h3>Package Content</h3>
+<table border="1" cellspacing="0" cellpadding="2" summary="Package Content">
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><a href="Buildings_Media_BaseClasses.html#Buildings.Media.BaseClasses.TestTemperatureEnthalpyInversion"
+>TestTemperatureEnthalpyInversion</a>
+</td>
+<td>Model to check computation of h(T) and its inverse</td>
+</tr>
+</table>
+<hr>
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE TestTemperatureEnthalpyInversion<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2><a name="Buildings.Media.BaseClasses.TestTemperatureEnthalpyInversion"></a><a href="Buildings_Media_BaseClasses.html#Buildings.Media.BaseClasses"
+>Buildings.Media.BaseClasses</a>.TestTemperatureEnthalpyInversion</h2>
+<p>
+<b>Model to check computation of h(T) and its inverse</b>
+</p>
+<h3>Information</h3>
+
+This model computes <code>h=f(T0)</code> and
+<code>T=g(h)</code>. It then checks whether <code>T=T0</code>.
+Hence, it checks whether the function <code>T_phX</code> is 
+implemented correctly.
+
+<h3>Parameters</h3>
+<table border="1" cellspacing="0" cellpadding="2" summary="Parameters">
+<tr><th>Type</th><th>Name</th><th>Default</th><th>Description</th></tr>
+<tr><td colspan="2">replaceable package Medium</td><td>Modelica.Media.Interfaces.Pa...</td><td>&nbsp;</td></tr>
+<tr><td><a href="../../msl/Modelica%203.2.1/help/Modelica_SIunits.html#Modelica.SIunits.Temperature"
+>Temperature</a></td><td>T0</td><td>273.15 + 20</td><td>Temperature [K]</td></tr>
+</table>
+<h3>Connectors</h3>
+<table border="1" cellspacing="0" cellpadding="2" summary="Connectors">
+<tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td colspan="2">replaceable package Medium</td><td>&nbsp;</td></tr>
+</table>
+<h3>Modelica definition</h3>
+<div class="modelica"><span style="color: blue">partial </span><span style="color: blue">model</span> TestTemperatureEnthalpyInversion <span style="color: #006400">
+  &quot;Model to check computation of h(T) and its inverse&quot;</span>
+   <span style="color: blue">replaceable </span><span style="color: blue">package</span> Medium =
+        <a href="../../msl/Modelica%203.2.1/help/Modelica_Media_Interfaces_PartialCondensingGases.html#Modelica.Media.Interfaces.PartialCondensingGases"
+>Modelica.Media.Interfaces.PartialCondensingGases</a>;
+     <span style="color: blue">parameter </span><a href="../../msl/Modelica%203.2.1/help/Modelica_SIunits.html#Modelica.SIunits.Temperature"
+>Modelica.SIunits.Temperature</a> T0=273.15+20 <span style="color: #006400">&quot;Temperature&quot;</span>;
+     <a href="../../msl/Modelica%203.2.1/help/Modelica_SIunits.html#Modelica.SIunits.Temperature"
+>Modelica.SIunits.Temperature</a> T <span style="color: #006400">&quot;Temperature&quot;</span>;
+     <a href="../../msl/Modelica%203.2.1/help/Modelica_SIunits.html#Modelica.SIunits.SpecificEnthalpy"
+>Modelica.SIunits.SpecificEnthalpy</a> h <span style="color: #006400">&quot;Enthalpy&quot;</span>;
+     <a href="../../msl/Modelica%203.2.1/help/Modelica_Media_Interfaces_Types.html#Modelica.Media.Interfaces.Types.MassFraction"
+>Medium.MassFraction</a> Xi[:] = Medium.reference_X <span style="color: #006400">&quot;Mass fraction&quot;</span>;
+<span style="color: blue">equation </span>
+    h =<span style="color: red"> Medium.h_pTX</span>(p=101325, T=T0, X=Xi);
+    T =<span style="color: red"> Medium.T_phX</span>(p=101325, h=h,  X=Xi);
+    <span style="color: blue">if </span>(time&gt;0.1)<span style="color: blue"> then</span>
+    <span style="color: red">assert</span>(<span style="color: red">abs</span>(T-T0)&lt;1E-8, &quot;Error in implementation of functions.\n&quot;
+       + &quot;   T0 = &quot; +<span style="color: red"> String</span>(T0) + &quot;\n&quot;
+       + &quot;   T  = &quot; +<span style="color: red"> String</span>(T));
+    <span style="color: blue">end if</span>;
+<span style="color: blue">end </span>TestTemperatureEnthalpyInversion;
+</div>
+<hr>
+<address>
+<a href="http://www.3ds.com/">Automatically generated</a> Thu Jun 19 10:58:03 2014.
+</address>
+</body>
+</html>

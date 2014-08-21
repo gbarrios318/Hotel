@@ -1,4 +1,4 @@
-within HotelModel.CoolingTowerSection.CoolingTowerTest;
+within Hotel.Hotel.CoolingTowerSection.CoolingTowerTest;
 model TestwithConstant "Testing Cooling Tower with Controls being constant"
  package MediumCW = Buildings.Media.ConstantPropertyLiquidWater
     "Medium for condenser water"
@@ -28,7 +28,8 @@ equation
   connect(CooTow.port_b1, bou1.ports[1]) annotation (Line(
       points={{20,-16},{58,-16}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(const.y, CooTow.m_flo_in) annotation (Line(
       points={{-59,40},{-40,40},{-40,13.4},{-22.6,13.4}},
       color={0,0,127},
@@ -36,7 +37,8 @@ equation
   connect(boundary.ports[1], CooTow.port_a1) annotation (Line(
       points={{-60,-10},{-38,-10},{-38,4},{-20,4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics));
 end TestwithConstant;

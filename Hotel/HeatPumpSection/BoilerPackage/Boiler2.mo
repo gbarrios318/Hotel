@@ -1,4 +1,4 @@
-within HotelModel.HeatPumpSection.BoilerPackage;
+within Hotel.Hotel.HeatPumpSection.BoilerPackage;
 model Boiler2
   "Boiler system in the condenser water loop that provides heating in the cold winter"
  replaceable package MediumCW =

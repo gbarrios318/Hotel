@@ -1,4 +1,4 @@
-within HotelModel.HeatPumpSection.HeatExchangeValvesPackage;
+within Hotel.Hotel.HeatPumpSection.HeatExchangeValvesPackage;
 model HexValves_with_Control "Control for the heat exchange and valves"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
@@ -29,8 +29,9 @@ replaceable package MediumCW =
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,58})));
-  Modelica.Blocks.Interfaces.IntegerInput SuperCtrl "Supervisory Control"
-    annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.IntegerInput Sta
+    "States decided by supervisory control" annotation (Placement(
+        transformation(
         extent={{-12,12},{12,-12}},
         rotation=-90,
         origin={0,112})));
@@ -56,7 +57,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(heatExchangeControls.u1, SuperCtrl) annotation (Line(
+  connect(heatExchangeControls.u1, Sta) annotation (Line(
       points={{0,70},{0,112}},
       color={255,127,0},
       smooth=Smooth.None,

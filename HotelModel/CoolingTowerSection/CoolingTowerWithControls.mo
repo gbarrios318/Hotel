@@ -44,18 +44,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(CooTowSys.T1, T1) annotation (Line(
-      points={{28.8,18.4},{40,18.4},{40,60},{110,60}},
+  connect(TowerOnOff, CooTowSys.CooTowOnOff) annotation (Line(
+      points={{-120,60},{-60,60},{-60,20},{-34,20},{-34,18},{-33.36,18},{-33.36,
+          18.98}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(CooTowSys.TWea, TWea) annotation (Line(
-      points={{-33.36,-15.82},{-60,-15.82},{-60,-60},{-120,-60}},
+      points={{-33.36,-15.82},{-60.68,-15.82},{-60.68,-60},{-120,-60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(TowerOnOff, CooTowSys.u1) annotation (Line(
-      points={{-120,60},{-60,60},{-60,18.4},{-33.36,18.4}},
+  connect(T1, CooTowSys.TWeaOut) annotation (Line(
+      points={{110,60},{60,60},{60,18.4},{28.8,18.4}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

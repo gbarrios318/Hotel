@@ -19,15 +19,17 @@ model CoolingTowerSystem
   Buildings.Fluid.HeatExchangers.CoolingTowers.FixedApproach CooTow(
       redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Cooling Tower"
+    dp_nominal=dp_nominal,
+    m_flow(start=mWater_flow_nominal),
+    dp(start=dp_nominal)) "Cooling Tower"
     annotation (Placement(transformation(extent={{-28,10},{-8,-10}})));
-  Buildings.Fluid.Movers.FlowMachine_m_flow Pum(
+  Buildings.Fluid.Movers.FlowMachine_y      Pum(
     addPowerToMedium=false,
     redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
-    m_flow(start=mWater_flow_nominal),
-    dp(start=dp_nominal)) "pump corresponding to the cooling tower"
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+    dp(start=dp_nominal),
+    m_flow(start=gain.k) = gain.k) "pump corresponding to the cooling tower"
+    annotation (Placement(transformation(extent={{22,-10},{42,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort TemSen(m_flow_nominal=
         mWater_flow_nominal, redeclare package Medium = MediumCW)
     "Temperature sensor of water after going through cooling tower"
@@ -43,21 +45,24 @@ model CoolingTowerSystem
         iconTransformation(extent={{-110,30},{-90,50}})));
   Modelica.Blocks.Interfaces.RealInput TWea
     "Entering air dry or wet bulb temperature" annotation (Placement(
-        transformation(extent={{-140,-80},{-100,-40}}), iconTransformation(
-          extent={{-124,-64},{-100,-40}})));
-  Modelica.Blocks.Interfaces.RealInput m_flo_in "Prescribed mass flow rate"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
-        iconTransformation(extent={{-124,56},{-100,80}})));
-  Modelica.Blocks.Interfaces.RealOutput T1 "Temperature of the passing fluid"
+        transformation(extent={{-128,-74},{-100,-46}}), iconTransformation(
+          extent={{-124,-70},{-100,-46}})));
+  Modelica.Blocks.Interfaces.RealOutput TWeaOut
+    "Temperature of the passing fluid"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
+  Modelica.Blocks.Math.Gain gain(k=mWater_flow_nominal)
+    annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
+  Modelica.Blocks.Interfaces.RealInput CooTowOnOff "Input signal connector"
+    annotation (Placement(transformation(extent={{-128,46},{-100,74}}),
+        iconTransformation(extent={{-124,50},{-100,74}})));
 equation
   connect(CooTow.port_b, Pum.port_a) annotation (Line(
-      points={{-8,0},{20,0}},
+      points={{-8,0},{22,0}},
       color={0,127,255},
       thickness=1,
       smooth=Smooth.None));
   connect(Pum.port_b, TemSen.port_a) annotation (Line(
-      points={{40,0},{60,0}},
+      points={{42,0},{60,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -67,12 +72,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(CooTow.TAir, TWea) annotation (Line(
-      points={{-30,-4},{-40,-4},{-40,-60},{-120,-60}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(Pum.m_flow_in, m_flo_in) annotation (Line(
-      points={{29.8,12},{30,12},{30,60},{-120,60}},
+      points={{-30,-4},{-40,-4},{-40,-60},{-114,-60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -86,10 +86,21 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(TemSen.T, T1) annotation (Line(
+  connect(TemSen.T, TWeaOut) annotation (Line(
       points={{70,11},{70,60},{110,60}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(gain.y, Pum.y) annotation (Line(
+      points={{-59,60},{32,60},{32,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(gain.u, CooTowOnOff) annotation (Line(
+      points={{-82,60},{-114,60}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

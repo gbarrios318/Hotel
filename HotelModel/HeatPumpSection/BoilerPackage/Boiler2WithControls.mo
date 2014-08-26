@@ -33,7 +33,7 @@ replaceable package MediumCW =
         transformation(extent={{-120,50},{-100,70}}), iconTransformation(
           extent={{-116,54},{-100,70}})));
   Modelica.Blocks.Interfaces.RealInput HPTSen
-    "Heat pump temperature sensor signall" annotation (Placement(
+    "Heat pump temperature sensor signal"  annotation (Placement(
         transformation(extent={{-120,30},{-100,50}}), iconTransformation(
           extent={{-116,34},{-100,50}})));
   Modelica.Blocks.Interfaces.RealOutput TBoi

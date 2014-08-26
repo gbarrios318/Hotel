@@ -22,10 +22,12 @@ replaceable package MediumCW =
       =        MediumCW, m_flow_nominal=mWater_flow_nominal)
     "Finds the temperature of the water after it has been through the boiler"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta
@@ -62,7 +64,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(port_a1, port_a1) annotation (Line(
-      points={{-100,0},{-100,4},{-100,4},{-100,0}},
+      points={{-100,0},{-100,0}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(Sta, bolCon.sta) annotation (Line(

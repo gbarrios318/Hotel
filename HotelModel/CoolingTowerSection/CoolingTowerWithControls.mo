@@ -14,7 +14,7 @@ model CoolingTowerWithControls
     mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal) "Cooling Tower System"
     annotation (Placement(transformation(extent={{-30,-28},{26,30}})));
-  Modelica.Blocks.Sources.Constant TWea(k=273.15 + 23.5) "Weather temperature"
+  Modelica.Blocks.Sources.Constant TWea(k=273.15 + 38) "Weather temperature"
     annotation (Placement(transformation(extent={{-92,-50},{-72,-30}})));
   Modelica.Blocks.Interfaces.RealInput m_flo_in "Prescribed mass flow rate"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
@@ -29,6 +29,8 @@ model CoolingTowerWithControls
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}}),
         iconTransformation(extent={{90,-90},{110,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput T1 "Temperature of the passing fluid"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 equation
   connect(CooTowSys.port_a1, port_a1) annotation (Line(
       points={{-30,12.6},{-80.72,12.6},{-80.72,20},{-100,20}},
@@ -50,6 +52,10 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(CooTowSys.T1, T1) annotation (Line(
+      points={{28.8,18.4},{40,18.4},{40,60},{110,60}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),      graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

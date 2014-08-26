@@ -48,6 +48,8 @@ model CoolingTowerSystem
   Modelica.Blocks.Interfaces.RealInput m_flo_in "Prescribed mass flow rate"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-124,56},{-100,80}})));
+  Modelica.Blocks.Interfaces.RealOutput T1 "Temperature of the passing fluid"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 equation
   connect(CooTow.port_b, Pum.port_a) annotation (Line(
       points={{-8,0},{20,0}},
@@ -70,7 +72,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(Pum.m_flow_in, m_flo_in) annotation (Line(
-      points={{29.8,12},{20,12},{20,60},{-120,60}},
+      points={{29.8,12},{30,12},{30,60},{-120,60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -84,6 +86,10 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(TemSen.T, T1) annotation (Line(
+      points={{70,11},{70,60},{110,60}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

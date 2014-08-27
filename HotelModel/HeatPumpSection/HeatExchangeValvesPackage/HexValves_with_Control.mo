@@ -1,4 +1,4 @@
-within Hotel.Hotel.HeatPumpSection.HeatExchangeValvesPackage;
+within HotelModel.HeatPumpSection.HeatExchangeValvesPackage;
 model HexValves_with_Control "Control for the heat exchange and valves"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"

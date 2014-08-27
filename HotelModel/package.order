@@ -1,5 +1,4 @@
-MediumCW
-mWater_flow_nominal
-dp_nominal
 CoolingTowerSection
 HeatPumpSection
+Control
+DomesticHotWater

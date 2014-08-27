@@ -1,0 +1,7 @@
+// Script to open model packages
+cd("Buildings");
+openModel("package.mo");
+cd("../HotelModel");
+openModel("package.mo")
+
+

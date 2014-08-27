@@ -28,10 +28,12 @@ model Boiler2
     dpValve_nominal=dp_nominal,
     redeclare package Medium = MediumCW) "Bypass valve"
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
   Modelica.Blocks.Interfaces.RealInput boiCon "Control singal for boiler"

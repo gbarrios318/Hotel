@@ -14,9 +14,7 @@ model CoolingTowerWithControls
     mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal) "Cooling Tower System"
     annotation (Placement(transformation(extent={{-30,-28},{26,30}})));
-  Modelica.Blocks.Sources.Constant TWea(k=273.15 + 23.5) "Weather temperature"
-    annotation (Placement(transformation(extent={{-92,-50},{-72,-30}})));
-  Modelica.Blocks.Interfaces.RealInput m_flo_in "Prescribed mass flow rate"
+  Modelica.Blocks.Interfaces.RealInput TowerOnOff "Prescribed mass flow rate"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-126,54},{-100,80}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
@@ -29,6 +27,12 @@ model CoolingTowerWithControls
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}}),
         iconTransformation(extent={{90,-90},{110,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput T1 "Temperature of the passing fluid"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
+  Modelica.Blocks.Interfaces.RealInput TWea
+    "Entering air dry or wet bulb temperature" annotation (Placement(
+        transformation(extent={{-140,-80},{-100,-40}}), iconTransformation(
+          extent={{-126,-66},{-100,-40}})));
 equation
   connect(CooTowSys.port_a1, port_a1) annotation (Line(
       points={{-30,12.6},{-80.72,12.6},{-80.72,20},{-100,20}},
@@ -40,13 +44,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(m_flo_in, CooTowSys.m_flo_in) annotation (Line(
-      points={{-120,60},{-60,60},{-60,20.72},{-33.36,20.72}},
+  connect(TowerOnOff, CooTowSys.CooTowOnOff) annotation (Line(
+      points={{-120,60},{-60,60},{-60,20},{-34,20},{-34,18},{-33.36,18},{-33.36,
+          18.98}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(TWea.y, CooTowSys.TWea) annotation (Line(
-      points={{-71,-40},{-60,-40},{-60,-14.08},{-33.36,-14.08}},
+  connect(CooTowSys.TWea, TWea) annotation (Line(
+      points={{-33.36,-15.82},{-60.68,-15.82},{-60.68,-60},{-120,-60}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(T1, CooTowSys.TWeaOut) annotation (Line(
+      points={{110,60},{60,60},{60,18.4},{28.8,18.4}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

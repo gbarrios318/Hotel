@@ -13,13 +13,6 @@ model CoolingTowerSystem
     amplitude=2.59,
     offset=273.15 + 32.03)
     annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
-  Buildings.Fluid.Sources.MassFlowSource_T souCW(
-    use_T_in=true,
-    m_flow=mCW_flow_nominal,
-    redeclare package Medium = MediumCW,
-    T=273.15 + 29.44,
-    nPorts=1) "Source for CW"
-    annotation (Placement(transformation(extent={{-56,-10},{-36,10}})));
   Modelica.Blocks.Sources.Constant TWetBul(k=273.15 + 25)   annotation (Placement(transformation(extent={{-80,-40},
             {-60,-20}})));
   inner Modelica.Fluid.System system(T_ambient=288.15)
@@ -54,35 +47,47 @@ model CoolingTowerSystem
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
   Modelica.Blocks.Math.RealToInteger realToInteger
     annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
+  Buildings.Fluid.Sources.Boundary_pT bou(
+    nPorts=1,
+    use_T_in=true,
+    redeclare package Medium = MediumCW)
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
 equation
-  connect(TCWLeachi.y, souCW.T_in) annotation (Line(
-      points={{-79,10},{-64,10},{-64,4},{-58,4}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(TCWLea.port_b, sinCW.ports[1]) annotation (Line(
       points={{58,0},{76,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(TWetBul.y, cooTow.TWet) annotation (Line(
       points={{-59,-30},{-20,-30},{-20,-5.8},{-11.2,-5.8}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(cooTow.port_b, TCWLea.port_a) annotation (Line(
       points={{10,0},{38,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sta.y[1], realToInteger.u) annotation (Line(
       points={{-79,50},{-62,50}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(realToInteger.y, cooTow.sta) annotation (Line(
       points={{-39,50},{-28,50},{-28,6},{-12,6}},
       color={255,127,0},
-      smooth=Smooth.None));
-  connect(souCW.ports[1], cooTow.port_a) annotation (Line(
-      points={{-36,0},{-10,0}},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(bou.ports[1], cooTow.port_a) annotation (Line(
+      points={{-40,0},{-10,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
+  connect(TCWLeachi.y, bou.T_in) annotation (Line(
+      points={{-79,10},{-72,10},{-72,4},{-62,4}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end CoolingTowerSystem;

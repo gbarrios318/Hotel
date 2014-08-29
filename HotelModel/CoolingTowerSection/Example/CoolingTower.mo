@@ -22,7 +22,7 @@ model CoolingTower
     startTime=43200) annotation (Placement(transformation(extent={{-80,30},{-60,
             50}})));
   Modelica.Blocks.Sources.Constant TSet(k=273.15 + 29.44)
-    annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+    annotation (Placement(transformation(extent={{-78,70},{-58,90}})));
   Modelica.Blocks.Sources.Constant TWetBul(k=273.15 + 25)   annotation (Placement(transformation(extent={{-80,-60},
             {-60,-40}})));
   inner Modelica.Fluid.System system(T_ambient=288.15)
@@ -52,31 +52,38 @@ equation
   connect(On.y, cooTow.On) annotation (Line(
       points={{-59,40},{-38,40},{-38,4},{-14,4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(TSet.y, cooTow.TSet) annotation (Line(
-      points={{-59,80},{-24,80},{-24,8},{-14,8}},
+      points={{-57,80},{-24,80},{-24,8},{-14,8}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(TWetBul.y, cooTow.TWetBul) annotation (Line(
       points={{-59,-50},{-22,-50},{-22,-4},{-14,-4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(TCWLeachi.y, souCW.T_in) annotation (Line(
       points={{-79,0},{-72,0},{-72,-16},{-62,-16}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(souCW.ports[1], cooTow.port_a_CW) annotation (Line(
       points={{-40,-20},{-30,-20},{-30,0},{-12,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(cooTow.port_b_CW, TCWLea.port_a) annotation (Line(
       points={{8,0},{24,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(TCWLea.port_b, sinCW.ports[1]) annotation (Line(
       points={{44,0},{60,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), experiment(StopTime=360000));
 end CoolingTower;

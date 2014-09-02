@@ -2,7 +2,7 @@ within HotelModel.HeatPumpSection.BoilerPackage;
 model Boiler2
   "Boiler system in the condenser water loop that provides heating in the cold winter"
  replaceable package MediumCW =
-      Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
+       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
     "Nominal mass flow rate of water";
@@ -47,6 +47,9 @@ model Boiler2
     annotation (Placement(transformation(extent={{-20,-70},{0,-50}})));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-64,-88},{-44,-68}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
+    "Heat port, can be used to connect to ambient"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 equation
   connect(valBoi.port_b, boi.port_a) annotation (Line(
       points={{6.66134e-016,10},{6.66134e-016,40},{40,40}},
@@ -98,6 +101,10 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(boi.heatPort, heatPort1) annotation (Line(
+      points={{50,47.2},{50,70},{0,70},{0,100}},
+      color={191,0,0},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

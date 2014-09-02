@@ -1,7 +1,8 @@
 within HotelModel.HeatPumpSection.BoilerPackage;
 model Boiler2WithControls "Heat Pump boiler with controls included"
 replaceable package MediumCW =
-      Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
+         Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
     "Nominal mass flow rate of water";
@@ -39,6 +40,9 @@ replaceable package MediumCW =
     "Signal of the output temperature after it has gone through the boiler"
     annotation (Placement(transformation(extent={{100,30},{120,50}}),
         iconTransformation(extent={{104,34},{120,50}})));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
+    "Heat port, can be used to connect to ambient"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 equation
   connect(boi.port_b1, BoiTSen.port_a) annotation (Line(
       points={{10,0},{50,0}},
@@ -82,6 +86,10 @@ equation
   connect(boi.port_a1, port_a1) annotation (Line(
       points={{-10,0},{-100,0}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(boi.heatPort1, heatPort1) annotation (Line(
+      points={{0,14},{0,100}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

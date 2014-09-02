@@ -15,9 +15,6 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{-10,-6},{10,14}})));
   BolierControls bolCon "Boiler Control"
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
-        MediumCW)
-    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort BoiTSen(redeclare package Medium
       =        MediumCW, m_flow_nominal=mWater_flow_nominal)
     "Finds the temperature of the water after it has been through the boiler"
@@ -43,11 +40,6 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{100,30},{120,50}}),
         iconTransformation(extent={{104,34},{120,50}})));
 equation
-  connect(senMasFlo.port_b, boi.port_a1) annotation (Line(
-      points={{-60,0},{-10,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(boi.port_b1, BoiTSen.port_a) annotation (Line(
       points={{10,0},{50,0}},
       color={0,127,255},
@@ -55,11 +47,6 @@ equation
       thickness=1));
   connect(BoiTSen.port_b, port_b1) annotation (Line(
       points={{70,0},{100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(senMasFlo.port_a, port_a1) annotation (Line(
-      points={{-80,0},{-100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -92,6 +79,10 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(boi.port_a1, port_a1) annotation (Line(
+      points={{-10,0},{-100,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

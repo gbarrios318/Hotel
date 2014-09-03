@@ -43,10 +43,10 @@ model Boiler2
     "Control signal for valves in boiler loop" annotation (Placement(
         transformation(extent={{-120,30},{-100,50}}), iconTransformation(extent={{-116,34},
             {-100,50}})));
-  Modelica.Blocks.Math.Add add(k1=-1)
-    annotation (Placement(transformation(extent={{-20,-70},{0,-50}})));
+  Modelica.Blocks.Math.Add add(k1=-1, k2=+1)
+    annotation (Placement(transformation(extent={{-44,4},{-24,24}})));
   Modelica.Blocks.Sources.Constant const(k=1)
-    annotation (Placement(transformation(extent={{-64,-88},{-44,-68}})));
+    annotation (Placement(transformation(extent={{-92,-22},{-72,-2}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
     "Heat port, can be used to connect to ambient"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
@@ -81,29 +81,27 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(valBoi.y, valCon) annotation (Line(
-      points={{-12,6.66134e-016},{-40,6.66134e-016},{-40,40},{-110,40}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(valCon, add.u1) annotation (Line(
-      points={{-110,40},{-60,40},{-60,-54},{-22,-54}},
+      points={{-110,40},{-60,40},{-60,20},{-46,20}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(const.y, add.u2) annotation (Line(
-      points={{-43,-78},{-40,-78},{-40,-66},{-22,-66}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(add.y, valByp.y) annotation (Line(
-      points={{1,-60},{20,-60},{20,-20},{50,-20},{50,-28}},
+      points={{-71,-12},{-60,-12},{-60,8},{-46,8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(boi.heatPort, heatPort1) annotation (Line(
       points={{50,47.2},{50,70},{0,70},{0,100}},
       color={191,0,0},
+      smooth=Smooth.None));
+  connect(add.y, valBoi.y) annotation (Line(
+      points={{-23,14},{-18,14},{-18,0},{-12,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(valByp.y, valCon) annotation (Line(
+      points={{50,-28},{50,-20},{20,-20},{20,32},{-40,32},{-40,40},{-110,40}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

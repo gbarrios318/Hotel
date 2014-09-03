@@ -7,6 +7,13 @@ replaceable package MediumCW =
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal=100
     "Nominal pressure difference";
+       replaceable package MediumDW =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for domestic hot water";
+      //Buildings.Media.Interfaces.PartialSimpleMedium
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+    "Nominal mass flow rate";
+
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumCW,
     redeclare package Medium2 = MediumCW,
@@ -37,16 +44,20 @@ replaceable package MediumCW =
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={40,0})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumDW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+        MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
   Modelica.Blocks.Interfaces.RealInput ValCtrl1

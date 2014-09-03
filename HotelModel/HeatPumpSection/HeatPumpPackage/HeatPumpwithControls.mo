@@ -13,10 +13,12 @@ replaceable package MediumCW =
     mWater_flow_nominal=mWater_flow_nominal)
     "Heat pump with all components directly interacting with it"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput THeaPum
@@ -24,9 +26,15 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Sources.Constant MasFloHeaPum(k=40)
     "Mass flow rate of Heat Pump"
-    annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
+    annotation (Placement(transformation(extent={{-96,66},{-76,86}})));
   Modelica.Blocks.Sources.Constant Q_floIn(k=-2300000) "Heat flow input"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{-60,44},{-40,64}})));
+  Modelica.Blocks.Interfaces.RealInput InSig "Input signal by user"
+    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
+  Modelica.Blocks.Interfaces.RealOutput P1 "Electrical power consumed"
+    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-20.4,0},{-102,0}},
@@ -38,21 +46,32 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(MasFloHeaPum.y, HeaPum.masFloPum) annotation (Line(
-      points={{-59,40},{-40,40},{-40,8},{-22.4,8}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(Q_floIn.y, HeaPum.Q_flow) annotation (Line(
       points={{-59,-40},{-40,-40},{-40,-8},{-22.4,-8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.THeaPum, THeaPum) annotation (Line(
-      points={{22,8},{60,8},{60,40},{110,40}},
+      points={{22.4,8},{60,8},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(MasFloHeaPum.y, product.u1) annotation (Line(
+      points={{-75,76},{-70,76},{-70,60},{-62,60}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(product.y, HeaPum.masFloPum) annotation (Line(
+      points={{-39,54},{-32,54},{-32,8},{-22.4,8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(product.u2, InSig) annotation (Line(
+      points={{-62,48},{-82,48},{-82,40},{-120,40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(HeaPum.P, P1) annotation (Line(
+      points={{22,-8},{62,-8},{62,-40},{110,-40}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

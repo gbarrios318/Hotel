@@ -1,7 +1,7 @@
 within HotelModel.HeatPumpSection.HeatPumpPackage;
 model HeatPump "Base class representation of the Heat Pump"
 replaceable package MediumCW =
-      Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
     "Nominal mass flow rate of water";
@@ -11,8 +11,8 @@ replaceable package MediumCW =
     redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
     V=100,
-    nPorts=4) "Volume control of the Heat Pump"
-    annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
+    nPorts=2) "Volume control of the Heat Pump"
+    annotation (Placement(transformation(extent={{-44,0},{-24,20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow
     prescribedHeatFlow "Prescribed Heat flow of the Heat Pump"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
@@ -21,16 +21,20 @@ replaceable package MediumCW =
   Buildings.Fluid.Movers.FlowMachine_m_flow HeaPum(
     redeclare package Medium = MediumCW,
     m_flow(start=mWater_flow_nominal),
-    dp(start=dp_nominal)) "The actual pump behind the Heat Pump component"
+    dp(start=dp_nominal),
+    m_flow_nominal=mWater_flow_nominal)
+    "The actual pump behind the Heat Pump component"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort HeaPumTemp(redeclare package
       Medium = MediumCW, m_flow_nominal=mWater_flow_nominal)
     "Tempearture after Heat Pump"
-    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+    annotation (Placement(transformation(extent={{50,-10},{70,10}})));
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealInput masFloPum
@@ -38,7 +42,9 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{-124,28},{-100,52}})));
   Modelica.Blocks.Interfaces.RealOutput THeaPum
     "Signal of temperature of the passing fluid"
-    annotation (Placement(transformation(extent={{100,30},{120,50}})));
+    annotation (Placement(transformation(extent={{102,30},{122,50}})));
+  Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
+    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(prescribedHeatFlow.Q_flow, Q_flow) annotation (Line(
       points={{-80,-40},{-112,-40}},
@@ -46,39 +52,27 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(prescribedHeatFlow.port, HeaPumTan.heatPort) annotation (Line(
-      points={{-60,-40},{-50,-40},{-50,10},{-40,10}},
+      points={{-60,-40},{-50,-40},{-50,10},{-44,10}},
       color={191,0,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(HeaPum.port_a, port_a1) annotation (Line(
-      points={{0,0},{-102,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(HeaPum.port_b, HeaPumTemp.port_a) annotation (Line(
-      points={{20,0},{40,0}},
+      points={{20,0},{50,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(HeaPumTemp.port_b, port_b1) annotation (Line(
-      points={{60,0},{100,0}},
+      points={{70,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(HeaPumTan.ports[1], port_a1) annotation (Line(
-      points={{-33,0},{-102,0}},
+      points={{-36,0},{-102,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(HeaPum.port_a, HeaPumTan.ports[2]) annotation (Line(
-      points={{0,0},{-31,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(HeaPum.port_a, HeaPumTan.ports[3]) annotation (Line(
-      points={{0,0},{-29,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(HeaPum.port_a, HeaPumTan.ports[4]) annotation (Line(
-      points={{0,0},{-27,0}},
+      points={{0,0},{-32,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -88,10 +82,14 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPumTemp.T, THeaPum) annotation (Line(
-      points={{50,11},{50,40},{110,40}},
+      points={{60,11},{60,40},{112,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(HeaPum.P, P) annotation (Line(
+      points={{21,8},{34,8},{34,-40},{110,-40}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

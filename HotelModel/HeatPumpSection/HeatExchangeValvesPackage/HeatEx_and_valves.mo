@@ -16,11 +16,11 @@ replaceable package MediumCW =
 
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumCW,
-    redeclare package Medium2 = MediumCW,
     m1_flow_nominal=mWater_flow_nominal,
-    m2_flow_nominal=mWater_flow_nominal,
     dp1_nominal=dp_nominal,
-    dp2_nominal=dp_nominal)
+    dp2_nominal=dp_nominal,
+    redeclare package Medium2 = MediumDW,
+    m2_flow_nominal=mDW_flow_nominal)
     "Heat exchanger corresponding to the connection between the heat pump and the domestic water"
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear hexval1(

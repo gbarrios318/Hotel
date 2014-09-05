@@ -3,7 +3,7 @@ model HeatExchangeControls "Controls for the Heat Exchange"
 
   Modelica.Blocks.Math.IntegerToReal integerToReal
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Modelica.Blocks.Routing.Replicator replicator(nout=3)
+  Modelica.Blocks.Routing.Replicator replicator(nout=2)
     annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1,0,1; 2,1,0; 3,1,0;
         4,0,1; 5,1,0; 6,1,0; 7,0,1])
@@ -15,7 +15,7 @@ model HeatExchangeControls "Controls for the Heat Exchange"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput ValCtrl2 "control for hex valve 2"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealOutput ValCtrl1 "control for hex valve 2"
+  Modelica.Blocks.Interfaces.RealOutput ValCtrl1 "control for hex valve 1"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(integerToReal.y, replicator.u) annotation (Line(

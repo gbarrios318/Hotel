@@ -7,21 +7,33 @@ replaceable package MediumCW =
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal=100
     "Nominal pressure difference";
+           replaceable package MediumDW =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for domestic hot water";
+      //Buildings.Media.Interfaces.PartialSimpleMedium
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+    "Nominal mass flow rate";
   HeatEx_and_valves Hex(
     redeclare package MediumCW = MediumCW,
     mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Hex with the valves included"
+    dp_nominal=dp_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal) "Hex with the valves included"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumDW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+        MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
   HeatExchangeControls heatExchangeControls annotation (Placement(
@@ -62,19 +74,18 @@ equation
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(heatExchangeControls.ValveCtrl3, Hex.ValCtrl1) annotation (Line(
-      points={{-4,47},{-6,47},{-6,11.2}},
+  connect(heatExchangeControls.ValCtrlByp, Hex.BypValCtrl) annotation (Line(
+      points={{4,47},{6,47},{6,11.2}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(heatExchangeControls.ValveCtrl2, Hex.ValCtrl2) annotation (Line(
+  connect(heatExchangeControls.ValCtrl2, Hex.ValCtrl2) annotation (Line(
       points={{0,47},{0,11.2}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(heatExchangeControls.ValveCtrl1, Hex.BypValCtrl) annotation (
-      Line(
-      points={{4,47},{6,47},{6,11.2}},
+  connect(heatExchangeControls.ValCtrl1, Hex.ValCtrl1) annotation (Line(
+      points={{-4,47},{-6,47},{-6,11.2}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

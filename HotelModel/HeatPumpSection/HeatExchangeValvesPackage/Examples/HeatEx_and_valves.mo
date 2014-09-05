@@ -86,6 +86,8 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
     annotation (Placement(transformation(extent={{-48,36},{-28,56}})));
   Modelica.Blocks.Sources.Pulse pulse(period=3600)
     annotation (Placement(transformation(extent={{-42,68},{-22,88}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{80,80},{100,100}})));
 equation
 
   connect(TWat.y,sou_1. T_in)

@@ -1,64 +1,97 @@
 within HotelModel.DomesticHotWater;
 model DomesticHotWaterSystem
-  Buildings.Fluid.Movers.FlowMachine_m_flow KitPum
+  replaceable package MediumDW =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for domestic hot water";
+      //Buildings.Media.Interfaces.PartialSimpleMedium
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=20
+    "Nominal mass flow rate";
+    //Nominal flow rate is value I gave, probably different
+  Buildings.Fluid.Movers.FlowMachine_m_flow KitPum(redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal)
     "Pump for the kitchen domestic cold water" annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-70,50})));
-  Buildings.Fluid.Sources.Boundary_pT KitColWat(nPorts=1)
-    "Kitchen domestic cold water" annotation (Placement(transformation(
+  Buildings.Fluid.Sources.Boundary_pT KitColWat(nPorts=1, redeclare package
+      Medium = MediumDW) "Kitchen domestic cold water"
+                                  annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-70,90})));
-  Buildings.Fluid.Sources.Boundary_pT DomHotWat(nPorts=1) "Domestic hot water"
+  Buildings.Fluid.Sources.Boundary_pT DomHotWat(nPorts=1, redeclare package
+      Medium = MediumDW) "Domestic hot water"
     annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={90,20})));
-  Buildings.Fluid.Sources.MassFlowSource_T DomColWat(nPorts=1, use_m_flow_in=
-        true) "Domestic cold water " annotation (Placement(transformation(
+  Buildings.Fluid.Sources.MassFlowSource_T DomColWat(nPorts=1, use_m_flow_in=true,
+    redeclare package Medium = MediumDW) "Domestic cold water "
+                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-40,40})));
-  Buildings.Fluid.Movers.FlowMachine_m_flow DomPum "Domestic hot water pump"
+  Buildings.Fluid.Movers.FlowMachine_m_flow DomPum(redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal) "Domestic hot water pump"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={60,20})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTem
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
-  Buildings.Fluid.Storage.StratifiedEnhanced tan annotation (Placement(
+  Buildings.Fluid.Storage.StratifiedEnhanced tan(
+    redeclare package Medium = MediumDW,
+    m_flow_nominal=mDW_flow_nominal,
+    VTan=100,
+    hTan=10,
+    dIns=0.1)                                    annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-70,-30})));
-  Buildings.Fluid.Boilers.BoilerPolynomial boi
+  Buildings.Fluid.Boilers.BoilerPolynomial boi(
+    redeclare package Medium = MediumDW,
+    m_flow_nominal=mDW_flow_nominal,
+    Q_flow_nominal=230000,
+    fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
+    dp_nominal=100)
     annotation (Placement(transformation(extent={{-20,-90},{-40,-70}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear val annotation (Placement(
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear val(
+    redeclare package Medium = MediumDW,
+    m_flow_nominal=mDW_flow_nominal,
+    dpValve_nominal=100)                            annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-50})));
-  Buildings.Fluid.Movers.FlowMachine_m_flow fan2 annotation (Placement(
+  Buildings.Fluid.Movers.FlowMachine_m_flow fan2(redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal)
+                                                 annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={20,-10})));
   Modelica.Blocks.Sources.Constant const1(k=1)
     annotation (Placement(transformation(extent={{-36,-16},{-24,-4}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+        MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a3
+  Modelica.Fluid.Interfaces.FluidPort_a port_a3(redeclare package Medium =
+        MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFlo
+  Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
+        MediumDW)
     annotation (Placement(transformation(extent={{28,14},{40,26}})));
-  Control.CoolingWaterControl cooWatCon annotation (Placement(transformation(
+  Control.CoolingWaterControl cooWatCon(TDomHotWatSet=288.15, kPCon=1)
+                                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-32,70})));
@@ -193,8 +226,7 @@ equation
       pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics
-        ={
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
           extent={{-94,8},{-58,-8}},
           lineColor={0,128,255},
@@ -246,5 +278,10 @@ equation
           extent={{44,26},{60,8}},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None)}));
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-44,8},{44,-8}},
+          lineColor={0,128,255},
+          fillPattern=FillPattern.Solid,
+          fillColor={0,128,255})}));
 end DomesticHotWaterSystem;

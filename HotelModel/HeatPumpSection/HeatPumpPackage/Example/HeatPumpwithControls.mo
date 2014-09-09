@@ -36,15 +36,18 @@ equation
   connect(heatPumpwithControls.port_b1, sin.ports[1]) annotation (Line(
       points={{10,0},{60,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sou.ports[1], heatPumpwithControls.port_a1) annotation (Line(
       points={{-50,0},{-10.2,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(step.y, heatPumpwithControls.InSig) annotation (Line(
       points={{-39,50},{-26,50},{-26,4},{-12,4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end HeatPumpwithControls;

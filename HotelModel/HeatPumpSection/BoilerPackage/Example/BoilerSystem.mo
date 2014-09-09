@@ -42,15 +42,18 @@ equation
   connect(const.y, boiler2WithControls.HPTSen) annotation (Line(
       points={{-59,40},{-40,40},{-40,-51.6},{-21.6,-51.6}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(boundary.ports[1], boiler2WithControls.port_a1) annotation (Line(
       points={{-60,-60},{-20,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(integerTable.y, boiler2WithControls.Sta) annotation (Line(
       points={{-59,70},{-34,70},{-34,-47.6},{-21.6,-47.6}},
       color={255,127,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics),
     experiment(StopTime=2700, __Dymola_NumberOfIntervals=1000),

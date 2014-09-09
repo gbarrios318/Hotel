@@ -82,11 +82,6 @@ equation
       points={{-100,60},{-100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(HexVal.SuperCtrl, Sta) annotation (Line(
-      points={{17.6,1.33227e-015},{-40,1.33227e-015},{-40,0},{-110,0}},
-      color={255,127,0},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(BouHeaPum.ports[1], HeaPumBoi.port_a1) annotation (Line(
       points={{13,60},{-40,60}},
       color={0,127,255},
@@ -137,6 +132,11 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
+  connect(Sta, HexVal.Sta) annotation (Line(
+      points={{-110,0},{17.6,0}},
+      color={255,127,0},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

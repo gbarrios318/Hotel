@@ -46,7 +46,7 @@ model Boiler2
   Modelica.Blocks.Math.Add add(k1=-1, k2=+1)
     annotation (Placement(transformation(extent={{-44,4},{-24,24}})));
   Modelica.Blocks.Sources.Constant const(k=1)
-    annotation (Placement(transformation(extent={{-92,-22},{-72,-2}})));
+    annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort1
     "Heat port, can be used to connect to ambient"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
@@ -87,14 +87,15 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(const.y, add.u2) annotation (Line(
-      points={{-71,-12},{-60,-12},{-60,8},{-46,8}},
+      points={{-69,-10},{-60,-10},{-60,8},{-46,8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(boi.heatPort, heatPort1) annotation (Line(
       points={{50,47.2},{50,70},{0,70},{0,100}},
       color={191,0,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(add.y, valBoi.y) annotation (Line(
       points={{-23,14},{-18,14},{-18,0},{-12,0}},
       color={0,0,127},
@@ -102,7 +103,8 @@ equation
   connect(valByp.y, valCon) annotation (Line(
       points={{50,-28},{50,-20},{20,-20},{20,32},{-40,32},{-40,40},{-110,40}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

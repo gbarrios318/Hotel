@@ -44,27 +44,33 @@ equation
   connect(sou.ports[1], boiler2_1.port_a1) annotation (Line(
       points={{-58,-40},{-10,-40}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(y.y, boiler2_1.boiCon) annotation (Line(
       points={{-55,28},{-30,28},{-30,-28},{-10.8,-28}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(temperature.port_b, sin.ports[1]) annotation (Line(
       points={{40,-40},{54,-40}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(temperature.port_a, boiler2_1.port_b1) annotation (Line(
       points={{20,-40},{10,-40}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(TAmb2.port, boiler2_1.heatPort1) annotation (Line(
       points={{-20,50},{0,50},{0,-26}},
       color={191,0,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(pulse.y, boiler2_1.valCon) annotation (Line(
       points={{-55,-8},{-34,-8},{-34,-31.8},{-10.8,-31.8}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),      graphics));
 end Boiler;

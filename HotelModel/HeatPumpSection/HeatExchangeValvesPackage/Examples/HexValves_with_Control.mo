@@ -92,43 +92,53 @@ equation
   connect(hexValves_with_Control.port_b1, sin_2.ports[1]) annotation (Line(
       points={{-10,-4},{-20,-4},{-20,-20},{-30,-20}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sou_1.ports[1], hexValves_with_Control.port_a1) annotation (Line(
       points={{-30,20},{-20,20},{-20,4},{-10,4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(TWat.y, sou_1.T_in) annotation (Line(
       points={{-79,50},{-60,50},{-60,24},{-52,24}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(POut.y, sin_2.p_in) annotation (Line(
       points={{-79,-50},{-60,-50},{-60,-12},{-52,-12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(trapezoid.y,sin_1. p_in) annotation (Line(
       points={{81,50},{90,50},{90,28},{72,28}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(PIn.y, sou_2.p_in) annotation (Line(
       points={{41,-50},{90,-50},{90,-12},{72,-12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(TDb.y, sou_2.T_in) annotation (Line(
       points={{41,-80},{80,-80},{80,-16},{72,-16}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(sin_1.ports[1], hexValves_with_Control.port_b2) annotation (Line(
       points={{50,20},{20,20},{20,4},{10,4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sou_2.ports[1], hexValves_with_Control.port_a2) annotation (Line(
       points={{50,-20},{20,-20},{20,-4},{10,-4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(integerTable.y, hexValves_with_Control.Sta) annotation (Line(
       points={{-19,80},{0,80},{0,11.2}},
       color={255,127,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end HexValves_with_Control;

@@ -86,11 +86,13 @@ equation
   connect(boi.port_a1, port_a1) annotation (Line(
       points={{-10,0},{-100,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(boi.heatPort1, heatPort1) annotation (Line(
       points={{0,14},{0,100}},
       color={191,0,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

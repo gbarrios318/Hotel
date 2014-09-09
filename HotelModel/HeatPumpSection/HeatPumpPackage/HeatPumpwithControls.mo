@@ -59,19 +59,23 @@ equation
   connect(MasFloHeaPum.y, product.u1) annotation (Line(
       points={{-75,76},{-70,76},{-70,60},{-62,60}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(product.y, HeaPum.masFloPum) annotation (Line(
       points={{-39,54},{-32,54},{-32,8},{-22.4,8}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(product.u2, InSig) annotation (Line(
       points={{-62,48},{-82,48},{-82,40},{-120,40}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(HeaPum.P, P1) annotation (Line(
       points={{22,-8},{62,-8},{62,-40},{110,-40}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

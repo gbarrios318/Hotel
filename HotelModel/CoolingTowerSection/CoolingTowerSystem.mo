@@ -76,7 +76,8 @@ equation
   connect(coolingTower.port_a_CW, port_a) annotation (Line(
       points={{-20,0},{-100,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(port_a, port_a) annotation (Line(
       points={{-100,0},{-100,0}},
       color={0,127,255},
@@ -84,47 +85,58 @@ equation
   connect(cooTowCon.sta, sta) annotation (Line(
       points={{-88,60},{-120,60}},
       color={255,127,0},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(coolingTower.TWetBul, TWet) annotation (Line(
       points={{-22,-4},{-50,-4},{-50,-60},{-114,-60}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(coolingTower.P, multiplex2_1.u2[1]) annotation (Line(
       points={{1,-4},{14,-4},{14,-46},{66,-46}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(multiplex2_1.y, P) annotation (Line(
       points={{89,-40},{110,-40}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(realExpression.y, coolingTower.TSet) annotation (Line(
       points={{-35,16},{-30,16},{-30,8},{-22,8}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(gain.y, Pum.m_flow_in) annotation (Line(
       points={{1,60},{35.8,60},{35.8,12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(Pum.P, multiplex2_1.u1[1]) annotation (Line(
       points={{47,8},{60,8},{60,-34},{66,-34}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(cooTowCon.pum1, gain.u) annotation (Line(
       points={{-65,60},{-22,60}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(cooTowCon.pum1, coolingTower.On) annotation (Line(
       points={{-65,60},{-60,60},{-60,4},{-22,4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(Pum.port_b, port_b) annotation (Line(
       points={{46,0},{100,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(coolingTower.port_b_CW, Pum.port_a) annotation (Line(
       points={{0,0},{26,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

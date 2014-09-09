@@ -32,24 +32,28 @@ model HeatPump "Testing the Heat Pump "
   Modelica.Blocks.Sources.Constant const1(k=30000)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
   Modelica.Blocks.Sources.Step step(height=10, startTime=1800)
-    annotation (Placement(transformation(extent={{-78,40},{-58,60}})));
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 equation
   connect(heatPump.port_b1, sin.ports[1]) annotation (Line(
       points={{8,0},{52,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sou.ports[1], heatPump.port_a1) annotation (Line(
       points={{-50,0},{-12.2,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(const1.y, heatPump.Q_flow) annotation (Line(
-      points={{-59,-50},{-36,-50},{-36,-4},{-13.2,-4}},
+      points={{-59,-50},{-40,-50},{-40,-4},{-13.2,-4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(step.y, heatPump.masFloPum) annotation (Line(
-      points={{-57,50},{-36,50},{-36,4},{-13.2,4}},
+      points={{-59,50},{-40,50},{-40,4},{-13.2,4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end HeatPump;

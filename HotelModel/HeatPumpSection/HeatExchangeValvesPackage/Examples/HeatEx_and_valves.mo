@@ -91,51 +91,63 @@ equation
 
   connect(TWat.y,sou_1. T_in)
     annotation (Line(points={{-79,50},{-70,50},{-70,36},{-70,24},{-62,24}},
-                                                 color={0,0,127}));
+                                                 color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(POut.y,sin_2. p_in) annotation (Line(
       points={{-79,-50},{-70,-50},{-70,-12},{-62,-12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(sin_2.ports[1], heatEx_and_valves.port_b2) annotation (Line(
       points={{-40,-20},{-20,-20},{-20,-4},{-10,-4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(sou_1.ports[1], heatEx_and_valves.port_a1) annotation (Line(
       points={{-40,20},{-20,20},{-20,4},{-10,4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(trapezoid.y,sin_1. p_in) annotation (Line(
       points={{81,60},{88,60},{88,28},{62,28}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(sin_1.ports[1], heatEx_and_valves.port_b1) annotation (Line(
       points={{40,20},{20,20},{20,4},{10,4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(step.y, heatEx_and_valves.ValCtrl1) annotation (Line(
       points={{-19,50},{-6,50},{-6,11.2}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(step.y, heatEx_and_valves.ValCtrl2) annotation (Line(
       points={{-19,50},{0,50},{0,11.2}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(pulse.y, heatEx_and_valves.BypValCtrl) annotation (Line(
       points={{-19,80},{6,80},{6,11.2}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(sou_2.ports[1], heatEx_and_valves.port_a2) annotation (Line(
       points={{40,-20},{20,-20},{20,-4},{10,-4}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(PIn.y, sou_2.p_in) annotation (Line(
       points={{41,-50},{80,-50},{80,-12},{62,-12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(TDb.y, sou_2.T_in) annotation (Line(
       points={{41,-80},{70,-80},{70,-16},{62,-16}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end HeatEx_and_valves;

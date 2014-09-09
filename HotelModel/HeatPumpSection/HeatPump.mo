@@ -140,14 +140,29 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-        graphics={Ellipse(
+        graphics={
+        Rectangle(
           extent={{-80,80},{80,-80}},
+          lineThickness=1,
+          pattern=LinePattern.None,
+          lineColor={135,135,135},
+          fillColor={175,175,175},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-80,60},{80,20}},
+          lineColor={255,0,0},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-80,-20},{80,-60}},
+          fillColor={0,0,255},
           fillPattern=FillPattern.Solid,
-          fillColor={255,255,85},
-          pattern=LinePattern.None), Polygon(
-          points={{-32,42},{-32,-38},{48,2},{-32,42}},
-          smooth=Smooth.None,
-          fillColor={0,255,0},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None)}));
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-80,20},{80,-20}},
+          fillColor={128,0,255},
+          fillPattern=FillPattern.HorizontalCylinder,
+          pattern=LinePattern.None,
+          lineColor={0,0,0})}));
 end HeatPump;

@@ -9,6 +9,8 @@ model DomesticHotWaterSystem "Example for the domestic hot water loop"
    parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=20
     "Nominal mass flow rate";
     //The nominal flow rate may be different
+   parameter Modelica.SIunits.Pressure dpDW_nominal=100
+    "Nominal pressure difference";
   HotelModel.DomesticHotWater.DomesticHotWaterSystem domesticHotWaterSystem(
       redeclare package MediumDW = MediumDW, mDW_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));

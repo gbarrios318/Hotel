@@ -8,6 +8,8 @@ model DomesticWaterControls "Example for the domestic water controls"
       //Buildings.Media.Interfaces.PartialSimpleMedium
    parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=20
     "Nominal mass flow rate";
+         parameter Modelica.SIunits.Pressure dpDW_nominal=100
+    "Nominal pressure difference";
   HotelModel.DomesticHotWater.DomesticWaterControls domesticWaterControls(
       redeclare package MediumDW = MediumDW, mDW_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
@@ -38,7 +40,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(boundary1.ports[1], domesticWaterControls.port_a2) annotation (Line(
-      points={{40,20},{20,20},{20,0},{10,0}},
+      points={{40,20},{20,20},{20,-10},{0,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

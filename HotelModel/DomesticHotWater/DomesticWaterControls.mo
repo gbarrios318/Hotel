@@ -16,11 +16,6 @@ model DomesticWaterControls "Domestic water with controls"
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}}),
-        iconTransformation(extent={{90,-10},{110,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a3(redeclare package Medium =
-        MediumDW)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Blocks.Sources.Constant TBoiSet(k=273.15 + 60)
     annotation (Placement(transformation(extent={{-90,-40},{-70,-20}})));
@@ -38,16 +33,6 @@ model DomesticWaterControls "Domestic water with controls"
 equation
   connect(domesticHotWaterSystem.port_a1, port_a1) annotation (Line(
       points={{-10,0},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(domesticHotWaterSystem.port_a3, port_a2) annotation (Line(
-      points={{10,0},{50,0},{50,0},{100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(domesticHotWaterSystem.port_a2, port_a3) annotation (Line(
-      points={{0,-10},{0,-100}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -80,16 +65,16 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(domesticHotWaterSystem.port_a2, port_a2) annotation (Line(
+      points={{0,-10},{0,-100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
           extent={{-94,8},{-58,-8}},
-          lineColor={0,128,255},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{58,8},{94,-8}},
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid),

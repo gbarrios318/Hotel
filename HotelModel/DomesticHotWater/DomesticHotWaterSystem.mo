@@ -7,6 +7,8 @@ model DomesticHotWaterSystem
    parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=20
     "Nominal mass flow rate";
     //Nominal flow rate is value I gave, probably different
+         parameter Modelica.SIunits.Pressure dpDW_nominal=100
+    "Nominal pressure difference";
   Buildings.Fluid.Movers.FlowMachine_m_flow KitPum(redeclare package Medium =
         MediumDW, m_flow_nominal=mDW_flow_nominal)
     "Pump for the kitchen domestic cold water" annotation (Placement(
@@ -83,10 +85,6 @@ model DomesticHotWaterSystem
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a3(redeclare package Medium =
-        MediumDW)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         MediumDW)
     annotation (Placement(transformation(extent={{28,14},{40,26}})));
@@ -148,11 +146,6 @@ equation
       thickness=1));
   connect(val.port_a, port_a2) annotation (Line(
       points={{20,-60},{20,-80},{0,-80},{0,-82},{0,-82},{0,-100},{0,-100}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val.port_a, port_a3) annotation (Line(
-      points={{20,-60},{20,-80},{60,-80},{60,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -229,11 +222,6 @@ equation
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
           extent={{-94,8},{-58,-8}},
-          lineColor={0,128,255},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{58,8},{94,-8}},
           lineColor={0,128,255},
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid),

@@ -28,12 +28,12 @@ model CoolingTowerSystem
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}}),
-        iconTransformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(transformation(extent={{-10,88},{10,108}}),
+        iconTransformation(extent={{-10,88},{10,108}})));
   Modelica.Blocks.Interfaces.RealInput TWet
     "Entering air dry or wet bulb temperature" annotation (Placement(
         transformation(extent={{-128,-74},{-100,-46}}), iconTransformation(
@@ -74,14 +74,10 @@ model CoolingTowerSystem
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
 equation
   connect(coolingTower.port_a_CW, port_a) annotation (Line(
-      points={{-20,0},{-100,0}},
+      points={{-20,0},{-92,0},{-92,98},{0,98}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(port_a, port_a) annotation (Line(
-      points={{-100,0},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(cooTowCon.sta, sta) annotation (Line(
       points={{-88,60},{-120,60}},
       color={255,127,0},
@@ -128,7 +124,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(Pum.port_b, port_b) annotation (Line(
-      points={{46,0},{100,0}},
+      points={{46,0},{94,0},{94,-100},{0,-100}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -209,7 +205,7 @@ equation
           fillPattern=FillPattern.Solid,
           pattern=LinePattern.None),
         Text(
-          extent={{-60,100},{60,80}},
+          extent={{-60,94},{60,74}},
           lineColor={0,128,255},
           lineThickness=0.5,
           fillColor={255,255,0},

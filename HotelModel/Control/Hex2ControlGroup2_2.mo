@@ -45,11 +45,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[1], MV1) annotation (Line(
-      points={{11,74},{20,74},{20,60},{110,60}},
+      points={{11,73.2},{20,73.2},{20,60},{110,60}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[2], MV2) annotation (Line(
-      points={{11,74},{20,74},{20,30},{110,30}},
+      points={{11,73.6},{20,73.6},{20,30},{110,30}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[3], MV3) annotation (Line(
@@ -57,7 +57,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[4], MV4) annotation (Line(
-      points={{11,74},{20,74},{20,-30},{110,-30}},
+      points={{11,74.4},{20,74.4},{20,-30},{110,-30}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pum3, add.y) annotation (Line(
@@ -69,7 +69,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[5], add.u1) annotation (Line(
-      points={{11,74},{20,74},{20,-54},{38,-54}},
+      points={{11,74.8},{20,74.8},{20,-54},{38,-54}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pum3, pum3) annotation (Line(

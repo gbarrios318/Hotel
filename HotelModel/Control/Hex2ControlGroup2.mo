@@ -14,21 +14,21 @@ model Hex2ControlGroup2
   Modelica.Blocks.Interfaces.IntegerInput sta
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput MV1
-    annotation (Placement(transformation(extent={{100,50},{120,70}})));
+    annotation (Placement(transformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Sources.Constant const(k=pum3MasFlo)
     annotation (Placement(transformation(extent={{-36,-36},{-16,-16}})));
   Modelica.Blocks.Math.Product product1
     annotation (Placement(transformation(extent={{44,-30},{64,-10}})));
   Modelica.Blocks.Interfaces.RealOutput MV2
-    annotation (Placement(transformation(extent={{100,30},{120,50}})));
+    annotation (Placement(transformation(extent={{100,40},{120,60}})));
   Modelica.Blocks.Interfaces.RealOutput MV3
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   Modelica.Blocks.Interfaces.RealOutput MV4
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    annotation (Placement(transformation(extent={{100,-20},{120,0}})));
   Modelica.Blocks.Interfaces.RealOutput pum3
-    annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
-  Modelica.Blocks.Interfaces.RealOutput valByp
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
+  Modelica.Blocks.Interfaces.RealOutput valByp
+    annotation (Placement(transformation(extent={{100,-80},{120,-60}})));
   Modelica.Blocks.Math.Add add(k1=-1)
     annotation (Placement(transformation(extent={{44,-64},{64,-44}})));
   Modelica.Blocks.Sources.Constant const1(k=1)
@@ -51,15 +51,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(product1.y, pum3) annotation (Line(
-      points={{65,-20},{110,-20}},
+      points={{65,-20},{92,-20},{92,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[1], MV1) annotation (Line(
-      points={{11,74},{20,74},{20,60},{110,60}},
+      points={{11,73.2},{20,73.2},{20,80},{110,80}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[2], MV2) annotation (Line(
-      points={{11,74},{20,74},{20,40},{110,40}},
+      points={{11,73.6},{20,73.6},{20,50},{110,50}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[3], MV3) annotation (Line(
@@ -67,15 +67,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[4], MV4) annotation (Line(
-      points={{11,74},{20,74},{20,0},{110,0}},
+      points={{11,74.4},{20,74.4},{20,0},{80,0},{80,-10},{110,-10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[5], product1.u1) annotation (Line(
-      points={{11,74},{20,74},{20,-14},{42,-14}},
+      points={{11,74.8},{20,74.8},{20,-14},{42,-14}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(valByp, add.y) annotation (Line(
-      points={{110,-40},{88,-40},{88,-54},{65,-54}},
+      points={{110,-70},{88,-70},{88,-54},{65,-54}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(add.u2, const1.y) annotation (Line(
@@ -83,7 +83,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[5], add.u1) annotation (Line(
-      points={{11,74},{20,74},{20,-48},{42,-48}},
+      points={{11,74.8},{20,74.8},{20,-48},{42,-48}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(MV1, MV1) annotation (Line(
+      points={{110,80},{110,80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(MV2, MV2) annotation (Line(
+      points={{110,50},{110,50}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (defaultComponentName="Hex2ConGro2", Diagram(coordinateSystem(

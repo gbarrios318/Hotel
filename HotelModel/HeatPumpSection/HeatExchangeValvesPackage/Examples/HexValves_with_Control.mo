@@ -16,6 +16,8 @@ model HexValves_with_Control
     "Nominal mass flow rate";
       //The nominal flow rate of water for domestic flow rate is one I gave it
       //Need to look up actual values
+   parameter Modelica.SIunits.Pressure dpDW_nominal=100
+    "Nominal pressure difference";
   import HotelModel;
  extends Modelica.Icons.Example;
   HotelModel.HeatPumpSection.HeatExchangeValvesPackage.HexValves_with_Control

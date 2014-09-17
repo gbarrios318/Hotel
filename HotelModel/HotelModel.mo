@@ -17,16 +17,20 @@ model HotelModel
       //Need to look up actual values
    parameter Modelica.SIunits.Pressure dpDW_nominal=100
     "Nominal pressure difference";
-  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem annotation (
+  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(redeclare package
+      MediumCW = MediumCW)                                  annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-80,0})));
-  HeatPumpSection.HeatPump heatPump
+  HeatPumpSection.HeatPump heatPump(redeclare package MediumCW = MediumCW,
+      redeclare package MediumDW = MediumDW)
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
-  ConnectingPackage.ConnectingLoop connectingLoop
+  ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
+        MediumDW)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  DomesticHotWater.DomesticWaterControls domesticWaterControls
+  DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
+      package MediumDW = MediumDW)
     annotation (Placement(transformation(extent={{56,-4},{76,16}})));
 equation
   connect(coolingTowerSystem.port_a, heatPump.port_b1) annotation (Line(

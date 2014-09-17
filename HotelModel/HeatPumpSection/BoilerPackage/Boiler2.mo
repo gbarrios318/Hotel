@@ -4,16 +4,17 @@ model Boiler2
  replaceable package MediumCW =
        Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
-    "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   Buildings.Fluid.Boilers.BoilerPolynomial boi(
-    Q_flow_nominal=2000000,
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
     redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Boiler that corresponds of the heat pump section"
+    dp_nominal=dp_nominal,
+    Q_flow_nominal=Q_flow_nominal)
+    "Boiler that corresponds of the heat pump section"
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valBoi(
     redeclare package Medium = MediumCW,

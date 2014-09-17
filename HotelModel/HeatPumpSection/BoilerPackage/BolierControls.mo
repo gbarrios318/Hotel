@@ -1,6 +1,6 @@
 within HotelModel.HeatPumpSection.BoilerPackage;
 model BolierControls "Boiler with controls, including valve controls"
-
+  parameter Real TSetBoiIn "Set temperature for boiler";
   Modelica.Blocks.Math.IntegerToReal integerToReal
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   Modelica.Blocks.Routing.Replicator replicator(nout=2)
@@ -8,7 +8,7 @@ model BolierControls "Boiler with controls, including valve controls"
   Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1,1,0; 2,1,0; 3,
         0,1; 4,0,1; 5,0,1; 6,0,1; 7,0,1])
     annotation (Placement(transformation(extent={{22,30},{42,50}})));
-  Modelica.Blocks.Sources.Constant TSetBoi(k=273.15 + 100)
+  Modelica.Blocks.Sources.Constant TSetBoi(k=TSetBoiIn)
     "Set point temperature of boiler"
     annotation (Placement(transformation(extent={{-40,-36},{-20,-16}})));
   Buildings.Controls.Continuous.LimPID conPID

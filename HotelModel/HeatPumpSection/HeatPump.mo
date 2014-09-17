@@ -3,32 +3,59 @@ model HeatPump "Complete heat pump section with everything put together"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+replaceable package MediumDW =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for domestic hot water";
+      //Buildings.Media.Interfaces.PartialSimpleMedium
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+    "Nominal mass flow rate";
+    //Nominal flow rate is value I gave, probably different
+   parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
+  parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
+  parameter Real MasFloHeaPumIn
+    "Mass flow rate of water going through the heat pump";
+  parameter Real Q_floSet "Heat flow into the heat pump";
+  parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
+  parameter Modelica.SIunits.Temperature HeaPumTRef
+    "Reference tempearture of heat pump";
+  parameter Real TSetBoiIn "Set temperature for boiler";
   BoilerPackage.Boiler2WithControls HeaPumBoi(
     redeclare package MediumCW = MediumCW,
     mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Boiler corresponding to the heat pump section"
+    dp_nominal=dp_nominal,
+    Q_flow_nominal=Q_flow_nominal,
+    TSetBoiIn=TSetBoiIn) "Boiler corresponding to the heat pump section"
     annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumCW = MediumCW,
     mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Heat Pump"
+    dp_nominal=dp_nominal,
+    MasFloHeaPumIn=MasFloHeaPumIn,
+    Q_floSet=Q_floSet,
+    HeatPumpVol=HeatPumpVol,
+    HeaPumTRef=HeaPumTRef) "Heat Pump"
     annotation (Placement(transformation(extent={{-60,-80},{-20,-40}})));
   HeatExchangeValvesPackage.HexValves_with_Control HexVal(
     redeclare package MediumCW = MediumCW,
     mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal) "Heat exchange valves with controls" annotation (
+    dp_nominal=dp_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal) "Heat exchange valves with controls"
+                                                                annotation (
      Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={40,0})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-108,-70},{-88,-50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta
@@ -40,10 +67,12 @@ replaceable package MediumCW =
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={10,70})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2
+  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+        MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumDW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Blocks.Interfaces.RealOutput Tboi

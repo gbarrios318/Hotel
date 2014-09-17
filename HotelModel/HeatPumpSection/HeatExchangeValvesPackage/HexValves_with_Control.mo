@@ -3,10 +3,9 @@ model HexValves_with_Control "Control for the heat exchange and valves"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
-    "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
            replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";

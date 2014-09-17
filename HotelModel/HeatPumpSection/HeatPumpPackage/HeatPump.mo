@@ -3,18 +3,22 @@ model HeatPump "Base class representation of the Heat Pump"
 replaceable package MediumCW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
-    "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
+  parameter Modelica.SIunits.Temperature HeaPumTRef
+    "Reference tempearture of heat pump";
+
   Buildings.Fluid.MixingVolumes.MixingVolume HeaPumTan(
     redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
-    V=100,
-    nPorts=2) "Volume control of the Heat Pump"
+    nPorts=2,
+    V=HeatPumpVol) "Volume control of the Heat Pump"
     annotation (Placement(transformation(extent={{-44,0},{-24,20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow
-    prescribedHeatFlow "Prescribed Heat flow of the Heat Pump"
+    prescribedHeatFlow(T_ref=HeaPumTRef)
+    "Prescribed Heat flow of the Heat Pump"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow "Heat Flow input "
     annotation (Placement(transformation(extent={{-124,-52},{-100,-28}})));
@@ -42,7 +46,7 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{-124,28},{-100,52}})));
   Modelica.Blocks.Interfaces.RealOutput THeaPum
     "Signal of temperature of the passing fluid"
-    annotation (Placement(transformation(extent={{102,30},{122,50}})));
+    annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
@@ -82,12 +86,17 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPumTemp.T, THeaPum) annotation (Line(
-      points={{60,11},{60,40},{112,40}},
+      points={{60,11},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.P, P) annotation (Line(
       points={{21,8},{34,8},{34,-40},{110,-40}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(THeaPum, THeaPum) annotation (Line(
+      points={{110,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

@@ -3,14 +3,22 @@ model HeatPumpwithControls "Heat Pump with its controls"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
-    "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Real MasFloHeaPumIn
+    "Mass flow rate of water going through the heat pump";
+  parameter Real Q_floSet "Heat flow into the heat pump";
+  parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
+  parameter Modelica.SIunits.Temperature HeaPumTRef
+    "Reference tempearture of heat pump";
+
   HeatPump HeaPum(
     redeclare package MediumCW = MediumCW,
     dp_nominal=dp_nominal,
-    mWater_flow_nominal=mWater_flow_nominal)
+    mWater_flow_nominal=mWater_flow_nominal,
+    HeatPumpVol=HeatPumpVol,
+    HeaPumTRef=HeaPumTRef)
     "Heat pump with all components directly interacting with it"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
@@ -24,10 +32,10 @@ replaceable package MediumCW =
   Modelica.Blocks.Interfaces.RealOutput THeaPum
     "Temperature of the passing fluid leaving the heat pump"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Sources.Constant MasFloHeaPum(k=40)
+  Modelica.Blocks.Sources.Constant MasFloHeaPum(k=MasFloHeaPumIn)
     "Mass flow rate of Heat Pump"
     annotation (Placement(transformation(extent={{-96,66},{-76,86}})));
-  Modelica.Blocks.Sources.Constant Q_floIn(k=-2300000) "Heat flow input"
+  Modelica.Blocks.Sources.Constant Q_floIn(k=Q_floSet) "Heat flow input"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
   Modelica.Blocks.Math.Product product
     annotation (Placement(transformation(extent={{-60,44},{-40,64}})));
@@ -52,7 +60,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.THeaPum, THeaPum) annotation (Line(
-      points={{22.4,8},{60,8},{60,40},{110,40}},
+      points={{22,8},{60,8},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

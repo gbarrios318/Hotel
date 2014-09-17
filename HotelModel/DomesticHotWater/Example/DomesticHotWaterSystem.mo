@@ -14,11 +14,6 @@ model DomesticHotWaterSystem "Example for the domestic hot water loop"
   HotelModel.DomesticHotWater.DomesticHotWaterSystem domesticHotWaterSystem(
       redeclare package MediumDW = MediumDW, mDW_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Buildings.Fluid.Sources.MassFlowSource_T boundary1(
-    nPorts=1,
-    redeclare package Medium = MediumDW,
-    use_m_flow_in=true)
-    annotation (Placement(transformation(extent={{60,10},{40,30}})));
   Modelica.Blocks.Sources.Constant TBoiSet(k=273.15 + 60)
     annotation (Placement(transformation(extent={{-92,-28},{-72,-8}})));
   Buildings.Controls.Continuous.LimPID conPID
@@ -26,33 +21,28 @@ model DomesticHotWaterSystem "Example for the domestic hot water loop"
   Modelica.Blocks.Interfaces.RealOutput TBoi1 "Boiler temperature" annotation (
       Placement(transformation(extent={{100,-40},{120,-20}}),
         iconTransformation(extent={{100,-50},{120,-30}})));
-  Modelica.Blocks.Sources.Constant MassFloRate3(k=80)
-    annotation (Placement(transformation(extent={{50,50},{70,70}})));
   Modelica.Blocks.Sources.Constant MassFloRateDom(k=20)
     "Mass flow rate for the domestic water"
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
   Modelica.Blocks.Sources.Constant MassFloRateKit(k=5)
     "mass flow rate for the kitchen"
     annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
-  Buildings.Fluid.Sources.Boundary_pT bou(
+  Buildings.Fluid.Sources.Boundary_pT sin(
     nPorts=1,
     redeclare package Medium = MediumDW,
     p=1000000000)
     annotation (Placement(transformation(extent={{-80,10},{-60,30}})));
-  Buildings.Fluid.Sources.Boundary_pT bou1(
+  Buildings.Fluid.Sources.Boundary_pT sou(
     nPorts=1,
     redeclare package Medium = MediumDW,
     p=10000 + 100) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-64})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{40,40},{60,60}})));
 equation
 
-  connect(domesticHotWaterSystem.port_a3, boundary1.ports[1]) annotation (Line(
-      points={{10,0},{26,0},{26,20},{40,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(TBoiSet.y,conPID. u_s) annotation (Line(
       points={{-71,-18},{-52,-18}},
       color={0,0,127},
@@ -73,11 +63,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(MassFloRate3.y, boundary1.m_flow_in) annotation (Line(
-      points={{71,60},{84,60},{84,28},{60,28}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(MassFloRateKit.y, domesticHotWaterSystem.m_flow_in_kit) annotation (
       Line(
       points={{-39,50},{-24,50},{-24,3},{-12,3}},
@@ -90,12 +75,12 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(bou1.ports[1], domesticHotWaterSystem.port_a2) annotation (Line(
+  connect(sou.ports[1], domesticHotWaterSystem.port_a2) annotation (Line(
       points={{0,-54},{0,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(bou.ports[1], domesticHotWaterSystem.port_a1) annotation (Line(
+  connect(sin.ports[1], domesticHotWaterSystem.port_a1) annotation (Line(
       points={{-60,20},{-40,20},{-40,0},{-10,0}},
       color={0,127,255},
       smooth=Smooth.None,

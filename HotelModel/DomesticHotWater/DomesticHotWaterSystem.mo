@@ -4,14 +4,22 @@ model DomesticHotWaterSystem
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";
       //Buildings.Media.Interfaces.PartialSimpleMedium
-   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=20
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
     "Nominal mass flow rate";
     //Nominal flow rate is value I gave, probably different
-         parameter Modelica.SIunits.Pressure dpDW_nominal=100
+   parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
+    parameter Modelica.SIunits.Volume VTan "Volume of the tank";
+    parameter Modelica.SIunits.Height hTan "Height of the tank";
+    parameter Modelica.SIunits.Thickness dIns "Thickness of the insulation";
+    parameter Modelica.SIunits.HeatFlowRate Q_flow_DWnominal
+    "Nominal heat flow rate";
+
   Buildings.Fluid.Movers.FlowMachine_m_flow KitPum(redeclare package Medium =
-        MediumDW, m_flow_nominal=mDW_flow_nominal)
-    "Pump for the kitchen domestic cold water" annotation (Placement(
+        MediumDW, m_flow_nominal=mDW_flow_nominal,
+    m_flow(fixed=false),
+    addPowerToMedium=true) "Pump for the kitchen domestic cold water"
+                                               annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -46,9 +54,9 @@ model DomesticHotWaterSystem
   Buildings.Fluid.Storage.StratifiedEnhanced tan(
     redeclare package Medium = MediumDW,
     m_flow_nominal=mDW_flow_nominal,
-    VTan=100,
-    hTan=10,
-    dIns=0.1)                                    annotation (Placement(
+    VTan=VTan,
+    hTan=hTan,
+    dIns=dIns) "Hot water storage tank"          annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -56,21 +64,20 @@ model DomesticHotWaterSystem
   Buildings.Fluid.Boilers.BoilerPolynomial boi(
     redeclare package Medium = MediumDW,
     m_flow_nominal=mDW_flow_nominal,
-    Q_flow_nominal=230000,
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
-    dp_nominal=100)
+    dp_nominal=dpDW_nominal,
+    Q_flow_nominal=Q_flow_DWnominal) "Boiler for the domestic hot water system"
     annotation (Placement(transformation(extent={{-20,-90},{-40,-70}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val(
     redeclare package Medium = MediumDW,
     m_flow_nominal=mDW_flow_nominal,
-    dpValve_nominal=100)                            annotation (Placement(
+    dpValve_nominal=dpDW_nominal)                   annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-50})));
-  Buildings.Fluid.Movers.FlowMachine_m_flow fan2(redeclare package Medium =
-        MediumDW, m_flow_nominal=mDW_flow_nominal)
-                                                 annotation (Placement(
+  Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal) annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -87,6 +94,7 @@ model DomesticHotWaterSystem
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         MediumDW)
+    "flow rate sensor checking the mass flow rate going to the domestic hot water"
     annotation (Placement(transformation(extent={{28,14},{40,26}})));
   Control.CoolingWaterControl cooWatCon(TDomHotWatSet=288.15, kPCon=1)
                                         annotation (Placement(transformation(
@@ -109,16 +117,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(KitPum.port_a, tan.port_b) annotation (Line(
-      points={{-70,40},{-70,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(KitPum.port_a, senTem.port_a) annotation (Line(
-      points={{-70,40},{-70,20},{-20,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(KitPum.port_b, KitColWat.ports[1]) annotation (Line(
       points={{-70,60},{-70,80}},
       color={0,127,255},
@@ -134,13 +132,8 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(val.port_b, fan2.port_b) annotation (Line(
+  connect(val.port_b, pum.port_b) annotation (Line(
       points={{20,-40},{20,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(KitPum.port_a, port_a1) annotation (Line(
-      points={{-70,40},{-70,0},{-100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -159,7 +152,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senMasFlo.port_a, fan2.port_a) annotation (Line(
+  connect(senMasFlo.port_a, pum.port_a) annotation (Line(
       points={{28,20},{20,20},{20,0}},
       color={0,127,255},
       smooth=Smooth.None,
@@ -212,11 +205,27 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(const1.y, fan2.m_flow_in) annotation (Line(
+  connect(const1.y, pum.m_flow_in) annotation (Line(
       points={{-23.4,-10},{-8,-10},{-8,-9.8},{8,-9.8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(KitPum.port_a, tan.port_b) annotation (Line(
+      points={{-70,40},{-70,-20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      arrow={Arrow.Filled,Arrow.None},
+      thickness=1));
+  connect(KitPum.port_a, senTem.port_a) annotation (Line(
+      points={{-70,40},{-70,20},{-20,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(port_a1, tan.port_b) annotation (Line(
+      points={{-100,0},{-70,0},{-70,-20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

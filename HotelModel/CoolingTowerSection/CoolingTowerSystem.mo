@@ -18,7 +18,7 @@ model CoolingTowerSystem
     "Nominal mass flow rate";
   parameter Real GaiPi "Gain of the component PI controller";
   parameter Real tIntPi "Integration time of the component PI controller";
-  parameter Real v_flow_rate[:] "Volume flow rate rate";
+  parameter Real v_flow_rate[:] "Volume flow rate";
   parameter Real eta[:] "Fan efficiency";
   parameter Modelica.SIunits.Temperature TSet
     "Temperature set point for CW water leaving the cooling tower";

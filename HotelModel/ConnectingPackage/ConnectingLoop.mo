@@ -6,7 +6,7 @@ model ConnectingLoop
       //Buildings.Media.Interfaces.PartialSimpleMedium
    parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
     "Nominal mass flow rate";
-      parameter Modelica.SIunits.Pressure dpDW_nominal=100
+      parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valbyp(redeclare package Medium
       = MediumDW, m_flow_nominal=mDW_flow_nominal,
@@ -152,7 +152,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(Hex2ConGro2.MV3, val3.y) annotation (Line(
-      points={{-38,71},{-38,20},{28,20},{28,20},{48,20},{48,12}},
+      points={{-38,71},{-38,20},{48,20},{48,12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -189,8 +189,7 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics
-        ={
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
           extent={{-98,70},{-60,50}},
           fillColor={0,128,255},

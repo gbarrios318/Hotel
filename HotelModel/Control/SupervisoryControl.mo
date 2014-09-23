@@ -19,8 +19,8 @@ model SupervisoryControl
     "Hot water mass flow greater than this set value, Hex-2 will turn on";
   parameter Modelica.SIunits.Time timDel=10 "Time delay for changing stage";
   Modelica.Blocks.Interfaces.RealInput THeatPump annotation (Placement(
-        transformation(extent={{-140,40},{-100,80}}), iconTransformation(extent
-          ={{-140,40},{-100,80}})));
+        transformation(extent={{-140,40},{-100,80}}), iconTransformation(extent=
+           {{-140,40},{-100,80}})));
   Modelica_StateGraph2.Step step1(
     nOut=1,
     nIn=1,
@@ -58,53 +58,54 @@ model SupervisoryControl
   Modelica.Blocks.Interfaces.IntegerOutput y annotation (Placement(
         transformation(extent={{100,-10},{120,10}}), iconTransformation(extent=
             {{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealInput TBoiHp
+  Modelica.Blocks.Interfaces.RealInput TBoiHP
     annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
   Modelica.Blocks.Interfaces.RealInput TBoiDW annotation (Placement(
-        transformation(extent={{-140,-40},{-100,0}}), iconTransformation(extent
-          ={{-140,-40},{-100,0}})));
+        transformation(extent={{-140,-40},{-100,0}}), iconTransformation(extent=
+           {{-140,-40},{-100,0}})));
   Modelica_StateGraph2.Transition T1(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoi1 > (TBoi1Set - 0.001))
+    condition=TBoiHP > (TBoi1Set - 0.001))
     annotation (Placement(transformation(extent={{-24,96},{-16,104}})));
   Modelica_StateGraph2.Transition T2(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 > (TBoi2Set + deaBan))
+    condition=THeatPump > (TBoi2Set + deaBan))
     annotation (Placement(transformation(extent={{-24,56},{-16,64}})));
   Modelica_StateGraph2.Transition T3(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 > T1Set + deaBan)
+    condition=THeatPump > T1Set + deaBan)
     annotation (Placement(transformation(extent={{-24,16},{-16,24}})));
   Modelica_StateGraph2.Transition T4(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 > T2Set + deaBan)
+    condition=THeatPump > T2Set + deaBan)
     annotation (Placement(transformation(extent={{-24,-24},{-16,-16}})));
   Modelica_StateGraph2.Transition T5(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem3 > T3Set + deaBan)
+    condition=TBoiDW > T3Set + deaBan)
     annotation (Placement(transformation(extent={{-24,-64},{-16,-56}})));
   Modelica_StateGraph2.Transition T6(
     use_conditionPort=false,
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 - Tem3 < dT)
+    condition=THeatPump - TBoiDW < dT)
     annotation (Placement(transformation(extent={{-24,-104},{-16,-96}})));
   Modelica_StateGraph2.Transition T7(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoi1 < (TBoi1Set - deaBan)) annotation (Placement(transformation(
+    condition=TBoiHP < (TBoi1Set - deaBan))
+                                           annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={20,100})));
   Modelica_StateGraph2.Transition T8(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 < (TBoi2Set - deaBan) or TBoi1 < (TBoi1Set - deaBan))
+    condition=THeatPump < (TBoi2Set - deaBan) or TBoiHP < (TBoi1Set - deaBan))
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
@@ -112,21 +113,24 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T9(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 < T1Set - deaBan) annotation (Placement(transformation(
+    condition=THeatPump < T1Set - deaBan)
+                                     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={20,20})));
   Modelica_StateGraph2.Transition T10(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem2 < T2Set - deaBan) annotation (Placement(transformation(
+    condition=THeatPump < T2Set - deaBan)
+                                     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={20,-20})));
   Modelica_StateGraph2.Transition T11(
     delayedTransition=true,
     waitTime=timDel,
-    condition=Tem3 < T3Set - deaBan) annotation (Placement(transformation(
+    condition=TBoiDW < T3Set - deaBan)
+                                     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={20,-60})));

@@ -18,9 +18,9 @@ model SupervisoryControl
   parameter Modelica.SIunits.MassFlowRate masFloSet
     "Hot water mass flow greater than this set value, Hex-2 will turn on";
   parameter Modelica.SIunits.Time timDel=10 "Time delay for changing stage";
-  Modelica.Blocks.Interfaces.RealInput Tem2 annotation (Placement(
-        transformation(extent={{-140,40},{-100,80}}), iconTransformation(extent=
-           {{-140,40},{-100,80}})));
+  Modelica.Blocks.Interfaces.RealInput THeatPump annotation (Placement(
+        transformation(extent={{-140,40},{-100,80}}), iconTransformation(extent
+          ={{-140,40},{-100,80}})));
   Modelica_StateGraph2.Step step1(
     nOut=1,
     nIn=1,
@@ -58,11 +58,11 @@ model SupervisoryControl
   Modelica.Blocks.Interfaces.IntegerOutput y annotation (Placement(
         transformation(extent={{100,-10},{120,10}}), iconTransformation(extent=
             {{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealInput Tem3
+  Modelica.Blocks.Interfaces.RealInput TBoiHp
     annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
-  Modelica.Blocks.Interfaces.RealInput TBoi1 annotation (Placement(
-        transformation(extent={{-140,-40},{-100,0}}), iconTransformation(extent=
-           {{-140,-40},{-100,0}})));
+  Modelica.Blocks.Interfaces.RealInput TBoiDW annotation (Placement(
+        transformation(extent={{-140,-40},{-100,0}}), iconTransformation(extent
+          ={{-140,-40},{-100,0}})));
   Modelica_StateGraph2.Transition T1(
     delayedTransition=true,
     waitTime=timDel,

@@ -69,8 +69,8 @@ model ConnectingLoop
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={-40,120})));
-  Modelica.Blocks.Interfaces.RealOutput m_flow1
-    "Mass flow rate from port_a to port_b" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.RealOutput m_flow1 "Mass flow rate of city water"
+                                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,110})));

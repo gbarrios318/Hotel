@@ -13,9 +13,9 @@ replaceable package MediumCW =
   Buildings.Fluid.MixingVolumes.MixingVolume HeaPumTan(
     redeclare package Medium = MediumCW,
     m_flow_nominal=mWater_flow_nominal,
-    nPorts=2,
-    V=HeatPumpVol) "Volume control of the Heat Pump"
-    annotation (Placement(transformation(extent={{-44,0},{-24,20}})));
+    V=HeatPumpVol,
+    nPorts=2) "Volume control of the Heat Pump"
+    annotation (Placement(transformation(extent={{-48,0},{-28,20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow
     prescribedHeatFlow(T_ref=HeaPumTRef)
     "Prescribed Heat flow of the Heat Pump"
@@ -56,7 +56,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(prescribedHeatFlow.port, HeaPumTan.heatPort) annotation (Line(
-      points={{-60,-40},{-50,-40},{-50,10},{-44,10}},
+      points={{-60,-40},{-48,-40},{-48,10}},
       color={191,0,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -67,16 +67,6 @@ equation
       thickness=1));
   connect(HeaPumTemp.port_b, port_b1) annotation (Line(
       points={{70,0},{100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HeaPumTan.ports[1], port_a1) annotation (Line(
-      points={{-36,0},{-102,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HeaPum.port_a, HeaPumTan.ports[2]) annotation (Line(
-      points={{0,0},{-32,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -99,6 +89,16 @@ equation
       points={{110,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(HeaPumTan.ports[1], HeaPum.port_a) annotation (Line(
+      points={{-40,0},{0,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(HeaPumTan.ports[2], port_a1) annotation (Line(
+      points={{-36,0},{-102,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

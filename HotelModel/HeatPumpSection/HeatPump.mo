@@ -60,7 +60,7 @@ replaceable package MediumDW =
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta
     "States controlled by the supervisory control"
-    annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
+    annotation (Placement(transformation(extent={{-120,10},{-100,30}})));
   Buildings.Fluid.Sources.Boundary_pT BouHeaPum(nPorts=4, redeclare package
       Medium = MediumCW) "Boundry that allows for realistic circumstances"
     annotation (Placement(transformation(
@@ -87,6 +87,8 @@ replaceable package MediumDW =
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={60,-110})));
+  Modelica.Blocks.Interfaces.RealInput InSig1 "Input signal by user"
+    annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-60.4,-60},{-98,-60}},
@@ -136,7 +138,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(HeaPumBoi.Sta, Sta) annotation (Line(
-      points={{-38.4,71.16},{-38.4,72},{-24,72},{-24,0},{-110,0}},
+      points={{-38.4,71.16},{-38.4,72},{-24,72},{-24,20},{-110,20}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -162,8 +164,13 @@ equation
       pattern=LinePattern.Dash));
 
   connect(Sta, HexVal.Sta) annotation (Line(
-      points={{-110,0},{17.6,0}},
+      points={{-110,20},{-46,20},{-46,0},{17.6,0}},
       color={255,127,0},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(HeaPum.InSig, InSig1) annotation (Line(
+      points={{-64,-52},{-80,-52},{-80,-20},{-120,-20}},
+      color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

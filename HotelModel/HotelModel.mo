@@ -26,7 +26,10 @@ model HotelModel
     v_flow_rate={0.0441},
     TWetBul_nominal=298.706,
     dP_nominal=29800,
-    TSet=304.26)                                            annotation (
+    eta={1},
+    TSet=304.26,
+    Motor_eta={0.85},
+    Hydra_eta={1})                                          annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -36,12 +39,12 @@ model HotelModel
     mWater_flow_nominal=700,
     mDW_flow_nominal=200,
     Q_flow_nominal=1024283390.2519,
-    MasFloHeaPumIn=44.10,
     Q_floSet=819426712.20153,
     HeatPumpVol=2.599029318,
     HeaPumTRef=273.15 + 22.22,
     TSetBoiIn=273.15 + 20,
-    dp_nominal=1000000,
+    MasFloHeaPumIn=44.71,
+    dp_nominal=1500000,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
@@ -70,6 +73,8 @@ model HotelModel
     annotation (Placement(transformation(extent={{160,60},{180,80}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
     annotation (Placement(transformation(extent={{-120,14},{-100,34}})));
+  Modelica.Blocks.Sources.Pulse pulse(period=3600)
+    annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
 equation
   connect(heatPump.port_a2, connectingLoop.port_b2) annotation (Line(
       points={{20,16},{80,16},{80,-4}},
@@ -109,7 +114,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(supCon.y, heatPump.Sta) annotation (Line(
-      points={{-139,70},{-20,70},{-20,10},{-1,10}},
+      points={{-139,70},{-20,70},{-20,12},{-1,12}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -156,6 +161,11 @@ equation
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
+  connect(pulse.y, heatPump.InSig1) annotation (Line(
+      points={{-59,-50},{-20,-50},{-20,8},{-2,8}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})));

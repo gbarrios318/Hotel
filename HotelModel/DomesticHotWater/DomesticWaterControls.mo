@@ -39,7 +39,14 @@ model DomesticWaterControls "Domestic water with controls"
   Modelica.Blocks.Interfaces.RealOutput TBoi1 "Boiler temperature" annotation (
       Placement(transformation(extent={{100,-50},{120,-30}}),
         iconTransformation(extent={{100,-50},{120,-30}})));
-  DomesticHotWaterSystem domesticHotWaterSystem
+  DomesticHotWaterSystem domesticHotWaterSystem(
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal,
+    VTan=VTan,
+    hTan=hTan,
+    dIns=dIns,
+    Q_flow_DWnominal=Q_flow_DWnominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 equation
   connect(TBoiSet.y, conPID.u_s) annotation (Line(

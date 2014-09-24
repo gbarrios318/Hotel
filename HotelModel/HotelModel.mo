@@ -23,20 +23,43 @@ model HotelModel
     dTCW_nominal=273.15 - 12.22,
     dTApp_nominal=273.15 - 16.11,
     mCW_flow_nominal=44.10,
+    v_flow_rate={0.0441},
     TWetBul_nominal=298.706,
-    dP_nominal=10000000)                                    annotation (
+    dP_nominal=29800,
+    TSet=304.26)                                            annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-70,30})));
   HeatPumpSection.HeatPump heatPump(redeclare package MediumCW = MediumCW,
-      redeclare package MediumDW = MediumDW)
+      redeclare package MediumDW = MediumDW,
+    mWater_flow_nominal=700,
+    mDW_flow_nominal=200,
+    Q_flow_nominal=1024283390.2519,
+    MasFloHeaPumIn=44.10,
+    Q_floSet=819426712.20153,
+    HeatPumpVol=2.599029318,
+    HeaPumTRef=273.15 + 22.22,
+    TSetBoiIn=273.15 + 20,
+    dp_nominal=1000000,
+    dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
-        MediumDW)
+        MediumDW,
+    mDW_flow_nominal=200,
+    dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{80,-20},{100,0}})));
   DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
-      package MediumDW = MediumDW)
+      package MediumDW = MediumDW,
+    mDW_flow_nominal=200,
+    VTan=3,
+    hTan=3,
+    dIns=0.3,
+    Q_flow_DWnominal=230000000,
+    MassFloDomIn=0.16,
+    MassFloKitIn=0.03,
+    TBoiSetIn=273.15 + 20,
+    dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{140,-40},{160,-20}})));
   Control.SupervisoryControl supCon
     annotation (Placement(transformation(extent={{-160,60},{-140,80}})));

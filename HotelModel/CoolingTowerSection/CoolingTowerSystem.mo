@@ -2,7 +2,7 @@ within HotelModel.CoolingTowerSection;
 model CoolingTowerSystem
   "Components directly interacting with the Cooling Tower"
   replaceable package MediumCW =
-      Buildings.Media.Interfaces.PartialSimpleMedium
+      Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
   parameter Modelica.SIunits.Power P_nominal
     "Nominal cooling tower component power (at y=1)";
@@ -72,6 +72,8 @@ model CoolingTowerSystem
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal)
     annotation (Placement(transformation(extent={{26,-10},{46,10}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{60,60},{80,80}})));
 equation
   connect(coolingTower.port_a_CW, port_a) annotation (Line(
       points={{-20,0},{-92,0},{-92,98},{0,98}},

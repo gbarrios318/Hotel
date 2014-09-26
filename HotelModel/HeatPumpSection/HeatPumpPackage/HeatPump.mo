@@ -49,6 +49,8 @@ replaceable package MediumCW =
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{60,70},{80,90}})));
 equation
   connect(prescribedHeatFlow.Q_flow, Q_flow) annotation (Line(
       points={{-80,-40},{-112,-40}},

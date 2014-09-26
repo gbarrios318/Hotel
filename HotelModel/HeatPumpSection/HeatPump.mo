@@ -1,7 +1,8 @@
 within HotelModel.HeatPumpSection;
 model HeatPump "Complete heat pump section with everything put together"
 replaceable package MediumCW =
-      Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
+        Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
@@ -16,13 +17,13 @@ replaceable package MediumDW =
    parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
-  parameter Real MasFloHeaPumIn
+  parameter Modelica.SIunits.MassFlowRate MasFloHeaPumIn
     "Mass flow rate of water going through the heat pump";
-  parameter Real Q_floSet "Heat flow into the heat pump";
+  parameter Modelica.SIunits.Power Q_floSet "Heat flow into the heat pump";
   parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
   parameter Modelica.SIunits.Temperature HeaPumTRef
     "Reference tempearture of heat pump";
-  parameter Real TSetBoiIn "Set temperature for boiler";
+  parameter Modelica.SIunits.Temp_K TSetBoiIn "Set temperature for boiler";
   BoilerPackage.Boiler2WithControls HeaPumBoi(
     redeclare package MediumCW = MediumCW,
     mWater_flow_nominal=mWater_flow_nominal,
@@ -61,12 +62,6 @@ replaceable package MediumDW =
   Modelica.Blocks.Interfaces.IntegerInput Sta
     "States controlled by the supervisory control"
     annotation (Placement(transformation(extent={{-120,10},{-100,30}})));
-  Buildings.Fluid.Sources.Boundary_pT BouHeaPum(nPorts=4, redeclare package
-      Medium = MediumCW) "Boundry that allows for realistic circumstances"
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={10,70})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
@@ -105,28 +100,10 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(HeaPumBoi.port_a1, HexVal.port_b2) annotation (Line(
-      points={{-40,60},{32,60},{32,20}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(port_b1, port_b1) annotation (Line(
       points={{-100,60},{-100,60}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(BouHeaPum.ports[1], HeaPumBoi.port_a1) annotation (Line(
-      points={{13,60},{-40,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(BouHeaPum.ports[2], HexVal.port_b2) annotation (Line(
-      points={{11,60},{32,60},{32,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HeaPumBoi.port_a1, BouHeaPum.ports[3]) annotation (Line(
-      points={{-40,60},{9,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(HexVal.port_a2, port_a2) annotation (Line(
       points={{48,20},{48,60},{100,60}},
       color={0,127,255},
@@ -142,11 +119,6 @@ equation
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(HeaPumBoi.port_a1, BouHeaPum.ports[4]) annotation (Line(
-      points={{-40,60},{7,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(HeaPum.THeaPum, THeaPum) annotation (Line(
       points={{-18,-52},{-10,-52},{-10,-40},{60,-40},{60,-110}},
       color={0,0,127},
@@ -173,6 +145,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(HeaPumBoi.port_a1, HexVal.port_b2) annotation (Line(
+      points={{-40,60},{32,60},{32,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

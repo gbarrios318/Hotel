@@ -13,10 +13,11 @@ model DomesticWaterControls "Domestic water with controls"
     parameter Modelica.SIunits.Thickness dIns "Thickness of the insulation";
     parameter Modelica.SIunits.HeatFlowRate Q_flow_DWnominal
     "Nominal heat flow rate";
-    parameter Real MassFloDomIn
+    parameter Modelica.SIunits.MassFlowRate MassFloDomIn
     "Mass flow rate of water going into domestic water usage";
-    parameter Real MassFloKitIn "Mass flow rate of water going to kitchen";
-    parameter Real TBoiSetIn "Boiler setting";
+    parameter Modelica.SIunits.MassFlowRate MassFloKitIn
+    "Mass flow rate of water going to kitchen";
+    parameter Modelica.SIunits.Temp_K TBoiSetIn "Boiler setting";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumDW)

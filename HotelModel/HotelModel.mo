@@ -3,68 +3,78 @@ model HotelModel
      replaceable package MediumCW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
-    "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
        replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";
       //Buildings.Media.Interfaces.PartialSimpleMedium
-   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=15
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
     "Nominal mass flow rate";
       //The nominal flow rate of water for domestic flow rate is one I gave it
       //Need to look up actual values
-   parameter Modelica.SIunits.Pressure dpDW_nominal=100
+   parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
   CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
     redeclare package MediumCW = MediumCW,
     P_nominal=2200,
     dTCW_nominal=273.15 - 12.22,
     dTApp_nominal=273.15 - 16.11,
-    mCW_flow_nominal=44.10,
     v_flow_rate={0.0441},
+    eta={1},
+    Motor_eta={0.85},
+    Hydra_eta={1},
+    GaiPi=1,
+    tIntPi=1,
+    mCW_flow_nominal=44.16,
     TWetBul_nominal=298.706,
     dP_nominal=29800,
-    eta={1},
-    TSet=304.26,
-    Motor_eta={0.85},
-    Hydra_eta={1})                                          annotation (
+    TSet=304.26)                                            annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-70,30})));
   HeatPumpSection.HeatPump heatPump(redeclare package MediumCW = MediumCW,
       redeclare package MediumDW = MediumDW,
-    mWater_flow_nominal=700,
-    mDW_flow_nominal=200,
     Q_flow_nominal=1024283390.2519,
     Q_floSet=819426712.20153,
     HeatPumpVol=2.599029318,
     HeaPumTRef=273.15 + 22.22,
     TSetBoiIn=273.15 + 20,
-    MasFloHeaPumIn=44.71,
+    mWater_flow_nominal=44.16,
+    mDW_flow_nominal=12.62,
+    MasFloHeaPumIn=44.16,
     dp_nominal=1500000,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
         MediumDW,
-    mDW_flow_nominal=200,
+    mDW_flow_nominal=12.62,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{80,-20},{100,0}})));
   DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
       package MediumDW = MediumDW,
-    mDW_flow_nominal=200,
     VTan=3,
     hTan=3,
-    dIns=0.3,
     Q_flow_DWnominal=230000000,
     MassFloDomIn=0.16,
     MassFloKitIn=0.03,
     TBoiSetIn=273.15 + 20,
+    dIns=0.05,
+    mDW_flow_nominal=12.62,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{140,-40},{160,-20}})));
-  Control.SupervisoryControl supCon
+  Control.SupervisoryControl supCon(
+    timDel=10,
+    TBoi1Set=333.15,
+    TBoi2Set=289.26,
+    T1Set=291.48,
+    T2Set=298.15,
+    T3Set=302.59,
+    dT=273.7056,
+    deaBan=275.15,
+    masFloSet=700)
     annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         "C:/Users/German/Documents/HotelProject/HotelModel/HotelInput.mos")

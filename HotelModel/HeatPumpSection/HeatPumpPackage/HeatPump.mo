@@ -12,7 +12,7 @@ replaceable package MediumCW =
 
   Buildings.Fluid.MixingVolumes.MixingVolume HeaPumTan(
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
+    m_flow_nominal=mCW_flow_nominal,
     V=HeatPumpVol,
     nPorts=2) "Volume control of the Heat Pump"
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
@@ -23,7 +23,7 @@ replaceable package MediumCW =
   Modelica.Blocks.Interfaces.RealInput Q_flow "Heat Flow input "
     annotation (Placement(transformation(extent={{-124,-52},{-100,-28}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort HeaPumTemp(redeclare package
-      Medium = MediumCW, m_flow_nominal=mWater_flow_nominal)
+      Medium = MediumCW, m_flow_nominal=mCW_flow_nominal)
     "Tempearture after Heat Pump"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =

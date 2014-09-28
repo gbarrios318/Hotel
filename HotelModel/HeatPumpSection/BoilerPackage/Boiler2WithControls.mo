@@ -4,22 +4,22 @@ replaceable package MediumCW =
          Buildings.Media.ConstantPropertyLiquidWater
     "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   parameter Real TSetBoiIn "Set temperature for boiler";
   Boiler2 boi(
     redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
-    Q_flow_nominal=Q_flow_nominal)
+    Q_flow_nominal=Q_flow_nominal,
+    mCW_flow_nominal=mCW_flow_nominal)
     "Boiler to heat the condenser water in a cold winter"
     annotation (Placement(transformation(extent={{-10,-6},{10,14}})));
   BolierControls bolCon(TSetBoiIn=TSetBoiIn) "Boiler Control"
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort BoiTSen(redeclare package Medium
-      =        MediumCW, m_flow_nominal=mWater_flow_nominal)
+      =        MediumCW, m_flow_nominal=mCW_flow_nominal)
     "Finds the temperature of the water after it has been through the boiler"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =

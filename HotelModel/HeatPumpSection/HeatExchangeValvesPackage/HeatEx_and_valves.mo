@@ -3,7 +3,7 @@ model HeatEx_and_valves
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
        replaceable package MediumDW =
@@ -15,30 +15,32 @@ replaceable package MediumCW =
 
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumCW,
-    m1_flow_nominal=mWater_flow_nominal,
     dp1_nominal=dp_nominal,
     dp2_nominal=dp_nominal,
     redeclare package Medium2 = MediumDW,
-    m2_flow_nominal=mDW_flow_nominal)
+    m2_flow_nominal=mDW_flow_nominal,
+    m1_flow_nominal=mCW_flow_nominal)
     "Heat exchanger corresponding to the connection between the heat pump and the domestic water"
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear hexval1(
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
-    dpValve_nominal=dp_nominal) "Heat Exchanger valve 1" annotation (
+    dpValve_nominal=dp_nominal,
+    m_flow_nominal=mCW_flow_nominal) "Heat Exchanger valve 1"
+                                                         annotation (
       Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=-90,
         origin={-40,0})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valbyp(
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
-    dpValve_nominal=dp_nominal) "Heat exchange valve bypass"
+    dpValve_nominal=dp_nominal,
+    m_flow_nominal=mCW_flow_nominal) "Heat exchange valve bypass"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear hexval2(
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
-    dpValve_nominal=dp_nominal) "Heat Exchange valve 2" annotation (
+    dpValve_nominal=dp_nominal,
+    m_flow_nominal=mCW_flow_nominal) "Heat Exchange valve 2"
+                                                        annotation (
       Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,

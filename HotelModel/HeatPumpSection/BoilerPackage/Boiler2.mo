@@ -4,30 +4,30 @@ model Boiler2
  replaceable package MediumCW =
        Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   Buildings.Fluid.Boilers.BoilerPolynomial boi(
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
-    Q_flow_nominal=Q_flow_nominal)
+    Q_flow_nominal=Q_flow_nominal,
+    m_flow_nominal=mCW_flow_nominal)
     "Boiler that corresponds of the heat pump section"
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valBoi(
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mWater_flow_nominal,
-    dpValve_nominal=dp_nominal) "Valve to control the flow into boiler"
+    dpValve_nominal=dp_nominal,
+    m_flow_nominal=mCW_flow_nominal) "Valve to control the flow into boiler"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,0})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valByp(
-    m_flow_nominal=mWater_flow_nominal,
     dpValve_nominal=dp_nominal,
-    redeclare package Medium = MediumCW) "Bypass valve"
+    redeclare package Medium = MediumCW,
+    m_flow_nominal=mCW_flow_nominal) "Bypass valve"
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumCW)

@@ -3,7 +3,7 @@ model HexValves_with_Control "Control for the heat exchange and valves"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
            replaceable package MediumDW =
@@ -14,10 +14,10 @@ replaceable package MediumCW =
     "Nominal mass flow rate";
   HeatEx_and_valves Hex(
     redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
     redeclare package MediumDW = MediumDW,
-    mDW_flow_nominal=mDW_flow_nominal) "Hex with the valves included"
+    mDW_flow_nominal=mDW_flow_nominal,
+    mCW_flow_nominal=mCW_flow_nominal) "Hex with the valves included"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumCW)

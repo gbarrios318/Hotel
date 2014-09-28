@@ -3,11 +3,9 @@ model HeatPumpwithControls "Heat Pump with its controls"
 replaceable package MediumCW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
-  parameter Real MasFloHeaPumIn
-    "Mass flow rate of water going through the heat pump";
   parameter Real Q_floSet "Heat flow into the heat pump";
   parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
   parameter Modelica.SIunits.Temperature HeaPumTRef
@@ -16,9 +14,9 @@ replaceable package MediumCW =
   HeatPump HeaPum(
     redeclare package MediumCW = MediumCW,
     dp_nominal=dp_nominal,
-    mWater_flow_nominal=mWater_flow_nominal,
     HeatPumpVol=HeatPumpVol,
-    HeaPumTRef=HeaPumTRef)
+    HeaPumTRef=HeaPumTRef,
+    mCW_flow_nominal=mCW_flow_nominal)
     "Heat pump with all components directly interacting with it"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
@@ -32,17 +30,8 @@ replaceable package MediumCW =
   Modelica.Blocks.Interfaces.RealOutput THeaPum
     "Temperature of the passing fluid leaving the heat pump"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Sources.Constant MasFloHeaPum(k=MasFloHeaPumIn)
-    "Mass flow rate of Heat Pump"
-    annotation (Placement(transformation(extent={{-96,66},{-76,86}})));
   Modelica.Blocks.Sources.Constant Q_floIn(k=Q_floSet) "Heat flow input"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
-  Modelica.Blocks.Math.Product product
-    annotation (Placement(transformation(extent={{-60,44},{-40,64}})));
-  Modelica.Blocks.Interfaces.RealInput InSig "Input signal by user"
-    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-  Modelica.Blocks.Interfaces.RealOutput P1 "Electrical power consumed"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-20.4,0},{-102,0}},
@@ -61,26 +50,6 @@ equation
       pattern=LinePattern.Dash));
   connect(HeaPum.THeaPum, THeaPum) annotation (Line(
       points={{22,8},{60,8},{60,40},{110,40}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(MasFloHeaPum.y, product.u1) annotation (Line(
-      points={{-75,76},{-70,76},{-70,60},{-62,60}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(product.y, HeaPum.masFloPum) annotation (Line(
-      points={{-39,54},{-32,54},{-32,8},{-22.4,8}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(product.u2, InSig) annotation (Line(
-      points={{-62,48},{-82,48},{-82,40},{-120,40}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(HeaPum.P, P1) annotation (Line(
-      points={{22,-8},{62,-8},{62,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

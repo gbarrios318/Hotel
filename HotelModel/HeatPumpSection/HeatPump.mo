@@ -4,7 +4,7 @@ replaceable package MediumCW =
         Buildings.Media.ConstantPropertyLiquidWater
     "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
 replaceable package MediumDW =
@@ -17,8 +17,7 @@ replaceable package MediumDW =
    parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
-  parameter Modelica.SIunits.MassFlowRate MasFloHeaPumIn
-    "Mass flow rate of water going through the heat pump";
+
   parameter Modelica.SIunits.Power Q_floSet "Heat flow into the heat pump";
   parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
   parameter Modelica.SIunits.Temperature HeaPumTRef
@@ -26,26 +25,26 @@ replaceable package MediumDW =
   parameter Modelica.SIunits.Temp_K TSetBoiIn "Set temperature for boiler";
   BoilerPackage.Boiler2WithControls HeaPumBoi(
     redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
     Q_flow_nominal=Q_flow_nominal,
-    TSetBoiIn=TSetBoiIn) "Boiler corresponding to the heat pump section"
+    TSetBoiIn=TSetBoiIn,
+    mCW_flow_nominal=mCW_flow_nominal)
+    "Boiler corresponding to the heat pump section"
     annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
-    MasFloHeaPumIn=MasFloHeaPumIn,
     Q_floSet=Q_floSet,
     HeatPumpVol=HeatPumpVol,
-    HeaPumTRef=HeaPumTRef) "Heat Pump"
+    HeaPumTRef=HeaPumTRef,
+    mCW_flow_nominal=mCW_flow_nominal) "Heat Pump"
     annotation (Placement(transformation(extent={{-60,-80},{-20,-40}})));
   HeatExchangeValvesPackage.HexValves_with_Control HexVal(
     redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
     dp_nominal=dp_nominal,
     redeclare package MediumDW = MediumDW,
-    mDW_flow_nominal=mDW_flow_nominal) "Heat exchange valves with controls"
+    mDW_flow_nominal=mDW_flow_nominal,
+    mCW_flow_nominal=mCW_flow_nominal) "Heat exchange valves with controls"
                                                                 annotation (
      Placement(transformation(
         extent={{-20,-20},{20,20}},
@@ -82,8 +81,6 @@ replaceable package MediumDW =
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={60,-110})));
-  Modelica.Blocks.Interfaces.RealInput InSig1 "Input signal by user"
-    annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-60.4,-60},{-98,-60}},
@@ -138,11 +135,6 @@ equation
   connect(Sta, HexVal.Sta) annotation (Line(
       points={{-110,20},{-46,20},{-46,0},{17.6,0}},
       color={255,127,0},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(HeaPum.InSig, InSig1) annotation (Line(
-      points={{-64,-52},{-80,-52},{-80,-20},{-120,-20}},
-      color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPumBoi.port_a1, HexVal.port_b2) annotation (Line(

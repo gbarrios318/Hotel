@@ -59,8 +59,9 @@ model ConnectingLoop
   Buildings.Fluid.Sensors.MassFlowRate MasFloRatCloWat(redeclare package Medium
       = MediumDW) "Mass flow rate of the cooling water load"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
-  Control.Hex2ControlGroup2 Hex2ConGro2(pum3MasFlo=Hex2ConGro2.pum3MasFlo)
-                                        annotation (Placement(transformation(
+  Control.Hex2ControlGroup2 Hex2ConGro2(
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal)          annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-40,82})));
@@ -74,6 +75,8 @@ model ConnectingLoop
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,110})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{80,80},{100,100}})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},

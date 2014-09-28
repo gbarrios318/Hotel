@@ -1,8 +1,11 @@
 within HotelModel.Control;
 model Hex2ControlGroup2
   extends Modelica.Blocks.Interfaces.BlockIcon;
-  parameter Modelica.SIunits.MassFlowRate pum3MasFlo
-    "constant mass flow rate of pum3";
+
+       parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+    "Nominal mass flow rate";
+      parameter Modelica.SIunits.Pressure dpDW_nominal
+    "Nominal pressure difference";
   Modelica.Blocks.Math.IntegerToReal integerToReal
     annotation (Placement(transformation(extent={{-80,64},{-60,84}})));
   Modelica.Blocks.Routing.Replicator replicator(nout=5)
@@ -15,7 +18,7 @@ model Hex2ControlGroup2
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput MV1
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Modelica.Blocks.Sources.Constant const(k=pum3MasFlo)
+  Modelica.Blocks.Sources.Constant const(k=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-36,-36},{-16,-16}})));
   Modelica.Blocks.Math.Product product1
     annotation (Placement(transformation(extent={{44,-30},{64,-10}})));

@@ -76,17 +76,17 @@ model HotelModel
     dT=273.7056,
     deaBan=275.15)
     annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
-  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-        "C:/Users/German/Documents/HotelProject/HotelModel/HotelInput.mos")
-    annotation (Placement(transformation(extent={{-160,6},{-140,26}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{160,60},{180,80}})));
-  Buildings.BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-120,6},{-100,26}})));
   Buildings.Fluid.Storage.ExpansionVessel exp(
     redeclare package Medium = MediumCW,
     V_start=0.87,
     p=100000) annotation (Placement(transformation(extent={{-90,40},{-70,60}})));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(
+    tableOnFile=true,
+    tableName="'\"table1\"",
+    fileName="Twb1.txt")
+    annotation (Placement(transformation(extent={{-146,-2},{-126,18}})));
 equation
   connect(heatPump.port_a2, connectingLoop.port_b2) annotation (Line(
       points={{20,16},{80,16},{80,-4}},
@@ -155,29 +155,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(weaDat.weaBus, weaBus) annotation (Line(
-      points={{-140,16},{-110,16}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(weaBus.TWetBul, coolingTowerSystem.TWet) annotation (Line(
-      points={{-110,16},{-94,16},{-94,16.2},{-81.2,16.2}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
   connect(coolingTowerSystem.port_a, exp.port_a) annotation (Line(
       points={{-70,31.8},{-80,31.8},{-80,40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(combiTimeTable.y[1], coolingTowerSystem.TWet) annotation (Line(
+      points={{-125,8},{-102,8},{-102,16.2},{-81.2,16.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})));

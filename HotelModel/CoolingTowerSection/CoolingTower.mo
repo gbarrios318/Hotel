@@ -28,7 +28,10 @@ model CoolingTower "Single module of the cooling tower"
     TAirInWB_nominal=TWetBul_nominal,
     TApp_nominal=dTApp_nominal,
     fanRelPow(r_V=v_flow_rate, eta=eta),
-    fraPFan_nominal=P_nominal/mCW_flow_nominal)
+    fraPFan_nominal=P_nominal/mCW_flow_nominal,
+    m_flow(fixed=false),
+    dp(fixed=false),
+    homotopyInitialization=true)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package Medium =
         MediumCW)

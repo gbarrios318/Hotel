@@ -3,18 +3,19 @@ model HotelModel
      replaceable package MediumCW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal=44.16
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dp_nominal=1
+    "Nominal pressure difference";
        replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";
       //Buildings.Media.Interfaces.PartialSimpleMedium
-   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=12.62
     "Nominal mass flow rate";
       //The nominal flow rate of water for domestic flow rate is one I gave it
       //Need to look up actual values
-   parameter Modelica.SIunits.Pressure dpDW_nominal
+   parameter Modelica.SIunits.Pressure dpDW_nominal=1
     "Nominal pressure difference";
   CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
     redeclare package MediumCW = MediumCW,
@@ -27,14 +28,14 @@ model HotelModel
     Hydra_eta={1},
     GaiPi=1,
     tIntPi=1,
-    mCW_flow_nominal=44.16,
+    mCW_flow_nominal=mCW_flow_nominal,
     TWetBul_nominal=298.706,
     dP_nominal=29800,
     TSet=304.26)                                            annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={-70,30})));
+        origin={-70,22})));
   HeatPumpSection.HeatPump heatPump(redeclare package MediumCW = MediumCW,
       redeclare package MediumDW = MediumDW,
     Q_flow_nominal=1024283390.2519,
@@ -42,15 +43,14 @@ model HotelModel
     HeatPumpVol=2.599029318,
     HeaPumTRef=273.15 + 22.22,
     TSetBoiIn=273.15 + 20,
-    mWater_flow_nominal=44.16,
-    mDW_flow_nominal=12.62,
-    MasFloHeaPumIn=44.16,
+    mCW_flow_nominal=mCW_flow_nominal,
+    mDW_flow_nominal=mDW_flow_nominal,
     dp_nominal=1500000,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
         MediumDW,
-    mDW_flow_nominal=12.62,
+    mDW_flow_nominal=mDW_flow_nominal,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{80,-20},{100,0}})));
   DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
@@ -62,29 +62,31 @@ model HotelModel
     MassFloKitIn=0.03,
     TBoiSetIn=273.15 + 20,
     dIns=0.05,
-    mDW_flow_nominal=12.62,
+    mDW_flow_nominal=mDW_flow_nominal,
     dpDW_nominal=1000000)
     annotation (Placement(transformation(extent={{140,-40},{160,-20}})));
   Control.SupervisoryControl supCon(
     timDel=10,
+    masFloSet=700,
     TBoi1Set=333.15,
     TBoi2Set=289.26,
     T1Set=291.48,
     T2Set=298.15,
     T3Set=302.59,
     dT=273.7056,
-    deaBan=275.15,
-    masFloSet=700)
+    deaBan=275.15)
     annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         "C:/Users/German/Documents/HotelProject/HotelModel/HotelInput.mos")
-    annotation (Placement(transformation(extent={{-160,14},{-140,34}})));
+    annotation (Placement(transformation(extent={{-160,6},{-140,26}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{160,60},{180,80}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-120,14},{-100,34}})));
-  Modelica.Blocks.Sources.Pulse pulse(period=3600)
-    annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
+    annotation (Placement(transformation(extent={{-120,6},{-100,26}})));
+  Buildings.Fluid.Storage.ExpansionVessel exp(
+    redeclare package Medium = MediumCW,
+    V_start=0.87,
+    p=100000) annotation (Placement(transformation(extent={{-90,40},{-70,60}})));
 equation
   connect(heatPump.port_a2, connectingLoop.port_b2) annotation (Line(
       points={{20,16},{80,16},{80,-4}},
@@ -109,17 +111,17 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(coolingTowerSystem.port_b, heatPump.port_a1) annotation (Line(
-      points={{-70,20},{-70,4},{0.2,4}},
+      points={{-70,12},{-70,4},{0.2,4}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(coolingTowerSystem.port_a, heatPump.port_b1) annotation (Line(
-      points={{-70,39.8},{-70,40},{0,40},{0,16}},
+      points={{-70,31.8},{-70,40},{0,40},{0,16}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(supCon.y, coolingTowerSystem.sta) annotation (Line(
-      points={{-139,70},{-100,70},{-100,36},{-82,36}},
+      points={{-139,70},{-100,70},{-100,28},{-82,28}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -154,7 +156,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(weaDat.weaBus, weaBus) annotation (Line(
-      points={{-140,24},{-110,24}},
+      points={{-140,16},{-110,16}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None,
@@ -163,7 +165,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(weaBus.TWetBul, coolingTowerSystem.TWet) annotation (Line(
-      points={{-110,24},{-94,24},{-94,24.2},{-81.2,24.2}},
+      points={{-110,16},{-94,16},{-94,16.2},{-81.2,16.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None,
@@ -171,11 +173,11 @@ equation
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
-  connect(pulse.y, heatPump.InSig1) annotation (Line(
-      points={{-59,-50},{-20,-50},{-20,8},{-2,8}},
-      color={0,0,127},
+  connect(coolingTowerSystem.port_a, exp.port_a) annotation (Line(
+      points={{-70,31.8},{-80,31.8},{-80,40}},
+      color={0,127,255},
       smooth=Smooth.None,
-      pattern=LinePattern.Dash));
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})));

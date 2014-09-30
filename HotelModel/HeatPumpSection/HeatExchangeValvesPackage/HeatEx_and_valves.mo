@@ -134,11 +134,13 @@ equation
   connect(hex.port_b1, hexval2.port_a) annotation (Line(
       points={{10,-28},{40,-28},{40,-10}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(hexval2.port_b, port_b1) annotation (Line(
       points={{40,10},{40,40},{100,40}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

@@ -1,17 +1,20 @@
 within HotelModel.HeatPumpSection.HeatExchangeValvesPackage;
 model HexValves_with_Control "Control for the heat exchange and valves"
-replaceable package MediumCW =
+replaceable package MediumHW =
       Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dpHW_nominal
+    "Nominal pressure difference";
            replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";
       //Buildings.Media.Interfaces.PartialSimpleMedium
    parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
     "Nominal mass flow rate";
+      parameter Modelica.SIunits.Pressure dpDW_nominal
+    "Nominal pressure difference";
   HeatEx_and_valves Hex(
     redeclare package MediumCW = MediumCW,
     dp_nominal=dp_nominal,

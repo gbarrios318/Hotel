@@ -1,12 +1,13 @@
 within HotelModel.HeatPumpSection;
 model HeatPump "Complete heat pump section with everything put together"
-replaceable package MediumCW =
+replaceable package MediumHW =
         Buildings.Media.ConstantPropertyLiquidWater
     "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dpHW_nominal
+    "Nominal pressure difference";
 replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium for domestic hot water";

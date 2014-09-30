@@ -1,12 +1,13 @@
 within HotelModel.HeatPumpSection.BoilerPackage;
 model Boiler2
   "Boiler system in the condenser water loop that provides heating in the cold winter"
- replaceable package MediumCW =
+ replaceable package MediumHW =
        Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal "Nominal pressure difference";
+  parameter Modelica.SIunits.Pressure dpHW_nominal
+    "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   Buildings.Fluid.Boilers.BoilerPolynomial boi(
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),

@@ -11,31 +11,30 @@ model Boiler2
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   Buildings.Fluid.Boilers.BoilerPolynomial boi(
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
-    redeclare package Medium = MediumCW,
-    dp_nominal=dp_nominal,
+    redeclare package Medium = MediumHW,
     Q_flow_nominal=Q_flow_nominal,
-    m_flow_nominal=mCW_flow_nominal)
-    "Boiler that corresponds of the heat pump section"
+    m_flow_nominal=mHW_flow_nominal,
+    dp_nominal=dpHW_nominal) "Boiler that corresponds of the heat pump section"
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valBoi(
-    redeclare package Medium = MediumCW,
-    dpValve_nominal=dp_nominal,
-    m_flow_nominal=mCW_flow_nominal) "Valve to control the flow into boiler"
+    redeclare package Medium = MediumHW,
+    m_flow_nominal=mHW_flow_nominal,
+    dpValve_nominal=dpHW_nominal) "Valve to control the flow into boiler"
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,0})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valByp(
-    dpValve_nominal=dp_nominal,
-    redeclare package Medium = MediumCW,
-    m_flow_nominal=mCW_flow_nominal) "Bypass valve"
+    redeclare package Medium = MediumHW,
+    m_flow_nominal=mHW_flow_nominal,
+    dpValve_nominal=dpHW_nominal) "Bypass valve"
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
   Modelica.Blocks.Interfaces.RealInput boiCon "Control singal for boiler"

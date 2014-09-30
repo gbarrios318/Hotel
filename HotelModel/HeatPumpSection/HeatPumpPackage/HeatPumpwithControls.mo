@@ -13,26 +13,27 @@ replaceable package MediumHW =
     "Reference tempearture of heat pump";
 
   HeatPump HeaPum(
-    redeclare package MediumCW = MediumCW,
-    dp_nominal=dp_nominal,
+    redeclare package MediumHW = MediumHW,
+    dpH_nominal=dpHW_nominal,
     HeatPumpVol=HeatPumpVol,
     HeaPumTRef=HeaPumTRef,
-    mCW_flow_nominal=mCW_flow_nominal)
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal)
     "Heat pump with all components directly interacting with it"
     annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput THeaPum
     "Temperature of the passing fluid leaving the heat pump"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Sources.Constant Q_floIn(k=Q_floSet) "Heat flow input"
-    annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
+  Modelica.Blocks.Interfaces.RealInput Q_flow1 "Heat Flow input "
+    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-20.4,0},{-102,0}},
@@ -44,13 +45,13 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Q_floIn.y, HeaPum.Q_flow) annotation (Line(
-      points={{-59,-40},{-40,-40},{-40,-8},{-22.4,-8}},
+  connect(HeaPum.THeaPum, THeaPum) annotation (Line(
+      points={{22,8},{60,8},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(HeaPum.THeaPum, THeaPum) annotation (Line(
-      points={{22,8},{60,8},{60,40},{110,40}},
+  connect(HeaPum.Q_flow, Q_flow1) annotation (Line(
+      points={{-22.4,-8},{-30,-8},{-30,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

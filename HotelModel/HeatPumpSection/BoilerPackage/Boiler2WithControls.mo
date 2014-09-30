@@ -11,24 +11,24 @@ replaceable package MediumHW =
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   parameter Real TSetBoiIn "Set temperature for boiler";
   Boiler2 boi(
-    redeclare package MediumCW = MediumCW,
-    dp_nominal=dp_nominal,
-    Q_flow_nominal=Q_flow_nominal,
-    mCW_flow_nominal=mCW_flow_nominal)
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    Q_flow_nominal=Q_flow_nominal)
     "Boiler to heat the condenser water in a cold winter"
     annotation (Placement(transformation(extent={{-10,-6},{10,14}})));
   BolierControls bolCon(TSetBoiIn=TSetBoiIn) "Boiler Control"
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort BoiTSen(redeclare package Medium
-      =        MediumCW, m_flow_nominal=mCW_flow_nominal)
+      =        MediumHW, m_flow_nominal=mHW_flow_nominal)
     "Finds the temperature of the water after it has been through the boiler"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta

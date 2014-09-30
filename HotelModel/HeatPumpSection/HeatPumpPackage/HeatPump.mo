@@ -12,8 +12,8 @@ replaceable package MediumHW =
     "Reference tempearture of heat pump";
 
   Buildings.Fluid.MixingVolumes.MixingVolume HeaPumTan(
-    redeclare package Medium = MediumCW,
-    m_flow_nominal=mCW_flow_nominal,
+    redeclare package Medium = MediumHW,
+    m_flow_nominal=mHW_flow_nominal,
     V=HeatPumpVol,
     nPorts=2) "Volume control of the Heat Pump"
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
@@ -24,15 +24,15 @@ replaceable package MediumHW =
   Modelica.Blocks.Interfaces.RealInput Q_flow "Heat Flow input "
     annotation (Placement(transformation(extent={{-124,-52},{-100,-28}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort HeaPumTemp(redeclare package
-      Medium = MediumCW, m_flow_nominal=mCW_flow_nominal)
+      Medium = MediumCW, m_flow_nominal=mHW_flow_nominal)
     "Tempearture after Heat Pump"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput THeaPum
@@ -40,6 +40,16 @@ replaceable package MediumHW =
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
+  Buildings.Fluid.Movers.FlowMachine_m_flow Pum(
+    motorEfficiency(eta=Motor_eta),
+    hydraulicEfficiency(eta=Hydra_eta),
+    addPowerToMedium=false,
+    allowFlowReversal=true,
+    redeclare package Medium = MediumHW,
+    m_flow_nominal=mHW_flow_nominal)
+    annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+  Modelica.Blocks.Sources.Constant const(k=mHW_flow_nominal)
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 equation
   connect(prescribedHeatFlow.Q_flow, Q_flow) annotation (Line(
       points={{-80,-40},{-112,-40}},
@@ -70,11 +80,21 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(HeaPumTemp.port_a, HeaPumTan.ports[2]) annotation (Line(
-      points={{50,0},{-28,0}},
+  connect(HeaPumTemp.port_a, Pum.port_b) annotation (Line(
+      points={{50,0},{20,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(Pum.port_a, HeaPumTan.ports[2]) annotation (Line(
+      points={{0,0},{-28,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(const.y, Pum.m_flow_in) annotation (Line(
+      points={{-59,50},{10,50},{10,12},{9.8,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

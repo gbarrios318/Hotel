@@ -20,10 +20,14 @@ replaceable package MediumHW =
     dp_nominal=dp_nominal,
     redeclare package MediumDW = MediumDW,
     mDW_flow_nominal=mDW_flow_nominal,
-    mCW_flow_nominal=mCW_flow_nominal) "Hex with the valves included"
+    mCW_flow_nominal=mCW_flow_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    dpDW_nominal=dpDW_nominal) "Hex with the valves included"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
@@ -35,7 +39,7 @@ replaceable package MediumHW =
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,30},{110,50}})));
   HeatExchangeControls heatExchangeControls annotation (Placement(

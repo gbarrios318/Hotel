@@ -29,8 +29,10 @@ replaceable package MediumDW =
     dp_nominal=dp_nominal,
     Q_flow_nominal=Q_flow_nominal,
     TSetBoiIn=TSetBoiIn,
-    mCW_flow_nominal=mCW_flow_nominal)
-    "Boiler corresponding to the heat pump section"
+    mCW_flow_nominal=mCW_flow_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal) "Boiler corresponding to the heat pump section"
     annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumCW = MediumCW,
@@ -38,14 +40,21 @@ replaceable package MediumDW =
     Q_floSet=Q_floSet,
     HeatPumpVol=HeatPumpVol,
     HeaPumTRef=HeaPumTRef,
-    mCW_flow_nominal=mCW_flow_nominal) "Heat Pump"
+    mCW_flow_nominal=mCW_flow_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=mDW_flow_nominal) "Heat Pump"
     annotation (Placement(transformation(extent={{-60,-80},{-20,-40}})));
   HeatExchangeValvesPackage.HexValves_with_Control HexVal(
     redeclare package MediumCW = MediumCW,
     dp_nominal=dp_nominal,
     redeclare package MediumDW = MediumDW,
     mDW_flow_nominal=mDW_flow_nominal,
-    mCW_flow_nominal=mCW_flow_nominal) "Heat exchange valves with controls"
+    mCW_flow_nominal=mCW_flow_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    dpDW_nominal=dpDW_nominal) "Heat exchange valves with controls"
                                                                 annotation (
      Placement(transformation(
         extent={{-20,-20},{20,20}},
@@ -82,6 +91,8 @@ replaceable package MediumDW =
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={60,-110})));
+  Modelica.Blocks.Interfaces.RealInput Q_flow1 "Heat Flow input "
+    annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
 equation
   connect(HeaPum.port_a1, port_a1) annotation (Line(
       points={{-60.4,-60},{-98,-60}},
@@ -143,6 +154,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(HeaPum.Q_flow1, Q_flow1) annotation (Line(
+      points={{-64,-68},{-68,-68},{-68,-66},{-72,-66},{-72,-20},{-120,-20}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

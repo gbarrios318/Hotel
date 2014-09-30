@@ -64,7 +64,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(cooTow.port_b, TCWLea.port_a) annotation (Line(
-      points={{10,0},{38,0}},
+      points={{0,-10},{20,-10},{20,0},{38,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -79,7 +79,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(bou.ports[1], cooTow.port_a) annotation (Line(
-      points={{-40,0},{-10,0}},
+      points={{-40,0},{-20,0},{-20,9.8},{0,9.8}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

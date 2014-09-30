@@ -10,9 +10,8 @@ model Hex2ControlGroup2
     annotation (Placement(transformation(extent={{-80,64},{-60,84}})));
   Modelica.Blocks.Routing.Replicator replicator(nout=5)
     annotation (Placement(transformation(extent={{-50,64},{-30,84}})));
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1, 0, 0, 1, 0, 0; 2,
-        1, 0, 1, 1, 1; 3, 1, 0, 1, 1, 1; 4, 0, 0, 1, 0, 0; 5, 0, 1, 0, 1, 0; 6,
-        0, 1, 0, 1, 0; 7, 0, 0, 1, 0, 0])
+  Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=[1,0,0,1,0,1; 2,1,0,1,
+        1,1; 3,1,0,1,1,1; 4,0,0,1,0,1; 5,0,1,0,1,1; 6,0,1,0,1,1; 7,0,0,1,0,1])
     annotation (Placement(transformation(extent={{-10,64},{10,84}})));
   Modelica.Blocks.Interfaces.IntegerInput sta
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));

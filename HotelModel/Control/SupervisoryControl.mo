@@ -24,7 +24,8 @@ model SupervisoryControl
   Modelica_StateGraph2.Step step1(
     nOut=1,
     nIn=1,
-    use_activePort=true)
+    use_activePort=true,
+    initialStep=false)
     annotation (Placement(transformation(extent={{-4,116},{4,124}})));
   Modelica_StateGraph2.Step step2(
     use_activePort=true,
@@ -41,9 +42,10 @@ model SupervisoryControl
     nIn=2) annotation (Placement(transformation(extent={{-4,-4},{4,4}})));
   Modelica_StateGraph2.Step step5(
     use_activePort=true,
-    initialStep=true,
     nOut=2,
-    nIn=2) annotation (Placement(transformation(extent={{-4,-46},{4,-38}})));
+    nIn=2,
+    initialStep=true)
+           annotation (Placement(transformation(extent={{-4,-46},{4,-38}})));
   Modelica_StateGraph2.Step step6(
     use_activePort=true,
     nOut=2,
@@ -66,7 +68,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T1(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiHP > (TBoi1Set - 0.001))
+    condition=TBoiHP > (TBoi1Set - 0.5))
     annotation (Placement(transformation(extent={{-24,96},{-16,104}})));
   Modelica_StateGraph2.Transition T2(
     delayedTransition=true,

@@ -29,7 +29,10 @@ model DomesticWaterControls "Domestic water with controls"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Blocks.Sources.Constant TBoiSet(k=TBoiSetIn)
     annotation (Placement(transformation(extent={{-90,-40},{-70,-20}})));
-  Buildings.Controls.Continuous.LimPID conPID
+  Buildings.Controls.Continuous.LimPID conPID(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=1,
+    Ti=60)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   Modelica.Blocks.Sources.Constant MassFloDom(k=MassFloDomIn)
     "Mass flow going to domestic water"

@@ -42,7 +42,7 @@ replaceable package MediumCW =
     m_flow_nominal=mCW_flow_nominal) "Heat Exchange valve 2"
                                                         annotation (
       Placement(transformation(
-        extent={{10,-10},{-10,10}},
+        extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,0})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
@@ -90,16 +90,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(valbyp.port_b, hexval2.port_a) annotation (Line(
-      points={{10,40},{40,40},{40,10}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(hexval2.port_b, hex.port_b1) annotation (Line(
-      points={{40,-10},{40,-28},{10,-28}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(valbyp.port_a, port_a1) annotation (Line(
       points={{-10,40},{-100,40}},
       color={0,127,255},
@@ -139,6 +129,14 @@ equation
 
   connect(port_b2, port_b2) annotation (Line(
       points={{-100,-40},{-100,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hex.port_b1, hexval2.port_a) annotation (Line(
+      points={{10,-28},{40,-28},{40,-10}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hexval2.port_b, port_b1) annotation (Line(
+      points={{40,10},{40,40},{100,40}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

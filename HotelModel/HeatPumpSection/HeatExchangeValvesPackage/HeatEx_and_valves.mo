@@ -28,7 +28,7 @@ replaceable package MediumHW =
   Buildings.Fluid.Actuators.Valves.TwoWayLinear hexval1(
     redeclare package Medium = MediumHW,
     dpValve_nominal=dpHW_nominal,
-    m_flow_nominal=mCW_flow_nominal) "Heat Exchanger valve 1"
+    m_flow_nominal=mHW_flow_nominal) "Heat Exchanger valve 1"
                                                          annotation (
       Placement(transformation(
         extent={{-10,10},{10,-10}},

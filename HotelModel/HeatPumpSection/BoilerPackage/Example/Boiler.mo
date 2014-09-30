@@ -1,29 +1,29 @@
 within HotelModel.HeatPumpSection.BoilerPackage.Example;
 model Boiler "Example for the boiler and its components"
-   replaceable package MediumCW =
+   replaceable package MediumHW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
+  parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
   import HotelModel;
  extends Modelica.Icons.Example;
   HotelModel.HeatPumpSection.BoilerPackage.Boiler2 boiler2_1(
-    redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal)
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-10,-46},{10,-26}})));
   Buildings.Fluid.Sources.Boundary_pT sin(
     p(displayUnit="Pa") = 300000,
     nPorts=1,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     T=333.15) "Sink"
     annotation (Placement(transformation(extent={{74,-50},{54,-30}})));
   Buildings.Fluid.Sources.Boundary_pT sou(
     nPorts=1,
     p=300000 + dp_nominal,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     T=303.15)
     annotation (Placement(transformation(extent={{-78,-50},{-58,-30}})));
   Modelica.Blocks.Sources.TimeTable y(table=[0,0; 1800,1; 1800,0; 2400,0; 2400,
@@ -32,7 +32,7 @@ model Boiler "Example for the boiler and its components"
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
   Modelica.Fluid.Sensors.TemperatureTwoPort temperature(redeclare package
-      Medium = MediumCW)
+      Medium = MediumHW)
     annotation (Placement(transformation(extent={{20,-50},{40,-30}})));
   Buildings.HeatTransfer.Sources.FixedTemperature TAmb2(      T=288.15)
     "Ambient temperature in boiler room"

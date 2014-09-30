@@ -14,7 +14,6 @@ replaceable package MediumHW =
 
   HeatPump HeaPum(
     redeclare package MediumHW = MediumHW,
-    dpH_nominal=dpHW_nominal,
     HeatPumpVol=HeatPumpVol,
     HeaPumTRef=HeaPumTRef,
     mHW_flow_nominal=mHW_flow_nominal,

@@ -25,32 +25,25 @@ replaceable package MediumDW =
     "Reference tempearture of heat pump";
   parameter Modelica.SIunits.Temp_K TSetBoiIn "Set temperature for boiler";
   BoilerPackage.Boiler2WithControls HeaPumBoi(
-    redeclare package MediumCW = MediumCW,
-    dp_nominal=dp_nominal,
+    redeclare package MediumHW = MediumHW,
+    dpHW_nominal=dpHW_nominal,
     Q_flow_nominal=Q_flow_nominal,
     TSetBoiIn=TSetBoiIn,
-    mCW_flow_nominal=mCW_flow_nominal,
-    redeclare package MediumHW = MediumHW,
-    mHW_flow_nominal=mHW_flow_nominal,
-    dpHW_nominal=dpHW_nominal) "Boiler corresponding to the heat pump section"
+    mHW_flow_nominal=mHW_flow_nominal)
+    "Boiler corresponding to the heat pump section"
     annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
-    redeclare package MediumCW = MediumCW,
-    dp_nominal=dp_nominal,
+    redeclare package MediumHW = MediumHW,
+    dpHW_nominal=dpHW_nominal,
     Q_floSet=Q_floSet,
     HeatPumpVol=HeatPumpVol,
     HeaPumTRef=HeaPumTRef,
-    mCW_flow_nominal=mCW_flow_nominal,
-    redeclare package MediumHW = MediumHW,
-    mHW_flow_nominal=mHW_flow_nominal,
-    dpHW_nominal=mDW_flow_nominal) "Heat Pump"
+    mHW_flow_nominal=mHW_flow_nominal) "Heat Pump"
     annotation (Placement(transformation(extent={{-60,-80},{-20,-40}})));
   HeatExchangeValvesPackage.HexValves_with_Control HexVal(
-    redeclare package MediumCW = MediumCW,
-    dp_nominal=dp_nominal,
     redeclare package MediumDW = MediumDW,
     mDW_flow_nominal=mDW_flow_nominal,
-    mCW_flow_nominal=mCW_flow_nominal,
+    mHW_flow_nominal=mHW_flow_nominal,
     redeclare package MediumHW = MediumHW,
     mHW_flow_nominal=mHW_flow_nominal,
     dpHW_nominal=dpHW_nominal,
@@ -60,12 +53,13 @@ replaceable package MediumDW =
         extent={{-20,-20},{20,20}},
         rotation=90,
         origin={40,0})));
+
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-108,-70},{-88,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumCW)
+        MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta

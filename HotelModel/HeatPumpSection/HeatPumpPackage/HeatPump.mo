@@ -24,7 +24,7 @@ replaceable package MediumHW =
   Modelica.Blocks.Interfaces.RealInput Q_flow "Heat Flow input "
     annotation (Placement(transformation(extent={{-124,-52},{-100,-28}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort HeaPumTemp(redeclare package
-      Medium = MediumCW, m_flow_nominal=mHW_flow_nominal)
+      Medium = MediumHW, m_flow_nominal=mHW_flow_nominal)
     "Tempearture after Heat Pump"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =

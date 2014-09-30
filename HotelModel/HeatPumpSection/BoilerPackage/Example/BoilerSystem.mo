@@ -5,9 +5,9 @@ model BoilerSystem "Example for boiler system"
  package MediumCW = Buildings.Media.ConstantPropertyLiquidWater
     "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
+  parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
   Boiler2WithControls boiler2WithControls(
     redeclare package MediumCW = MediumCW,

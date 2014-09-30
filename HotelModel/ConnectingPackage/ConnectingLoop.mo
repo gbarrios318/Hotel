@@ -8,10 +8,6 @@ model ConnectingLoop
     "Nominal mass flow rate";
       parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valbyp(redeclare package Medium
-      = MediumDW, m_flow_nominal=mDW_flow_nominal,
-    dpValve_nominal=dpDW_nominal) "bypass valve"
-    annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val1(redeclare package Medium
       = MediumDW, m_flow_nominal=mDW_flow_nominal,
     dpValve_nominal=dpDW_nominal)
@@ -36,7 +32,7 @@ model ConnectingLoop
         origin={50,-60})));
   Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
         MediumDW, m_flow_nominal=mDW_flow_nominal)
-    annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
+    annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -55,7 +51,7 @@ model ConnectingLoop
     annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
   Buildings.Fluid.Sources.Boundary_pT CitWat(nPorts=1, redeclare package Medium
       = MediumDW) "City Water"
-    annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
+    annotation (Placement(transformation(extent={{-98,-10},{-78,10}})));
   Buildings.Fluid.Sensors.MassFlowRate MasFloRatCloWat(redeclare package Medium
       = MediumDW) "Mass flow rate of the cooling water load"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
@@ -77,6 +73,10 @@ model ConnectingLoop
         origin={40,110})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
+  Buildings.Fluid.Movers.FlowMachine_m_flow pum1(
+                                                redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal)
+    annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},
@@ -110,27 +110,12 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(val4.port_a, pum.port_b) annotation (Line(
-      points={{40,-60},{20,-60},{20,-40},{-20,-40}},
+      points={{40,-60},{-20,-60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(pum.port_a, port_a2) annotation (Line(
-      points={{-40,-40},{-60,-40},{-60,-60},{-100,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(valbyp.port_a, port_a2) annotation (Line(
-      points={{-40,-80},{-60,-80},{-60,-60},{-100,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(valbyp.port_b, pum.port_b) annotation (Line(
-      points={{-20,-80},{20,-80},{20,-40},{-20,-40}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(CitWat.ports[1], MasFloRatCloWat.port_a) annotation (Line(
-      points={{-62,0},{-40,0}},
+      points={{-40,-60},{-100,-60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -139,13 +124,8 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Hex2ConGro2.valByp, valbyp.y) annotation (Line(
-      points={{-47,71},{-47,50},{-48,50},{-48,-60},{-30,-60},{-30,-68}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(Hex2ConGro2.pum3, pum.m_flow_in) annotation (Line(
-      points={{-44,71},{-44,-20},{-30.2,-20},{-30.2,-28}},
+      points={{-44,71},{-44,-20},{-30.2,-20},{-30.2,-48}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -189,6 +169,19 @@ equation
   connect(port_b1, port_b1) annotation (Line(
       points={{102,-60},{102,-65},{102,-65},{102,-60}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(CitWat.ports[1], pum1.port_a) annotation (Line(
+      points={{-78,0},{-70,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pum1.port_b, MasFloRatCloWat.port_a) annotation (Line(
+      points={{-50,0},{-40,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pum1.m_flow_in, pum.m_flow_in) annotation (Line(
+      points={{-60.2,12},{-60.2,28},{-44,28},{-44,-20},{-30.2,-20},{-30.2,-48}},
+
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

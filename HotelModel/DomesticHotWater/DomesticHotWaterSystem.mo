@@ -73,7 +73,7 @@ model DomesticHotWaterSystem
     m_flow_nominal=mDW_flow_nominal,
     dpValve_nominal=dpDW_nominal)                   annotation (Placement(
         transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{10,-10},{-10,10}},
         rotation=90,
         origin={20,-50})));
   Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
@@ -132,16 +132,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(val.port_b, pum.port_b) annotation (Line(
-      points={{20,-40},{20,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val.port_a, port_a2) annotation (Line(
-      points={{20,-60},{20,-80},{0,-80},{0,-82},{0,-82},{0,-100},{0,-100}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(DomPum.port_a, senMasFlo.port_b) annotation (Line(
       points={{50,20},{40,20}},
       color={0,127,255},
@@ -149,11 +139,6 @@ equation
       thickness=1));
   connect(senMasFlo.port_a, senTem.port_b) annotation (Line(
       points={{28,20},{0,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(senMasFlo.port_a, pum.port_a) annotation (Line(
-      points={{28,20},{20,20},{20,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -226,6 +211,18 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(val.port_b, port_a2) annotation (Line(
+      points={{20,-60},{20,-80},{0,-80},{0,-100}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(val.port_a, pum.port_b) annotation (Line(
+      points={{20,-40},{20,-20}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pum.port_a, senTem.port_b) annotation (Line(
+      points={{20,0},{20,20},{0,20}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

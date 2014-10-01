@@ -57,18 +57,8 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Hex.port_b2, port_b1) annotation (Line(
-      points={{-10,-4},{-60,-4},{-60,-40},{-100,-40}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(Hex.port_a2, port_a2) annotation (Line(
       points={{10,-4},{60,-4},{60,-40},{100,-40}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(Hex.port_b1, port_b2) annotation (Line(
-      points={{10,4},{60,4},{60,40},{100,40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -92,6 +82,14 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(port_b1, Hex.port_b1) annotation (Line(
+      points={{-100,-40},{40,-40},{40,4},{10,4}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_b2, Hex.port_b2) annotation (Line(
+      points={{100,40},{20,40},{20,-34},{-40,-34},{-40,-4},{-10,-4}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

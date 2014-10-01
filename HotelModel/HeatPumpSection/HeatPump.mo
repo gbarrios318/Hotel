@@ -45,7 +45,6 @@ replaceable package MediumDW =
     mDW_flow_nominal=mDW_flow_nominal,
     mHW_flow_nominal=mHW_flow_nominal,
     redeclare package MediumHW = MediumHW,
-    mHW_flow_nominal=mHW_flow_nominal,
     dpHW_nominal=dpHW_nominal,
     dpDW_nominal=dpDW_nominal) "Heat exchange valves with controls"
                                                                 annotation (

@@ -41,13 +41,11 @@ replaceable package MediumHW =
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
   Buildings.Fluid.Movers.FlowMachine_m_flow Pum(
-    motorEfficiency(eta=Motor_eta),
-    hydraulicEfficiency(eta=Hydra_eta),
     addPowerToMedium=false,
     allowFlowReversal=true,
     redeclare package Medium = MediumHW,
     m_flow_nominal=mHW_flow_nominal)
-    annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+    annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
   Modelica.Blocks.Sources.Constant const(k=mHW_flow_nominal)
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 equation
@@ -75,26 +73,23 @@ equation
       points={{110,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(HeaPumTan.ports[1], port_a1) annotation (Line(
-      points={{-32,0},{-102,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HeaPumTemp.port_a, Pum.port_b) annotation (Line(
-      points={{50,0},{20,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(Pum.port_a, HeaPumTan.ports[2]) annotation (Line(
-      points={{0,0},{-28,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(const.y, Pum.m_flow_in) annotation (Line(
-      points={{-59,50},{10,50},{10,12},{9.8,12}},
+      points={{-59,50},{-50,50},{-50,12},{-72.2,12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(HeaPumTan.ports[1], Pum.port_b) annotation (Line(
+      points={{-32,0},{-62,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(Pum.port_a, port_a1) annotation (Line(
+      points={{-82,0},{-102,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(HeaPumTan.ports[2], HeaPumTemp.port_a) annotation (Line(
+      points={{-28,0},{50,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

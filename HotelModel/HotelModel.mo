@@ -5,7 +5,7 @@ model HotelModel
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal=44.16
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=1
+  parameter Modelica.SIunits.Pressure dp_nominal=1000
     "Nominal pressure difference";
        replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
@@ -15,14 +15,14 @@ model HotelModel
     "Nominal mass flow rate";
       //The nominal flow rate of water for domestic flow rate is one I gave it
       //Need to look up actual values
-   parameter Modelica.SIunits.Pressure dpDW_nominal=1
+   parameter Modelica.SIunits.Pressure dpDW_nominal=1000
     "Nominal pressure difference";
   replaceable package MediumHW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=44.16
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dpHW_nominal=1
+  parameter Modelica.SIunits.Pressure dpHW_nominal=1000
     "Nominal pressure difference";
   CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
     redeclare package MediumCW = MediumCW,
@@ -47,20 +47,20 @@ model HotelModel
       redeclare package MediumDW = MediumDW,
     HeaPumTRef=273.15 + 22.22,
     TSetBoiIn=273.15 + 20,
-    mDW_flow_nominal=mDW_flow_nominal,
     HeatPumpVol=25.99029318,
-    Q_flow_nominal=1024283390.2519,
-    Q_floSet=819426712.20153,
-    redeclare package MediumCW = MediumHW,
-    mCW_flow_nominal=mHW_flow_nominal,
-    dp_nominal=dpHW_nominal,
-    dpDW_nominal=dpDW_nominal)
-    annotation (Placement(transformation(extent={{20,-20},{40,0}})));
+    dpDW_nominal=dpDW_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpDW_nominal,
+    mDW_flow_nominal=mHW_flow_nominal,
+    Q_flow_nominal=1024283.3902519,
+    Q_floSet=819426.71220153)
+    annotation (Placement(transformation(extent={{20,-12},{40,8}})));
   ConnectingPackage.ConnectingLoop connectingLoop(redeclare package MediumDW =
         MediumDW,
-    mDW_flow_nominal=mDW_flow_nominal,
-    dpDW_nominal=1000000)
-    annotation (Placement(transformation(extent={{80,-40},{100,-20}})));
+    dpDW_nominal=dpDW_nominal,
+    mDW_flow_nominal=mHW_flow_nominal)
+    annotation (Placement(transformation(extent={{80,-38},{100,-18}})));
   DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
       package MediumDW = MediumDW,
     VTan=3,
@@ -89,8 +89,8 @@ model HotelModel
     annotation (Placement(transformation(extent={{160,60},{180,80}})));
   Buildings.Fluid.Storage.ExpansionVessel exp(
     redeclare package Medium = MediumCW,
-    V_start=1,
-    p=100000) annotation (Placement(transformation(extent={{-100,44},{-80,64}})));
+    V_start=1)
+              annotation (Placement(transformation(extent={{-100,44},{-80,64}})));
   Modelica.Blocks.Sources.CombiTimeTable TwetBulbData(
     tableOnFile=true,
     fileName="Twb1.txt",
@@ -99,39 +99,39 @@ model HotelModel
     annotation (Placement(transformation(extent={{-160,0},{-140,20}})));
   Buildings.Fluid.Storage.ExpansionVessel exp1(
     redeclare package Medium = MediumDW,
-    V_start=1,
-    p=100000) annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
+    V_start=1)
+              annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Buildings.Fluid.Storage.ExpansionVessel exp2(
     redeclare package Medium = MediumDW,
-    V_start=1,
-    p=100000) annotation (Placement(transformation(extent={{130,-10},{150,10}})));
+    V_start=1)
+              annotation (Placement(transformation(extent={{130,-10},{150,10}})));
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumCW,
     redeclare package Medium2 = MediumHW,
     m1_flow_nominal=mCW_flow_nominal,
-    m2_flow_nominal=mDW_flow_nominal,
     dp1_nominal=dp_nominal,
-    dp2_nominal=dpHW_nominal)                              annotation (
+    dp2_nominal=dpHW_nominal,
+    m2_flow_nominal=mHW_flow_nominal)                      annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-30,10})));
-  Modelica.Blocks.Sources.CombiTimeTable LoadData(
-    tableOnFile=true,
-    fileName="Twb1.txt",
-    tableName="table1",
-    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
-    annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
+  Modelica.Blocks.Sources.Constant const(k=819426.71220153)
+    annotation (Placement(transformation(extent={{-64,-44},{-44,-24}})));
+  Buildings.Fluid.Storage.ExpansionVessel exp3(
+    redeclare package Medium = MediumDW,
+    V_start=1)
+              annotation (Placement(transformation(extent={{-118,-6},{-98,14}})));
 equation
   connect(connectingLoop.port_a1, domesticWaterControls.port_a1) annotation (
       Line(
-      points={{100,-24},{140,-24},{140,-50}},
+      points={{100,-22},{140,-22},{140,-50}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(connectingLoop.port_b1, domesticWaterControls.port_a2) annotation (
       Line(
-      points={{100.2,-36},{100,-36},{100,-60},{150,-60}},
+      points={{100.2,-34},{100,-34},{100,-60},{150,-60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -141,17 +141,17 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(supCon.y, heatPump.Sta) annotation (Line(
-      points={{-139,70},{-10,70},{-10,-8},{19,-8}},
+      points={{-139,70},{-10,70},{-10,0},{19,0}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(supCon.y, connectingLoop.sta1) annotation (Line(
-      points={{-139,70},{86,70},{86,-18}},
+      points={{-139,70},{86,70},{86,-16}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.THeaPum, supCon.THeatPump) annotation (Line(
-      points={{36,-21},{36,-20},{-180,-20},{-180,76},{-162,76}},
+      points={{36,-13},{36,-20},{-180,-20},{-180,76},{-162,76}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -161,12 +161,12 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.m_flow1, supCon.masFloHotWat) annotation (Line(
-      points={{94,-19},{94,86},{-168,86},{-168,64},{-162,64}},
+      points={{94,-17},{94,86},{-168,86},{-168,64},{-162,64}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.Tboi, supCon.TBoiHP) annotation (Line(
-      points={{36,1},{36,92},{-176,92},{-176,72},{-162,72}},
+      points={{36,9},{36,92},{-176,92},{-176,72},{-162,72}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -181,7 +181,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(exp1.port_a, connectingLoop.port_a2) annotation (Line(
-      points={{10,-50},{10,-60},{40,-60},{40,-36},{80,-36}},
+      points={{10,-50},{10,-60},{40,-60},{40,-34},{80,-34}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -191,12 +191,12 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_b2, heatPump.port_a1) annotation (Line(
-      points={{-24,0},{-24,-16},{20.2,-16}},
+      points={{-24,0},{-24,-8},{20.2,-8}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_a2, heatPump.port_b1) annotation (Line(
-      points={{-24,20},{20,20},{20,-4}},
+      points={{-24,20},{20,20},{20,4}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -210,24 +210,27 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(LoadData.y[1], heatPump.Q_flow1) annotation (Line(
-      points={{-79,-50},{-40,-50},{-40,-12},{18,-12}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(heatPump.port_a2, connectingLoop.port_b2) annotation (Line(
-      points={{40,-4},{80,-4},{80,-24}},
+      points={{40,4},{80,4},{80,-22}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(heatPump.port_b2, connectingLoop.port_a2) annotation (Line(
-      points={{40,-16},{40,-36},{80,-36}},
+      points={{40,-8},{40,-34},{80,-34}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(const.y, heatPump.Q_flow1) annotation (Line(
+      points={{-43,-34},{-14,-34},{-14,-4},{18,-4}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(exp3.port_a, heatPump.port_a1) annotation (Line(
+      points={{-108,-6},{-108,-8},{20.2,-8}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})),
-    experiment(StopTime=100),
+    experiment(StopTime=1.0332e+006),
     __Dymola_experimentSetupOutput);
 end HotelModel;

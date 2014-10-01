@@ -30,16 +30,16 @@ equation
       points={{-62,0},{-120,0}},
       color={255,127,0},
       smooth=Smooth.None));
-  connect(combiTable1D.y[1], ValCtrlByp) annotation (Line(
-      points={{41,-0.5},{70,-0.5},{70,40},{110,40}},
+  connect(combiTable1D.y[2], ValCtrlByp) annotation (Line(
+      points={{41,0.5},{68,0.5},{68,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(combiTable1D.y[2], ValCtrl2) annotation (Line(
-      points={{41,0.5},{80,0.5},{80,0},{110,0}},
+  connect(ValCtrl1, ValCtrl2) annotation (Line(
+      points={{110,-40},{80,-40},{80,0},{110,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(combiTable1D.y[2], ValCtrl1) annotation (Line(
-      points={{41,0.5},{70,0.5},{70,-40},{110,-40}},
+  connect(combiTable1D.y[1], ValCtrl2) annotation (Line(
+      points={{41,-0.5},{80,-0.5},{80,0},{102,0}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

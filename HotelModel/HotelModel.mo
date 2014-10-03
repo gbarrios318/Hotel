@@ -64,14 +64,14 @@ model HotelModel
       package MediumDW = MediumDW,
     VTan=3,
     hTan=3,
-    Q_flow_DWnominal=230000000,
     MassFloKitIn=0.03,
     TBoiSetIn=273.15 + 20,
     dIns=0.05,
     mDW_flow_nominal=mDW_flow_nominal,
     MassFloDomIn=mDW_flow_nominal - 0.03,
     domesticHotWaterSystem(cooWatCon(TDomHotWatSet=358.15)),
-    dpDW_nominal=dpDW_nominal)
+    dpDW_nominal=dpDW_nominal,
+    Q_flow_DWnominal=600000)
     annotation (Placement(transformation(extent={{140,-60},{160,-40}})));
   Control.SupervisoryControl supCon(
     masFloSet=700,
@@ -240,12 +240,109 @@ equation
 <p>The specific system being used for experimentation is a the Grand Beach Hotel in Miami Beach, Florida</p>
 <h4><span style=\"color:#008000\">System Stages</span></h4>
 <p><br><img src=\"modelica://HotelModel/../../HotelData/Stage.PNG\"/></p>
-<h4><span style=\"color:#008000\">Unit Conversions</span></h4>
+<p><u><b></font><font style=\"color: #008000; \">Unit Conversions</font></b></u></p>
 <p>mCW_flow_nominal = 699 GPM [44.10 kg/s]</p>
 <p>dp_nominal = 4.335 psi [29889.8 Pa]</p>
 <p>mDW_flow_nominal = 25.68 GPM [1.62 kg/s]</p>
 <p>dpDW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
-<p>mHW_flow_nominal =  699 GPM [44.10 kg/s]</p>
+<p>mHW_flow_nominal = 699 GPM [44.10 kg/s]</p>
 <p>dpHW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
+<p><i><b><font style=\"color: #008000; \">Unit Conversion in subsystem models</font></b></i></p>
+<h5>Cooling Tower System parameters</h5>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>P_nominal&nbsp;</p></td>
+<td><p>2.95 horsepower&nbsp;</p></td>
+<td><p>2.2kW</p></td>
+</tr>
+<tr>
+<td><p>dTC_nominal</p></td>
+<td><p>10&deg; F</p></td>
+<td><p>5.56&deg; C</p></td>
+</tr>
+<tr>
+<td><p>dTApp_nominal</p></td>
+<td><p>3&deg; F</p></td>
+<td><p>3.89&deg; C</p></td>
+</tr>
+<tr>
+<td><p>TWetBul_nominal</p></td>
+<td><p>79&deg; F</p></td>
+<td><p>273.15 + 25.55 K</p></td>
+</tr>
+<tr>
+<td><p>Tset</p></td>
+<td><p>85&deg; F</p></td>
+<td><p>273.15+29.44 K</p></td>
+</tr>
+</table>
+<p><br><br><h5>Heat Pump System parameters</h5></p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>Q_flow_nominal</p></td>
+<td><p>3495 MBH</p></td>
+<td><p>1024283.3902519 W</p></td>
+</tr>
+<tr>
+<td><p>Q_floSet</p></td>
+<td><p>2796 MBH&nbsp;</p></td>
+<td><p>&nbsp;819426.71220153 W</p></td>
+</tr>
+<tr>
+<td><p>HeatPumpVol</p></td>
+<td><p>6865.9 gal</p></td>
+<td><p>&nbsp;25.99029318 m^3</p></td>
+</tr>
+<tr>
+<td><p>HeatPumTRef</p></td>
+<td><p>72&deg; F</p></td>
+<td><p>273.15 + 22.22 K</p></td>
+</tr>
+<tr>
+<td><p>TSetBoiIn</p></td>
+<td><p>68&deg; F</p></td>
+<td><p>273.15 + 20 K</p></td>
+</tr>
+</table>
+<p><br><br><br><b><font style=\"font-size: 7pt; \">Domestic Water System parameters</b></p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>VTan</p></td>
+<td><p>792.516 gal</p></td>
+<td><p>3 m^3</p></td>
+</tr>
+<tr>
+<td><p>hTan</p></td>
+<td><p>9.84252 ft</p></td>
+<td><p>3 m</p></td>
+</tr>
+<tr>
+<td><p>dIns</p></td>
+<td><p>1.97 in&nbsp;</p></td>
+<td><p>0.05 m</p></td>
+</tr>
+<tr>
+<td><p>Q_flow_Dwnominal</p></td>
+<td><p>2047284.9798 MBH</p></td>
+<td><p>600000 W</p></td>
+</tr>
+<tr>
+<td><p>TBoiSetIn</p></td>
+<td><p>68&deg; F</p></td>
+<td><p>273.15 + 20 K</p></td>
+</tr>
+</table>
 </html>"));
 end HotelModel;

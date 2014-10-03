@@ -24,7 +24,7 @@ replaceable package MediumHW =
     dp1_nominal=dpHW_nominal,
     dp2_nominal=dpDW_nominal)
     "Heat exchanger corresponding to the connection between the heat pump and the domestic water"
-    annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
+    annotation (Placement(transformation(extent={{-12,-44},{8,-24}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear hexval1(
     redeclare package Medium = MediumHW,
     dpValve_nominal=dpHW_nominal,
@@ -84,7 +84,7 @@ replaceable package MediumHW =
         origin={0,112})));
 equation
   connect(hex.port_a1, hexval1.port_b) annotation (Line(
-      points={{-10,-28},{-40,-28},{-40,-10}},
+      points={{-12,-28},{-40,-28},{-40,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -105,12 +105,12 @@ equation
       arrow={Arrow.Filled,Arrow.None},
       thickness=1));
   connect(hex.port_b2, port_b2) annotation (Line(
-      points={{-10,-40},{-100,-40}},
+      points={{-12,-40},{-100,-40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_a2, port_a2) annotation (Line(
-      points={{10,-40},{100,-40}},
+      points={{8,-40},{100,-40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -135,7 +135,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(hex.port_b1, hexval2.port_a) annotation (Line(
-      points={{10,-28},{40,-28},{40,-10}},
+      points={{8,-28},{40,-28},{40,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

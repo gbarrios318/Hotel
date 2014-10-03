@@ -214,15 +214,18 @@ equation
   connect(val.port_b, port_a2) annotation (Line(
       points={{20,-60},{20,-80},{0,-80},{0,-100}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(val.port_a, pum.port_b) annotation (Line(
       points={{20,-40},{20,-20}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(pum.port_a, senTem.port_b) annotation (Line(
       points={{20,0},{20,20},{0,20}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

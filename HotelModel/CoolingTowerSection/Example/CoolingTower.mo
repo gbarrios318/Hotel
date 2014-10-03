@@ -19,18 +19,16 @@ model CoolingTower
   Modelica.Blocks.Sources.Step On(
     height=-1,
     offset=1,
-    startTime=43200) annotation (Placement(transformation(extent={{-80,30},{-60,
+    startTime=1800)  annotation (Placement(transformation(extent={{-80,30},{-60,
             50}})));
   Modelica.Blocks.Sources.Constant TSet(k=273.15 + 29.44)
     annotation (Placement(transformation(extent={{-78,70},{-58,90}})));
-  Modelica.Blocks.Sources.Constant TWetBul(k=273.15 + 25)   annotation (Placement(transformation(extent={{-80,-60},
-            {-60,-40}})));
   inner Modelica.Fluid.System system(T_ambient=288.15)
     annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
   Modelica.Blocks.Sources.Sine TCWLeachi(
-    freqHz=1/86400,
     amplitude=2.59,
-    offset=273.15 + 32.03)
+    offset=273.15 + 32.03,
+    freqHz=1/1800)
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
   Buildings.Fluid.Sources.MassFlowSource_T souCW(
     nPorts=1,
@@ -48,6 +46,11 @@ model CoolingTower
   Buildings.Fluid.Sensors.TemperatureTwoPort TCWLea(redeclare package Medium =
         MediumCW, m_flow_nominal=mCW_flow_nominal)
     annotation (Placement(transformation(extent={{24,-10},{44,10}})));
+  Modelica.Blocks.Sources.Sine TWetBulb(
+    amplitude=10,
+    freqHz=1/1800,
+    offset=297.4) "Changing TwetBulb data represented by sine wave"
+    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
 equation
   connect(On.y, cooTow.On) annotation (Line(
       points={{-59,40},{-38,40},{-38,4},{-14,4}},
@@ -56,11 +59,6 @@ equation
       pattern=LinePattern.Dash));
   connect(TSet.y, cooTow.TSet) annotation (Line(
       points={{-57,80},{-24,80},{-24,8},{-14,8}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(TWetBul.y, cooTow.TWetBul) annotation (Line(
-      points={{-59,-50},{-22,-50},{-22,-4},{-14,-4}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -84,6 +82,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(TWetBulb.y, cooTow.TWetBul) annotation (Line(
+      points={{-39,-50},{-20,-50},{-20,-4},{-14,-4}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), experiment(StopTime=360000));
 end CoolingTower;

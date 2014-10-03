@@ -4,26 +4,25 @@ model HotelModel
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal=44.16
-    "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=1000
-    "Nominal pressure difference";
+    "Nominal mass flow rate of condenser water";
+  parameter Modelica.SIunits.Pressure dp_nominal=29889.8
+    "Nominal pressure difference for condenser water";
        replaceable package MediumDW =
-      Buildings.Media.ConstantPropertyLiquidWater
-    "Medium for domestic hot water";
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for domestic water";
       //Buildings.Media.Interfaces.PartialSimpleMedium
-   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=12.62
-    "Nominal mass flow rate";
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal=1.62
+    "Nominal mass flow rate for domestic water";
       //The nominal flow rate of water for domestic flow rate is one I gave it
       //Need to look up actual values
-   parameter Modelica.SIunits.Pressure dpDW_nominal=1000
-    "Nominal pressure difference";
+   parameter Modelica.SIunits.Pressure dpDW_nominal=29889.8
+    "Nominal pressure difference for domestic water";
   replaceable package MediumHW =
-      Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for hot water"
       annotation (choicesAllMatching = true);
   parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=44.16
-    "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dpHW_nominal=1000
-    "Nominal pressure difference";
+    "Nominal mass flow rate of hot water";
+  parameter Modelica.SIunits.Pressure dpHW_nominal=29889.8
+    "Nominal pressure difference of hot water";
   CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
     redeclare package MediumCW = MediumCW,
     P_nominal=2200,
@@ -38,7 +37,7 @@ model HotelModel
     dTApp_nominal(displayUnit="degC") = 3.89,
     TWetBul_nominal=273.15 + 25.55,
     TSet=273.15 + 29.44,
-    dP_nominal=29800)                                       annotation (
+    dP_nominal(displayUnit="bar") = dp_nominal)             annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -76,14 +75,14 @@ model HotelModel
     annotation (Placement(transformation(extent={{140,-60},{160,-40}})));
   Control.SupervisoryControl supCon(
     masFloSet=700,
+    timDel=300,
     TBoi1Set=333.15,
     TBoi2Set=289.26,
     T1Set=291.48,
     T2Set=298.15,
     T3Set=302.59,
     dT=273.7056,
-    deaBan=275.15,
-    timDel=300)
+    deaBan=275.15)
     annotation (Placement(transformation(extent={{-160,60},{-140,80}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{160,60},{180,80}})));
@@ -117,7 +116,7 @@ model HotelModel
         rotation=90,
         origin={-30,10})));
   Modelica.Blocks.Sources.Constant const(k=819426.71220153)
-    annotation (Placement(transformation(extent={{-64,-44},{-44,-24}})));
+    annotation (Placement(transformation(extent={{-64,-48},{-44,-28}})));
   Buildings.Fluid.Storage.ExpansionVessel exp3(
     redeclare package Medium = MediumDW,
     V_start=1)
@@ -221,16 +220,32 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(const.y, heatPump.Q_flow1) annotation (Line(
-      points={{-43,-34},{-14,-34},{-14,-4},{18,-4}},
+      points={{-43,-38},{-14,-38},{-14,-4},{18,-4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(exp3.port_a, heatPump.port_a1) annotation (Line(
       points={{-108,-6},{-108,-8},{20.2,-8}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})),
     experiment(StopTime=1.0332e+006),
-    __Dymola_experimentSetupOutput);
+    __Dymola_experimentSetupOutput,
+    Documentation(info="<html>
+<p>The purpose of the model is to compare the HVAC system design of a heat recovery system (HR) versus a conventional system that does not use heat recovery and evaluate both systems total energy consumption, peak energy and system stability. </p>
+<p>The models and controls are being implemented in Dymola using the Modelica Building Library which is an open source library for building environment simulation. </p>
+<p>The specific system being used for experimentation is a the Grand Beach Hotel in Miami Beach, Florida</p>
+<h4><span style=\"color:#008000\">System Stages</span></h4>
+<p><br><img src=\"modelica://HotelModel/../../HotelData/Stage.PNG\"/></p>
+<h4><span style=\"color:#008000\">Unit Conversions</span></h4>
+<p>mCW_flow_nominal = 699 GPM [44.10 kg/s]</p>
+<p>dp_nominal = 4.335 psi [29889.8 Pa]</p>
+<p>mDW_flow_nominal = 25.68 GPM [1.62 kg/s]</p>
+<p>dpDW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
+<p>mHW_flow_nominal =  699 GPM [44.10 kg/s]</p>
+<p>dpHW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
+</html>"));
 end HotelModel;

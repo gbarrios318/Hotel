@@ -238,8 +238,10 @@ equation
 <p>The purpose of the model is to compare the HVAC system design of a heat recovery system (HR) versus a conventional system that does not use heat recovery and evaluate both systems total energy consumption, peak energy and system stability. </p>
 <p>The models and controls are being implemented in Dymola using the Modelica Building Library which is an open source library for building environment simulation. </p>
 <p>The specific system being used for experimentation is a the Grand Beach Hotel in Miami Beach, Florida</p>
+<h4><span style=\"color:#008000\">Hotel Schematics</span></h4>
+<p><img src=\"modelica://HotelModel/../HotelInfo/HotelSchematic.PNG\"/></p>
 <h4><span style=\"color:#008000\">System Stages</span></h4>
-<p><br><img src=\"modelica://HotelModel/../../HotelData/Stage.PNG\"/></p>
+<p><br><img src=\"modelica://HotelModel/../HotelInfo/Stage.PNG\"/></p>
 <p><u><b></font><font style=\"color: #008000; \">Unit Conversions</font></b></u></p>
 <p>mCW_flow_nominal = 699 GPM [44.10 kg/s]</p>
 <p>dp_nominal = 4.335 psi [29889.8 Pa]</p>
@@ -280,7 +282,7 @@ equation
 <td><p>273.15+29.44 K</p></td>
 </tr>
 </table>
-<p><br><br><h5>Heat Pump System parameters</h5></p>
+<h5>Heat Pump System parameters</h5>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
 <td><h4>Name</h4></td>
 <td><h4>IP units</h4></td>
@@ -312,7 +314,7 @@ equation
 <td><p>273.15 + 20 K</p></td>
 </tr>
 </table>
-<p><br><br><br><b><font style=\"font-size: 7pt; \">Domestic Water System parameters</b></p>
+<p><br><br><br><br><b><font style=\"font-size: 7pt; \">Domestic Water System parameters</b></p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
 <td><h4>Name</h4></td>
 <td><h4>IP units</h4></td>
@@ -334,7 +336,7 @@ equation
 <td><p>0.05 m</p></td>
 </tr>
 <tr>
-<td><p>Q_flow_Dwnominal</p></td>
+<td><p>Q_flow_DWnominal</p></td>
 <td><p>2047284.9798 MBH</p></td>
 <td><p>600000 W</p></td>
 </tr>
@@ -344,5 +346,15 @@ equation
 <td><p>273.15 + 20 K</p></td>
 </tr>
 </table>
+<p><br><br><h4><span style=\"color:#008000\">Results</span></h4></p>
+<p><img src=\"modelica://HotelModel/../HotelInfo/Results0.PNG\"/></p>
+<p><br><img src=\"modelica://HotelModel/../HotelInfo/Results1.PNG\"/></p>
+<p><br><h5>Notes on the results:</h5></p>
+<p><br>	&GT; 549.82 hp [410 kW] </p>
+<p>	&GT; 556.52 hp [415 kW]</p>
+<p>	&GT; 23.78 gpm [1.5 kg/s]</p>
+<p>	&GT; 19.02 gpm [1.2 kg/s]</p>
+<p><br><h4><span style=\"color:#008000\">Conclusion</span></h4></p>
+<p><br>The system showed that during the greatest changes in system inputs, there was about 25&percnt; energy savings using a heat recovery system. </p>
 </html>"));
 end HotelModel;

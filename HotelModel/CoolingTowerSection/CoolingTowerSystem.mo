@@ -38,8 +38,6 @@ model CoolingTowerSystem
     "Entering air dry or wet bulb temperature" annotation (Placement(
         transformation(extent={{-128,-74},{-100,-46}}), iconTransformation(
           extent={{-124,-70},{-100,-46}})));
-  Modelica.Blocks.Math.Gain gain(k=mCW_flow_nominal)
-    annotation (Placement(transformation(extent={{-20,50},{0,70}})));
   CoolingTower coolingTower(
     redeclare package MediumCW = MediumCW,
     P_nominal=P_nominal,
@@ -71,15 +69,10 @@ model CoolingTowerSystem
     allowFlowReversal=true,
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal)
-    annotation (Placement(transformation(extent={{26,-10},{46,10}})));
+    annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
 equation
-  connect(coolingTower.port_a_CW, port_a) annotation (Line(
-      points={{-20,0},{-92,0},{-92,98},{0,98}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(cooTowCon.sta, sta) annotation (Line(
       points={{-88,60},{-120,60}},
       color={255,127,0},
@@ -105,18 +98,8 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(gain.y, Pum.m_flow_in) annotation (Line(
-      points={{1,60},{35.8,60},{35.8,12}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(Pum.P, multiplex2_1.u1[1]) annotation (Line(
-      points={{47,8},{60,8},{60,-34},{66,-34}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(cooTowCon.pum1, gain.u) annotation (Line(
-      points={{-65,60},{-22,60}},
+      points={{-65,8},{-64,8},{-64,-34},{66,-34}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -125,16 +108,25 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(Pum.port_b, port_b) annotation (Line(
-      points={{46,0},{94,0},{94,-100},{0,-100}},
+  connect(coolingTower.port_a_CW, Pum.port_b) annotation (Line(
+      points={{-20,0},{-66,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(coolingTower.port_b_CW, Pum.port_a) annotation (Line(
-      points={{0,0},{26,0}},
+  connect(Pum.port_a, port_a) annotation (Line(
+      points={{-86,0},{-92,0},{-92,98},{0,98}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(coolingTower.port_b_CW, port_b) annotation (Line(
+      points={{0,0},{40,0},{40,-100},{0,-100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(Pum.m_flow_in, coolingTower.On) annotation (Line(
+      points={{-76.2,12},{-76.2,30},{-60,30},{-60,4},{-22,4}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

@@ -34,12 +34,6 @@ model DomesticWaterControls "Domestic water with controls"
     k=1,
     Ti=60)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
-  Modelica.Blocks.Sources.Constant MassFloDom(k=MassFloDomIn)
-    "Mass flow going to domestic water"
-    annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-  Modelica.Blocks.Sources.Constant MassFloKit(k=MassFloKitIn)
-    "Mass flow of water going to the kitchen"
-    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Modelica.Blocks.Interfaces.RealOutput TBoi1 "Boiler temperature" annotation (
       Placement(transformation(extent={{100,-50},{120,-30}}),
         iconTransformation(extent={{100,-50},{120,-30}})));
@@ -52,6 +46,14 @@ model DomesticWaterControls "Domestic water with controls"
     dIns=dIns,
     Q_flow_DWnominal=Q_flow_DWnominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+  Modelica.Blocks.Interfaces.RealOutput Pum3_flow
+    annotation (Placement(transformation(extent={{100,-4},{120,16}})));
+  Modelica.Blocks.Interfaces.RealInput m_flow_in_kit
+    "Prescribed mass flow rate for kitchen pump"
+    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
+  Modelica.Blocks.Interfaces.RealInput m_flow_in_dom
+    "Prescribed mass flow rate for domestic water pump"
+    annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
 equation
   connect(TBoiSet.y, conPID.u_s) annotation (Line(
       points={{-69,-30},{-62,-30}},
@@ -72,16 +74,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(MassFloKit.y, domesticHotWaterSystem.m_flow_in_kit) annotation (Line(
-      points={{-59,30},{-40,30},{-40,3},{-12,3}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(MassFloDom.y, domesticHotWaterSystem.m_flow_in_dom) annotation (Line(
-      points={{-59,70},{-20,70},{-20,7},{-12,7}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(conPID.y, domesticHotWaterSystem.TBoiSet) annotation (Line(
       points={{-39,-30},{-20,-30},{-20,-4},{-12,-4}},
       color={0,0,127},
@@ -92,6 +84,21 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(domesticHotWaterSystem.Pum3_flow1, Pum3_flow) annotation (Line(
+      points={{11,5.6},{57.5,5.6},{57.5,6},{110,6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(domesticHotWaterSystem.m_flow_in_kit, m_flow_in_kit) annotation (Line(
+      points={{-12,3},{-60,3},{-60,40},{-120,40}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(domesticHotWaterSystem.m_flow_in_dom, m_flow_in_dom) annotation (Line(
+      points={{-12,7},{-40,7},{-40,80},{-120,80}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

@@ -30,7 +30,7 @@ replaceable package MediumHW =
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumDW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
+    annotation (Placement(transformation(extent={{90,30},{110,50}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
@@ -38,7 +38,7 @@ replaceable package MediumHW =
   Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
         MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,30},{110,50}})));
+    annotation (Placement(transformation(extent={{-110,-52},{-90,-32}})));
   HeatExchangeControls heatExchangeControls annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -50,6 +50,8 @@ replaceable package MediumHW =
         extent={{-12,12},{12,-12}},
         rotation=-90,
         origin={0,112})));
+  Modelica.Blocks.Interfaces.RealOutput BypValPos "Actual valve position"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 equation
 
   connect(Hex.port_a1, port_a1) annotation (Line(
@@ -83,12 +85,16 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(port_b1, Hex.port_b1) annotation (Line(
-      points={{-100,-40},{40,-40},{40,4},{10,4}},
+      points={{100,40},{40,40},{40,4},{10,4}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(port_b2, Hex.port_b2) annotation (Line(
-      points={{100,40},{20,40},{20,-34},{-40,-34},{-40,-4},{-10,-4}},
+      points={{-100,-42},{-60,-42},{-60,-28},{-60,-28},{-60,-4},{-10,-4}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(Hex.BypValPos, BypValPos) annotation (Line(
+      points={{11,7},{38,7},{38,60},{110,60}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(

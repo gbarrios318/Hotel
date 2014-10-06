@@ -22,17 +22,23 @@ replaceable package MediumHW =
     redeclare package MediumHW = MediumHW,
     mHW_flow_nominal=mHW_flow_nominal,
     dpHW_nominal=dpHW_nominal) "Hex with the valves included"
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={0,0})));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
+    annotation (Placement(transformation(extent={{90,30},{110,50}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumHW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-110,-52},{-90,-32}})));
   HeatExchangeControls heatExchangeControls annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -44,14 +50,8 @@ replaceable package MediumHW =
         extent={{-12,12},{12,-12}},
         rotation=-90,
         origin={0,112})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumHW)
-    "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,30},{110,50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
-        MediumDW)
-    "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
+  Modelica.Blocks.Interfaces.RealOutput BypValPos "Actual valve position"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 equation
 
   connect(Hex.port_a1, port_a1) annotation (Line(
@@ -75,7 +75,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatExchangeControls.ValCtrl2, Hex.ValCtrl2) annotation (Line(
-      points={{0,47},{0,11.2},{0,11.2}},
+      points={{0,47},{0,11.2}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -84,16 +84,18 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(Hex.port_b1, port_b1) annotation (Line(
-      points={{10,4},{60,4},{60,40},{100,40}},
+  connect(port_b1, Hex.port_b1) annotation (Line(
+      points={{100,40},{40,40},{40,4},{10,4}},
       color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(Hex.port_b2, port_b2) annotation (Line(
-      points={{-10,-4},{-60,-4},{-60,-40},{-100,-40}},
+      smooth=Smooth.None));
+  connect(port_b2, Hex.port_b2) annotation (Line(
+      points={{-100,-42},{-60,-42},{-60,-28},{-60,-28},{-60,-4},{-10,-4}},
       color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
+      smooth=Smooth.None));
+  connect(Hex.BypValPos, BypValPos) annotation (Line(
+      points={{11,7},{38,7},{38,60},{110,60}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),        graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

@@ -304,8 +304,8 @@ equation
       pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-200,-100},{200,100}})),
-    experiment(StopTime=1.0332e+006),
+          preserveAspectRatio=false)),
+    experiment(StopTime=86400),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>The purpose of the model is to compare the HVAC system design of a heat recovery system (HR) versus a conventional system that does not use heat recovery and evaluate both systems total energy consumption, peak energy and system stability. </p>

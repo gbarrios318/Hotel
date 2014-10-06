@@ -186,6 +186,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+<<<<<<< HEAD
   connect(senTem1.port_b, senTem.port_a) annotation (Line(
       points={{-46,20},{-20,20}},
       color={0,127,255},
@@ -205,6 +206,39 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+=======
+<<<<<<< HEAD
+  connect(val.port_a, pum.port_b) annotation (Line(
+      points={{20,-40},{20,-20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(pum.port_a, senTem.port_b) annotation (Line(
+      points={{20,0},{20,20},{0,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+=======
+  connect(senTem1.port_b, senTem.port_a) annotation (Line(
+      points={{-46,20},{-20,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(cooWatCon.Pum3_flow, Pum3_flow1) annotation (Line(
+      points={{-38,59},{-38,56},{110,56}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(cooWatCon.CooWat_mas_flow, DomColWat.m_flow_in) annotation (Line(
+      points={{-32,59},{-32,50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(DomPum.port_a, senTem.port_b) annotation (Line(
+      points={{50,20},{0,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
   connect(cooWatCon.DommasFlow, m_flow_in_dom) annotation (Line(
       points={{-32,82},{-32,92},{-50,92},{-50,70},{-120,70}},
       color={0,0,127},
@@ -221,6 +255,10 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+<<<<<<< HEAD
+=======
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

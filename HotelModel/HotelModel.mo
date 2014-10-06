@@ -117,6 +117,7 @@ model HotelModel
         origin={-52,10})));
   Buildings.Fluid.Storage.ExpansionVessel exp3(
     redeclare package Medium = MediumCW,
+<<<<<<< HEAD
     V_start=1)
               annotation (Placement(transformation(extent={{8,-18},{16,-10}})));
   Buildings.Fluid.Storage.ExpansionVessel exp1(
@@ -129,6 +130,20 @@ model HotelModel
   Buildings.Fluid.Storage.ExpansionVessel exp4(
     redeclare package Medium = MediumCW,
     V_start=1)
+=======
+    V_start=1)
+              annotation (Placement(transformation(extent={{8,-18},{16,-10}})));
+  Buildings.Fluid.Storage.ExpansionVessel exp1(
+    redeclare package Medium = MediumCW,
+    V_start=1)
+              annotation (Placement(transformation(extent={{42,-18},{50,-10}})));
+  Buildings.Fluid.Storage.ExpansionVessel exp2(
+    redeclare package Medium = MediumCW, V_start=10)
+              annotation (Placement(transformation(extent={{136,-6},{144,2}})));
+  Buildings.Fluid.Storage.ExpansionVessel exp4(
+    redeclare package Medium = MediumCW,
+    V_start=1)
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
               annotation (Placement(transformation(extent={{-94,48},{-86,56}})));
   Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
     fileName="Twb1.txt",
@@ -200,7 +215,15 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(domesticWaterControls.TBoi1, supCon.TBoiDW) annotation (Line(
+<<<<<<< HEAD
       points={{161,-34},{176,-34},{176,-78},{-176,-78},{-176,68},{-162,68}},
+=======
+<<<<<<< HEAD
+      points={{161,-34},{176,-34},{176,-78},{-176,-78},{-176,70},{-162,70}},
+=======
+      points={{161,-34},{176,-34},{176,-78},{-176,-78},{-176,68},{-162,68}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -220,27 +243,67 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_a2, heatPump.port_b1) annotation (Line(
+<<<<<<< HEAD
       points={{-46,20},{-46,40},{12,40},{12,14}},
+=======
+<<<<<<< HEAD
+      points={{-46,20},{-46,40},{12,40},{12,2}},
+=======
+      points={{-46,20},{-46,40},{12,40},{12,14}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_b2, heatPump.port_a1) annotation (Line(
+<<<<<<< HEAD
       points={{-46,0},{-46,-20},{12,-20},{12,2}},
+=======
+<<<<<<< HEAD
+      points={{-46,0},{-46,-20},{12.2,-20},{12.2,14}},
+=======
+      points={{-46,0},{-46,-20},{12,-20},{12,2}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(heatPump.port_a2, connectingLoop.port_b2) annotation (Line(
+<<<<<<< HEAD
       points={{32,14},{32,40},{80,40},{80,-8}},
+=======
+<<<<<<< HEAD
+      points={{32,2},{32,40},{80,40},{80,-8}},
+=======
+      points={{32,14},{32,40},{80,40},{80,-8}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(heatPump.port_b2, connectingLoop.port_a2) annotation (Line(
+<<<<<<< HEAD
       points={{32,2},{32,-20},{80,-20}},
+=======
+<<<<<<< HEAD
+      points={{32,14},{32,-20},{80,-20}},
+=======
+      points={{32,2},{32,-20},{80,-20}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(exp3.port_a, heatPump.port_a1) annotation (Line(
+<<<<<<< HEAD
       points={{12,-18},{12,2}},
+=======
+<<<<<<< HEAD
+      points={{12,-18},{12,-2},{12,14},{12.2,14}},
+=======
+      points={{12,-18},{12,2}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -260,12 +323,28 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(heatPump.Tboi, supCon.TBoiHP) annotation (Line(
+<<<<<<< HEAD
       points={{28,-3},{28,-66},{-172,-66},{-172,60},{-162,60}},
+=======
+<<<<<<< HEAD
+      points={{28,-3},{28,-66},{-172,-66},{-172,74},{-162,74}},
+=======
+      points={{28,-3},{28,-66},{-172,-66},{-172,60},{-162,60}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.THeaPum, supCon.THeatPump) annotation (Line(
+<<<<<<< HEAD
       points={{28,19},{28,92},{-172,92},{-172,84},{-162,84}},
+=======
+<<<<<<< HEAD
+      points={{28,19},{28,92},{-172,92},{-172,78},{-162,78}},
+=======
+      points={{28,19},{28,92},{-172,92},{-172,84},{-162,84}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -276,7 +355,15 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.m_flow1, supCon.masFloHotWat) annotation (Line(
+<<<<<<< HEAD
       points={{94,-3},{94,88},{-168,88},{-168,76},{-162,76}},
+=======
+<<<<<<< HEAD
+      points={{94,-3},{94,88},{-168,88},{-168,66},{-162,66}},
+=======
+      points={{94,-3},{94,88},{-168,88},{-168,76},{-162,76}},
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -302,7 +389,12 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+<<<<<<< HEAD
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+=======
+<<<<<<< HEAD
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}})),
     experiment(StopTime=1.0332e+006),
@@ -430,4 +522,14 @@ equation
 <p><br><h4><span style=\"color:#008000\">Conclusion</span></h4></p>
 <p><br>The system showed that during the greatest changes in system inputs, there was about 25&percnt; energy savings using a heat recovery system. </p>
 </html>"));
+<<<<<<< HEAD
+=======
+=======
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+            -100},{200,100}}), graphics), Icon(coordinateSystem(
+          preserveAspectRatio=false)),
+    experiment(StopTime=86400),
+    __Dymola_experimentSetupOutput);
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
+>>>>>>> 28ddfe9bf89f09511b58cb2305beefb8a58ad1a0
 end HotelModel;

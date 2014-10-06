@@ -18,8 +18,6 @@ replaceable package MediumDW =
    parameter Modelica.SIunits.Pressure dpDW_nominal
     "Nominal pressure difference";
   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
-
-  parameter Modelica.SIunits.Power Q_floSet "Heat flow into the heat pump";
   parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
   parameter Modelica.SIunits.Temperature HeaPumTRef
     "Reference tempearture of heat pump";
@@ -35,7 +33,6 @@ replaceable package MediumDW =
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumHW = MediumHW,
     dpHW_nominal=dpHW_nominal,
-    Q_floSet=Q_floSet,
     HeatPumpVol=HeatPumpVol,
     HeaPumTRef=HeaPumTRef,
     mHW_flow_nominal=mHW_flow_nominal) "Heat Pump"
@@ -56,22 +53,22 @@ replaceable package MediumDW =
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-108,-70},{-88,-50}})));
+    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
+    annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
   Modelica.Blocks.Interfaces.IntegerInput Sta
     "States controlled by the supervisory control"
     annotation (Placement(transformation(extent={{-120,10},{-100,30}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{90,50},{110,70}})));
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
         MediumDW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
-    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
+    annotation (Placement(transformation(extent={{90,50},{110,70}})));
   Modelica.Blocks.Interfaces.RealOutput Tboi
     "Temperature of the passing fluid in the boiler" annotation (Placement(
         transformation(
@@ -86,33 +83,14 @@ replaceable package MediumDW =
         origin={60,-110})));
   Modelica.Blocks.Interfaces.RealInput Q_flow1 "Heat Flow input "
     annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
+  Modelica.Blocks.Interfaces.RealOutput BypValPos "Actual valve position"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={28,110})));
 equation
-  connect(HeaPum.port_a1, port_a1) annotation (Line(
-      points={{-60.4,-60},{-98,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HeaPumBoi.port_b1, port_b1) annotation (Line(
-      points={{-80,60},{-100,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(HexVal.port_a1, HeaPum.port_b1) annotation (Line(
       points={{32,-20},{32,-60},{-20,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(port_b1, port_b1) annotation (Line(
-      points={{-100,60},{-100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(HexVal.port_a2, port_a2) annotation (Line(
-      points={{48,20},{48,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(HexVal.port_b1, port_b2) annotation (Line(
-      points={{48,-20},{48,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -142,16 +120,35 @@ equation
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(HeaPumBoi.port_a1, HexVal.port_b2) annotation (Line(
-      points={{-40,60},{32,60},{32,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(HeaPum.Q_flow1, Q_flow1) annotation (Line(
       points={{-64,-68},{-68,-68},{-68,-66},{-72,-66},{-72,-20},{-120,-20}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(HexVal.port_b1, HeaPumBoi.port_a1) annotation (Line(
+      points={{32,20},{32,60},{-40,60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(HexVal.port_b2, port_a2) annotation (Line(
+      points={{48.4,-20},{48,-20},{48,-60},{100,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_b2, HexVal.port_a2) annotation (Line(
+      points={{100,60},{48,60},{48,20}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(HeaPumBoi.port_b1, port_a1) annotation (Line(
+      points={{-80,60},{-100,60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(HeaPum.port_a1, port_b1) annotation (Line(
+      points={{-60.4,-60},{-100,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(HexVal.BypValPos, BypValPos) annotation (Line(
+      points={{28,22},{28,110}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

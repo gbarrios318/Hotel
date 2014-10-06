@@ -19,8 +19,9 @@ model SupervisoryControl
     "Hot water mass flow greater than this set value, Hex-2 will turn on";
   parameter Modelica.SIunits.Time timDel=10 "Time delay for changing stage";
   Modelica.Blocks.Interfaces.RealInput THeatPump annotation (Placement(
-        transformation(extent={{-140,40},{-100,80}}), iconTransformation(extent=
-           {{-140,40},{-100,80}})));
+        transformation(extent={{-140,100},{-100,140}}),
+                                                      iconTransformation(extent={{-140,
+            100},{-100,140}})));
   Modelica_StateGraph2.Step step1(
     nOut=1,
     nIn=1,
@@ -43,9 +44,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Step step5(
     use_activePort=true,
     nOut=2,
-    nIn=2,
-    initialStep=true)
-           annotation (Placement(transformation(extent={{-4,-46},{4,-38}})));
+    nIn=2) annotation (Placement(transformation(extent={{-4,-44},{4,-36}})));
   Modelica_StateGraph2.Step step6(
     use_activePort=true,
     nOut=2,
@@ -53,7 +52,9 @@ model SupervisoryControl
   Modelica_StateGraph2.Step step7(
     use_activePort=true,
     nIn=1,
-    nOut=1) annotation (Placement(transformation(extent={{-4,-124},{4,-116}})));
+    nOut=1,
+    initialStep=true)
+            annotation (Placement(transformation(extent={{-4,-124},{4,-116}})));
   Modelica_StateGraph2.Blocks.MathInteger.MultiSwitch multiSwitch1(nu=7, expr={
         1,2,3,4,5,6,7})
     annotation (Placement(transformation(extent={{50,-10},{90,10}})));
@@ -61,10 +62,11 @@ model SupervisoryControl
         transformation(extent={{100,-10},{120,10}}), iconTransformation(extent=
             {{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput TBoiHP
-    annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
+    annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
   Modelica.Blocks.Interfaces.RealInput TBoiDW annotation (Placement(
-        transformation(extent={{-140,-40},{-100,0}}), iconTransformation(extent=
-           {{-140,-40},{-100,0}})));
+        transformation(extent={{-140,-60},{-100,-20}}),
+                                                      iconTransformation(extent={{-140,
+            -60},{-100,-20}})));
   Modelica_StateGraph2.Transition T1(
     delayedTransition=true,
     waitTime=timDel,
@@ -88,13 +90,13 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T5(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiDW > T3Set + deaBan)
+    condition=TBoiHP > T3Set + deaBan or masFloHotWat < 0.4)
     annotation (Placement(transformation(extent={{-24,-64},{-16,-56}})));
   Modelica_StateGraph2.Transition T6(
     use_conditionPort=false,
     delayedTransition=true,
     waitTime=timDel,
-    condition=THeatPump - TBoiDW < dT)
+    condition=THeatPump - TBoiHP < dT)
     annotation (Placement(transformation(extent={{-24,-104},{-16,-96}})));
   Modelica_StateGraph2.Transition T7(
     delayedTransition=true,
@@ -129,23 +131,26 @@ model SupervisoryControl
         rotation=180,
         origin={20,-20})));
   Modelica_StateGraph2.Transition T11(
-    delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiDW < T3Set - deaBan)
-                                     annotation (Placement(transformation(
+    delayedTransition=false,
+    condition=TBoiHP < T3Set - deaBan and BypasValPos < 0.1 and masFloHotWat >
+        0.3)                         annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
-        origin={20,-60})));
+        origin={20,-58})));
   Modelica_StateGraph2.Transition T12(
-    delayedTransition=true,
     condition=masFloHotWat > masFloSet,
-    waitTime=timDel) annotation (Placement(transformation(
+    waitTime=timDel,
+    delayedTransition=false)
+                     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={20,-100})));
   Modelica.Blocks.Interfaces.RealInput masFloHotWat annotation (Placement(
-        transformation(extent={{-140,-80},{-100,-40}}), iconTransformation(
-          extent={{-140,-80},{-100,-40}})));
+        transformation(extent={{-140,20},{-100,60}}),   iconTransformation(
+          extent={{-140,20},{-100,60}})));
+  Modelica.Blocks.Interfaces.RealInput BypasValPos
+    annotation (Placement(transformation(extent={{140,-100},{100,-60}})));
 equation
   connect(multiSwitch1.y, y) annotation (Line(
       points={{91,0},{110,0}},
@@ -168,7 +173,7 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(multiSwitch1.u[5], step5.activePort) annotation (Line(
-      points={{50,-0.857143},{40,-0.857143},{40,-42},{4.72,-42}},
+      points={{50,-0.857143},{40,-0.857143},{40,-40},{4.72,-40}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(multiSwitch1.u[6], step6.activePort) annotation (Line(
@@ -196,7 +201,7 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(step5.outPort[1], T5.inPort) annotation (Line(
-      points={{-1,-46.6},{-1,-50},{-20,-50},{-20,-56}},
+      points={{-1,-44.6},{-1,-50},{-20,-50},{-20,-56}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(step6.outPort[1], T6.inPort) annotation (Line(
@@ -216,7 +221,7 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(T4.outPort, step5.inPort[1]) annotation (Line(
-      points={{-20,-25},{-20,-34},{-1,-34},{-1,-38}},
+      points={{-20,-25},{-20,-34},{-1,-34},{-1,-36}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(T5.outPort, step6.inPort[1]) annotation (Line(
@@ -236,11 +241,11 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(T11.inPort, step6.outPort[2]) annotation (Line(
-      points={{20,-64},{20,-68},{30,-68},{30,-88},{1,-88},{1,-84.6}},
+      points={{20,-62},{20,-68},{30,-68},{30,-88},{1,-88},{1,-84.6}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(T11.outPort, step5.inPort[2]) annotation (Line(
-      points={{20,-55},{20,-34},{1,-34},{1,-38}},
+      points={{20,-53},{20,-34},{1,-34},{1,-36}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(T7.outPort, step1.inPort[1]) annotation (Line(
@@ -248,7 +253,7 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(T10.inPort, step5.outPort[2]) annotation (Line(
-      points={{20,-24},{20,-28},{30,-28},{30,-50},{1,-50},{1,-46.6}},
+      points={{20,-24},{20,-28},{30,-28},{30,-50},{1,-50},{1,-44.6}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(T9.inPort, step4.outPort[2]) annotation (Line(

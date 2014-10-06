@@ -7,7 +7,6 @@ replaceable package MediumHW =
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dpHW_nominal
     "Nominal pressure difference";
-  parameter Real Q_floSet "Heat flow into the heat pump";
   parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
   parameter Modelica.SIunits.Temperature HeaPumTRef
     "Reference tempearture of heat pump";

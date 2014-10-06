@@ -68,21 +68,13 @@ model DomesticHotWaterSystem
     dp_nominal=dpDW_nominal,
     Q_flow_nominal=Q_flow_DWnominal) "Boiler for the domestic hot water system"
     annotation (Placement(transformation(extent={{-20,-90},{-40,-70}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear val(
-    redeclare package Medium = MediumDW,
-    m_flow_nominal=mDW_flow_nominal,
-    dpValve_nominal=dpDW_nominal)                   annotation (Placement(
-        transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={20,-50})));
   Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
         MediumDW, m_flow_nominal=mDW_flow_nominal) annotation (Placement(
         transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={20,-10})));
-  Modelica.Blocks.Sources.Constant const1(k=1)
+  Modelica.Blocks.Sources.Constant const1(k=0.21)
     annotation (Placement(transformation(extent={{-36,-16},{-24,-4}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumDW)
@@ -92,10 +84,6 @@ model DomesticHotWaterSystem
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
-        MediumDW)
-    "flow rate sensor checking the mass flow rate going to the domestic hot water"
-    annotation (Placement(transformation(extent={{28,14},{40,26}})));
   Control.CoolingWaterControl cooWatCon(TDomHotWatSet=288.15, kPCon=1)
                                         annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -111,6 +99,12 @@ model DomesticHotWaterSystem
   Modelica.Blocks.Interfaces.RealInput m_flow_in_dom
     "Prescribed mass flow rate for domestic water pump"
     annotation (Placement(transformation(extent={{-140,50},{-100,90}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTem1(
+                                                    redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal)
+    annotation (Placement(transformation(extent={{-66,10},{-46,30}})));
+  Modelica.Blocks.Interfaces.RealOutput Pum3_flow1
+    annotation (Placement(transformation(extent={{100,46},{120,66}})));
 equation
   connect(DomColWat.ports[1], senTem.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
@@ -127,32 +121,8 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(val.y, const1.y) annotation (Line(
-      points={{8,-50},{-10,-50},{-10,-10},{-23.4,-10}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(DomPum.port_a, senMasFlo.port_b) annotation (Line(
-      points={{50,20},{40,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(senMasFlo.port_a, senTem.port_b) annotation (Line(
-      points={{28,20},{0,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(DomColWat.m_flow_in, cooWatCon.y) annotation (Line(
-      points={{-32,50},{-32,59}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(senTem.T, cooWatCon.Tem) annotation (Line(
-      points={{-10,31},{-10,90},{-28,90},{-28,82}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(senMasFlo.m_flow, cooWatCon.masFlow) annotation (Line(
-      points={{34,26.6},{34,92},{-36,92},{-36,82}},
+      points={{-10,31},{-10,90},{-26,90},{-26,82}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -201,21 +171,22 @@ equation
       smooth=Smooth.None,
       arrow={Arrow.Filled,Arrow.None},
       thickness=1));
-  connect(KitPum.port_a, senTem.port_a) annotation (Line(
-      points={{-70,40},{-70,20},{-20,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(port_a1, tan.port_b) annotation (Line(
       points={{-100,0},{-70,0},{-70,-20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(val.port_b, port_a2) annotation (Line(
-      points={{20,-60},{20,-80},{0,-80},{0,-100}},
+  connect(pum.port_a, senTem.port_b) annotation (Line(
+      points={{20,0},{20,20},{0,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(KitPum.port_a, senTem1.port_a) annotation (Line(
+      points={{-70,40},{-70,20},{-66,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+<<<<<<< HEAD
   connect(val.port_a, pum.port_b) annotation (Line(
       points={{20,-40},{20,-20}},
       color={0,127,255},
@@ -226,6 +197,43 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+=======
+  connect(senTem1.port_b, senTem.port_a) annotation (Line(
+      points={{-46,20},{-20,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(cooWatCon.Pum3_flow, Pum3_flow1) annotation (Line(
+      points={{-38,59},{-38,56},{110,56}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(cooWatCon.CooWat_mas_flow, DomColWat.m_flow_in) annotation (Line(
+      points={{-32,59},{-32,50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(DomPum.port_a, senTem.port_b) annotation (Line(
+      points={{50,20},{0,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(cooWatCon.DommasFlow, m_flow_in_dom) annotation (Line(
+      points={{-32,82},{-32,92},{-50,92},{-50,70},{-120,70}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(cooWatCon.KitmasFlow, m_flow_in_kit) annotation (Line(
+      points={{-38,82},{-38,86},{-54,86},{-54,64},{-88,64},{-88,30},{-120,30}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+
+  connect(pum.port_b, port_a2) annotation (Line(
+      points={{20,-20},{20,-80},{0,-80},{0,-100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+>>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

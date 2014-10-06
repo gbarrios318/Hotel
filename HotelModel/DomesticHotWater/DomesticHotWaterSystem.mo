@@ -186,18 +186,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-<<<<<<< HEAD
-  connect(val.port_a, pum.port_b) annotation (Line(
-      points={{20,-40},{20,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(pum.port_a, senTem.port_b) annotation (Line(
-      points={{20,0},{20,20},{0,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-=======
   connect(senTem1.port_b, senTem.port_a) annotation (Line(
       points={{-46,20},{-20,20}},
       color={0,127,255},
@@ -233,7 +221,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
->>>>>>> 3865189e5634e33bda839ef44016725b7e587bbd
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

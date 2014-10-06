@@ -306,5 +306,128 @@ equation
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false)),
     experiment(StopTime=86400),
-    __Dymola_experimentSetupOutput);
+    __Dymola_experimentSetupOutput,
+    Documentation(info="<html>
+<p>The purpose of the model is to compare the HVAC system design of a heat recovery system (HR) versus a conventional system that does not use heat recovery and evaluate both systems total energy consumption, peak energy and system stability. </p>
+<p>The models and controls are being implemented in Dymola using the Modelica Building Library which is an open source library for building environment simulation. </p>
+<p>The specific system being used for experimentation is a the Grand Beach Hotel in Miami Beach, Florida</p>
+<h4><span style=\"color:#008000\">Hotel Schematics</span></h4>
+<p><img src=\"modelica://HotelModel/../HotelInfo/HotelSchematic.PNG\"/></p>
+<h4><span style=\"color:#008000\">System Stages</span></h4>
+<p><br><img src=\"modelica://HotelModel/../HotelInfo/Stage.PNG\"/></p>
+<p><u><b></font><font style=\"color: #008000; \">Unit Conversions</font></b></u></p>
+<p>mCW_flow_nominal = 699 GPM [44.10 kg/s]</p>
+<p>dp_nominal = 4.335 psi [29889.8 Pa]</p>
+<p>mDW_flow_nominal = 25.68 GPM [1.62 kg/s]</p>
+<p>dpDW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
+<p>mHW_flow_nominal = 699 GPM [44.10 kg/s]</p>
+<p>dpHW_flow_nominal = 4.335 psi [29889.8 Pa]</p>
+<p><i><b><font style=\"color: #008000; \">Unit Conversion in subsystem models</font></b></i></p>
+<h5>Cooling Tower System parameters</h5>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>P_nominal&nbsp;</p></td>
+<td><p>2.95 horsepower&nbsp;</p></td>
+<td><p>2.2kW</p></td>
+</tr>
+<tr>
+<td><p>dTC_nominal</p></td>
+<td><p>10&deg; F</p></td>
+<td><p>5.56&deg; C</p></td>
+</tr>
+<tr>
+<td><p>dTApp_nominal</p></td>
+<td><p>3&deg; F</p></td>
+<td><p>3.89&deg; C</p></td>
+</tr>
+<tr>
+<td><p>TWetBul_nominal</p></td>
+<td><p>79&deg; F</p></td>
+<td><p>273.15 + 25.55 K</p></td>
+</tr>
+<tr>
+<td><p>Tset</p></td>
+<td><p>85&deg; F</p></td>
+<td><p>273.15+29.44 K</p></td>
+</tr>
+</table>
+<h5>Heat Pump System parameters</h5>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>Q_flow_nominal</p></td>
+<td><p>3495 MBH</p></td>
+<td><p>1024283.3902519 W</p></td>
+</tr>
+<tr>
+<td><p>Q_floSet</p></td>
+<td><p>2796 MBH&nbsp;</p></td>
+<td><p>&nbsp;819426.71220153 W</p></td>
+</tr>
+<tr>
+<td><p>HeatPumpVol</p></td>
+<td><p>6865.9 gal</p></td>
+<td><p>&nbsp;25.99029318 m^3</p></td>
+</tr>
+<tr>
+<td><p>HeatPumTRef</p></td>
+<td><p>72&deg; F</p></td>
+<td><p>273.15 + 22.22 K</p></td>
+</tr>
+<tr>
+<td><p>TSetBoiIn</p></td>
+<td><p>68&deg; F</p></td>
+<td><p>273.15 + 20 K</p></td>
+</tr>
+</table>
+<p><br><br><br><br><b><font style=\"font-size: 7pt; \">Domestic Water System parameters</b></p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><h4>Name</h4></td>
+<td><h4>IP units</h4></td>
+<td><h4>SI units</h4></td>
+</tr>
+<tr>
+<td><p>VTan</p></td>
+<td><p>792.516 gal</p></td>
+<td><p>3 m^3</p></td>
+</tr>
+<tr>
+<td><p>hTan</p></td>
+<td><p>9.84252 ft</p></td>
+<td><p>3 m</p></td>
+</tr>
+<tr>
+<td><p>dIns</p></td>
+<td><p>1.97 in&nbsp;</p></td>
+<td><p>0.05 m</p></td>
+</tr>
+<tr>
+<td><p>Q_flow_DWnominal</p></td>
+<td><p>2047284.9798 MBH</p></td>
+<td><p>600000 W</p></td>
+</tr>
+<tr>
+<td><p>TBoiSetIn</p></td>
+<td><p>68&deg; F</p></td>
+<td><p>273.15 + 20 K</p></td>
+</tr>
+</table>
+<p><br><br><h4><span style=\"color:#008000\">Results</span></h4></p>
+<p><img src=\"modelica://HotelModel/../HotelInfo/Results0.PNG\"/></p>
+<p><br><img src=\"modelica://HotelModel/../HotelInfo/Results1.PNG\"/></p>
+<p><br><h5>Notes on the results:</h5></p>
+<p><br>        &GT; 549.82 hp [410 kW] </p>
+<p>        &GT; 556.52 hp [415 kW]</p>
+<p>        &GT; 23.78 gpm [1.5 kg/s]</p>
+<p>        &GT; 19.02 gpm [1.2 kg/s]</p>
+<p><br><h4><span style=\"color:#008000\">Conclusion</span></h4></p>
+<p><br>The system showed that during the greatest changes in system inputs, there was about 25&percnt; energy savings using a heat recovery system. </p>
+</html>"));
 end HotelModel;

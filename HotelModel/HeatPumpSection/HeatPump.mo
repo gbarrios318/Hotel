@@ -27,8 +27,9 @@ replaceable package MediumDW =
     dpHW_nominal=dpHW_nominal,
     Q_flow_nominal=Q_flow_nominal,
     TSetBoiIn=TSetBoiIn,
-    mHW_flow_nominal=mHW_flow_nominal)
-    "Boiler corresponding to the heat pump section"
+    mHW_flow_nominal=mHW_flow_nominal,
+    bolCon(conPID(controllerType=Modelica.Blocks.Types.SimpleController.PI, Ti=
+            60))) "Boiler corresponding to the heat pump section"
     annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumHW = MediumHW,

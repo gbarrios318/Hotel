@@ -48,8 +48,8 @@ model DomesticHotWaterSystem
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={60,20})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium =
-        MediumDW, m_flow_nominal=mDW_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemDomHotWat(redeclare package
+      Medium = MediumDW, m_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
   Buildings.Fluid.Storage.StratifiedEnhanced tan(
     redeclare package Medium = MediumDW,
@@ -106,7 +106,7 @@ model DomesticHotWaterSystem
   Modelica.Blocks.Interfaces.RealOutput Pum3_flow1
     annotation (Placement(transformation(extent={{100,46},{120,66}})));
 equation
-  connect(DomColWat.ports[1], senTem.port_a) annotation (Line(
+  connect(DomColWat.ports[1], senTemDomHotWat.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
       color={0,127,255},
       smooth=Smooth.None,
@@ -121,7 +121,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senTem.T, cooWatCon.Tem) annotation (Line(
+  connect(senTemDomHotWat.T, cooWatCon.Tem) annotation (Line(
       points={{-10,31},{-10,90},{-26,90},{-26,82}},
       color={0,0,127},
       smooth=Smooth.None,
@@ -176,7 +176,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(pum.port_a, senTem.port_b) annotation (Line(
+  connect(pum.port_a, senTemDomHotWat.port_b) annotation (Line(
       points={{20,0},{20,20},{0,20}},
       color={0,127,255},
       smooth=Smooth.None,
@@ -186,7 +186,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senTem1.port_b, senTem.port_a) annotation (Line(
+  connect(senTem1.port_b, senTemDomHotWat.port_a) annotation (Line(
       points={{-46,20},{-20,20}},
       color={0,127,255},
       smooth=Smooth.None,
@@ -200,7 +200,7 @@ equation
       points={{-32,59},{-32,50}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(DomPum.port_a, senTem.port_b) annotation (Line(
+  connect(DomPum.port_a, senTemDomHotWat.port_b) annotation (Line(
       points={{50,20},{0,20}},
       color={0,127,255},
       smooth=Smooth.None,

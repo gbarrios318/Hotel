@@ -116,15 +116,15 @@ model HotelModel_heating
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-52,10})));
+        origin={-50,10})));
   Buildings.Fluid.Storage.ExpansionVessel exp3(
     redeclare package Medium = MediumCW,
     V_start=1)
-              annotation (Placement(transformation(extent={{-14,-18},{-6,-10}})));
+              annotation (Placement(transformation(extent={{-24,-18},{-16,-10}})));
   Buildings.Fluid.Storage.ExpansionVessel exp1(
     redeclare package Medium = MediumCW,
     V_start=1)
-              annotation (Placement(transformation(extent={{42,-18},{50,-10}})));
+              annotation (Placement(transformation(extent={{56,-18},{64,-10}})));
   Buildings.Fluid.Storage.ExpansionVessel exp4(
     redeclare package Medium = MediumCW,
     V_start=1)
@@ -212,22 +212,22 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(coolingTowerSystem.port_a, hex.port_b1) annotation (Line(
-      points={{-90,35.8},{-90,40},{-58,40},{-58,20}},
+      points={{-90,35.8},{-90,40},{-56,40},{-56,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(coolingTowerSystem.port_b, hex.port_a1) annotation (Line(
-      points={{-90,16},{-90,-20},{-58,-20},{-58,0}},
+      points={{-90,16},{-90,-20},{-56,-20},{-56,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_a2, heatPump.port_b1) annotation (Line(
-      points={{-46,20},{-46,40},{12,40},{12,14}},
+      points={{-44,20},{-44,40},{12,40},{12,14}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_b2, heatPump.port_a1) annotation (Line(
-      points={{-46,0},{-46,-20},{12,-20},{12,2}},
+      points={{-44,0},{-44,-20},{12,-20},{12,2}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -242,12 +242,12 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(exp1.port_a, connectingLoop.port_a2) annotation (Line(
-      points={{46,-18},{46,-20},{80,-20}},
+      points={{60,-18},{60,-20},{80,-20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(exp4.port_a, hex.port_b1) annotation (Line(
-      points={{-90,48},{-90,40},{-58,40},{-58,20}},
+      points={{-90,48},{-90,40},{-56,40},{-56,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -290,7 +290,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(exp3.port_a, heatPump.port_a1) annotation (Line(
-      points={{-10,-18},{-10,-20},{12,-20},{12,2}},
+      points={{-20,-18},{-20,-20},{12,-20},{12,2}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -308,8 +308,8 @@ equation
   annotation (__Dymola_Commands(file=
           "modelica://HotelModel/Resources/Scripts/HotelModel_heating.mos"
         "Simulate and plot"),
-        Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -100},{200,100}}), graphics), Icon(coordinateSystem(
+        Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},
+            {200,100}}),       graphics), Icon(coordinateSystem(
           preserveAspectRatio=false)),
     experiment(StopTime=86400),
     __Dymola_experimentSetupOutput,

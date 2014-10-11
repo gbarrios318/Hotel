@@ -4,7 +4,7 @@ from pylab import *
 import numpy as np
 
 rcParams['legend.loc'] = 'best'
-r=Reader('HotelModel.mat','dymola')
+r=Reader('HotelModel_Annual.mat','dymola')
 (t1,y1)=r.values('realExpression.y')
 (t2,y2)=r.values('supCon.y')
 

@@ -1,4 +1,4 @@
-within ChillerPlantSystem.BaseClasses.Control;
+within HotelModel.Control;
 block LimPID
   "P, PI, PD, and PID controller with limited output, anti-windup compensation and setpoint weighting"
   extends Modelica.Blocks.Continuous.LimPID(

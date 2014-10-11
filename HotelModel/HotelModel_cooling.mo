@@ -306,8 +306,8 @@ equation
   annotation (__Dymola_Commands(file=
           "modelica://HotelModel/Resources/Scripts/HotelModel_cooling.mos"
         "Simulate and plot"),
-  Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -100},{200,100}}), graphics), Icon(coordinateSystem(
+  Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},{200,
+            100}}),            graphics), Icon(coordinateSystem(
           preserveAspectRatio=false)),
     experiment(StopTime=86400),
     __Dymola_experimentSetupOutput,

@@ -6,7 +6,7 @@ model Load
   Modelica.Blocks.Interfaces.RealOutput Loa
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 equation
-  Loa=max((TDryBul-21-273.15)/5.5*0.5*410000,-380000)+0.5*410000
+  Loa=max((TDryBul-21-273.15)/5.5*0.5*410000,-350000)+0.5*410000
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},

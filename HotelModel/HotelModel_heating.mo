@@ -129,16 +129,6 @@ model HotelModel_heating
     redeclare package Medium = MediumCW,
     V_start=1)
               annotation (Placement(transformation(extent={{-94,48},{-86,56}})));
-  Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
-    fileName="Twb1.txt",
-    tableName="table1",
-    tableOnFile=false,
-    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
-    table=[0,0.0; 3600,0.0; 7200,0.0; 10800,0.0; 14400,0.0; 18000,1.5; 21600,
-        1.5; 25200,1.5; 28800,0; 32400,0.0; 36000,0.0; 39600,0.0; 43200,0.0;
-        46800,0.0; 50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5;
-        72000,0.0; 75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0])
-    annotation (Placement(transformation(extent={{50,-44},{58,-36}})));
   Modelica.Blocks.Sources.CombiTimeTable KitHotWatDem(
     fileName="Twb1.txt",
     tableName="table1",
@@ -173,6 +163,16 @@ model HotelModel_heating
   Buildings.Fluid.Storage.ExpansionVessel exp2(
     redeclare package Medium = MediumCW, V_start=10)
               annotation (Placement(transformation(extent={{136,-2},{144,6}})));
+  Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
+    fileName="Twb1.txt",
+    tableName="table1",
+    tableOnFile=false,
+    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+    table=[0,0.0; 3600,0.0; 7200,0.0; 10800,0.0; 14400,0.0; 18000,0; 21600,0;
+        25200,0; 28800,0; 32400,1.5; 36000,1.5; 39600,1.5; 43200,0.0; 46800,0.0;
+        50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5; 72000,0.0;
+        75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0])
+    annotation (Placement(transformation(extent={{50,-44},{58,-36}})));
 equation
   connect(connectingLoop.port_a1, domesticWaterControls.port_a1) annotation (
       Line(
@@ -267,12 +267,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(GueRooDomWatDem.y[1], domesticWaterControls.m_flow_in_dom)
-    annotation (Line(
-      points={{58.4,-40},{120,-40},{120,-22},{138,-22}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(KitHotWatDem.y[1], domesticWaterControls.m_flow_in_kit) annotation (
       Line(
       points={{58.4,-56},{126,-56},{126,-26},{138,-26}},
@@ -303,6 +297,12 @@ equation
   connect(exp2.port_a, domesticWaterControls.port_a1) annotation (Line(
       points={{140,-2},{140,-30}},
       color={0,127,255},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(GueRooDomWatDem.y[1], domesticWaterControls.m_flow_in_dom)
+    annotation (Line(
+      points={{58.4,-40},{98,-40},{98,-22},{138,-22}},
+      color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   annotation (__Dymola_Commands(file=

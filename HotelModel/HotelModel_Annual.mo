@@ -123,17 +123,6 @@ model HotelModel_annual
     redeclare package Medium = MediumCW,
     V_start=1)
               annotation (Placement(transformation(extent={{-94,48},{-86,56}})));
-  Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
-    fileName="Twb1.txt",
-    tableName="table1",
-    tableOnFile=false,
-    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
-    table=[0,0.0; 3600,0.0; 7200,0.0; 10800,0.0; 14400,0.0; 18000,1.5; 21600,
-        1.5; 25200,1.5; 28800,0; 32400,0.0; 36000,0.0; 39600,0.0; 43200,0.0;
-        46800,0.0; 50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5;
-        72000,0.0; 75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0],
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
-    annotation (Placement(transformation(extent={{50,-44},{58,-36}})));
   Modelica.Blocks.Sources.CombiTimeTable KitHotWatDem(
     fileName="Twb1.txt",
     tableName="table1",
@@ -146,26 +135,37 @@ model HotelModel_annual
         86400,0.21],
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
     annotation (Placement(transformation(extent={{50,-60},{58,-52}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=max((connectingLoop.senTem.T
-         - 273.15 - 20)*(connectingLoop.MasFloRatCloWat.m_flow)*4.2*(1 -
-        heatPump.BypValPos)/((connectingLoop.MasFloRatCloWat.m_flow)*(60 - 20)*
-        4.2 + 0.00001), 0))
+  Modelica.Blocks.Sources.RealExpression realExpression(y=if supCon.y > 4 then
+        max((connectingLoop.senTem.T - 273.15 - 20)*(connectingLoop.MasFloRatCloWat.m_flow)
+        *4.2*(1 - heatPump.BypValPos)/((connectingLoop.MasFloRatCloWat.m_flow)*
+        (60 - 20)*4.2 + 0.00001), 0) else 0)
     annotation (Placement(transformation(extent={{120,50},{140,70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=max((connectingLoop.senTem.T
-         - 273.15 - 20)*(connectingLoop.MasFloRatCloWat.m_flow)*4.2*(1 -
-        heatPump.BypValPos), 0))
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=if supCon.y > 4
+         then max((connectingLoop.senTem.T - 273.15 - 20)*(connectingLoop.MasFloRatCloWat.m_flow)
+        *4.2*(1 - heatPump.BypValPos), 0) else 0)
     annotation (Placement(transformation(extent={{120,70},{140,90}})));
   Buildings.Fluid.Storage.ExpansionVessel exp2(
     redeclare package Medium = MediumCW, V_start=10)
               annotation (Placement(transformation(extent={{136,-2},{144,6}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaData(filNam=
-        "modelica://Buildings/Resources/weatherdata/USA_FL_Miami.Intl.AP.722020_TMY.mos")
+        "modelica://HotelModel/Resources/weatherdata/USA_FL_Miami.Intl.AP.722020_TMY.mos")
     annotation (Placement(transformation(extent={{-166,16},{-156,24}})));
   Buildings.BoundaryConditions.WeatherData.Bus
                                      weaBus
     annotation (Placement(transformation(extent={{-150,10},{-130,30}})));
   Load.Load Loa
     annotation (Placement(transformation(extent={{-66,-44},{-58,-34}})));
+  Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
+    fileName="Twb1.txt",
+    tableName="table1",
+    tableOnFile=false,
+    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+    table=[0,0.0; 3600,0.0; 7200,0.0; 10800,0.0; 14400,0.0; 18000,0; 21600,0;
+        25200,0; 28800,0; 32400,1.5; 36000,1.5; 39600,1.5; 43200,0.0; 46800,0.0;
+        50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5; 72000,0.0;
+        75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0],
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+    annotation (Placement(transformation(extent={{50,-44},{58,-36}})));
 equation
   connect(connectingLoop.port_a1, domesticWaterControls.port_a1) annotation (
       Line(
@@ -255,12 +255,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(GueRooDomWatDem.y[1], domesticWaterControls.m_flow_in_dom)
-    annotation (Line(
-      points={{58.4,-40},{120,-40},{120,-22},{138,-22}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(KitHotWatDem.y[1], domesticWaterControls.m_flow_in_kit) annotation (
       Line(
       points={{58.4,-56},{126,-56},{126,-26},{138,-26}},
@@ -316,7 +310,13 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(Loa.Loa, heatPump.Q_flow1) annotation (Line(
-      points={{-57.6,-39},{2,-39},{2,10},{10,10}},
+      points={{-57.6,-39},{0,-39},{0,10},{10,10}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(domesticWaterControls.m_flow_in_dom, GueRooDomWatDem.y[1])
+    annotation (Line(
+      points={{138,-22},{108,-22},{108,-40},{58.4,-40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

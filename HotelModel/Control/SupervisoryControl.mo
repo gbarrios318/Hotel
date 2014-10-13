@@ -70,7 +70,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T1(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiHP > (TBoi1Set - 0.5))
+    condition=TBoiDW >= TBoi1Set)
     annotation (Placement(transformation(extent={{-24,96},{-16,104}})));
   Modelica_StateGraph2.Transition T2(
     delayedTransition=true,
@@ -90,7 +90,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T5(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiHP > T3Set + deaBan or masFloHotWat < 0.4)
+    condition=TBoiHP > T3Set + deaBan)
     annotation (Placement(transformation(extent={{-24,-64},{-16,-56}})));
   Modelica_StateGraph2.Transition T6(
     use_conditionPort=false,
@@ -101,7 +101,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T7(
     delayedTransition=true,
     waitTime=timDel,
-    condition=TBoiHP < (TBoi1Set - deaBan))
+    condition=TBoiDW < (TBoi1Set - deaBan))
                                            annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,
@@ -109,7 +109,7 @@ model SupervisoryControl
   Modelica_StateGraph2.Transition T8(
     delayedTransition=true,
     waitTime=timDel,
-    condition=THeatPump < (TBoi2Set - deaBan) or TBoiHP < (TBoi1Set - deaBan))
+    condition=TBoiDW < (TBoi1Set - deaBan) or THeatPump < T1Set - deaBan)
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,

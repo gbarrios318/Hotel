@@ -61,7 +61,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[1], product1.u1) annotation (Line(
-      points={{11,74},{46,74},{46,48},{58,48}},
+      points={{11,73.3333},{46,73.3333},{46,48},{58,48}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[2], val4) annotation (Line(
@@ -69,7 +69,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[3], val5) annotation (Line(
-      points={{11,74},{46,74},{46,-40},{110,-40}},
+      points={{11,74.6667},{46,74.6667},{46,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (defaultComponentName="boi2Con", Diagram(coordinateSystem(

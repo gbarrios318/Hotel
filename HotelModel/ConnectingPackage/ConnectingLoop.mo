@@ -12,7 +12,7 @@ model ConnectingLoop
       = MediumDW, m_flow_nominal=mDW_flow_nominal,
     dpValve_nominal=dpDW_nominal,
     riseTime=60)
-    annotation (Placement(transformation(extent={{60,50},{40,70}})));
+    annotation (Placement(transformation(extent={{90,50},{70,70}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val2(redeclare package Medium
       = MediumDW, m_flow_nominal=mDW_flow_nominal,
     dpValve_nominal=dpDW_nominal,
@@ -76,8 +76,6 @@ model ConnectingLoop
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,110})));
-  inner Modelica.Fluid.System system
-    annotation (Placement(transformation(extent={{80,80},{100,100}})));
   Modelica.Blocks.Interfaces.RealInput m_flow_in "Prescribed mass flow rate"
     annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
   Buildings.Fluid.Movers.FlowMachine_m_flow pum1(
@@ -89,9 +87,19 @@ model ConnectingLoop
   Buildings.Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium =
         MediumDW, m_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-2,-70},{18,-50}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=if val4.y > 0 then
-        m_flow_in else 0)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=realExpression1.y*
+        val4.y)
     annotation (Placement(transformation(extent={{-68,-52},{-48,-32}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=if Hex2ConGro2.pum3_switch
+         > 3 then m_flow_in else 0.21)
+    annotation (Placement(transformation(extent={{-68,-86},{-48,-66}})));
+  Buildings.Fluid.Movers.FlowMachine_m_flow pum2(
+                                                redeclare package Medium =
+        MediumDW, m_flow_nominal=mDW_flow_nominal,
+    motorCooledByFluid=false)
+    annotation (Placement(transformation(extent={{60,70},{40,50}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=val1.y*0.21)
+    annotation (Placement(transformation(extent={{20,22},{40,42}})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},
@@ -104,12 +112,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(val1.port_a, port_a1) annotation (Line(
-      points={{60,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val1.port_b, val2.port_b) annotation (Line(
-      points={{40,60},{0,60},{0,40}},
+      points={{90,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -150,7 +153,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(Hex2ConGro2.MV1, val1.y) annotation (Line(
-      points={{-32,71},{-32,64},{20,64},{20,80},{50,80},{50,72}},
+      points={{-32,71},{-32,64},{20,64},{20,80},{80,80},{80,72}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -200,7 +203,23 @@ equation
   connect(realExpression.y, pum.m_flow_in) annotation (Line(
       points={{-47,-42},{-30.2,-42},{-30.2,-48}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(val1.port_b, pum2.port_a) annotation (Line(
+      points={{70,60},{60,60}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(pum2.port_b, val2.port_b) annotation (Line(
+      points={{40,60},{0,60},{0,40}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(realExpression2.y, pum2.m_flow_in) annotation (Line(
+      points={{41,32},{50.2,32},{50.2,48}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

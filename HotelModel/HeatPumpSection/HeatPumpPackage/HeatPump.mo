@@ -20,7 +20,7 @@ replaceable package MediumHW =
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow
     prescribedHeatFlow(T_ref=HeaPumTRef)
     "Prescribed Heat flow of the Heat Pump"
-    annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
+    annotation (Placement(transformation(extent={{-66,-50},{-46,-30}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow "Heat Flow input "
     annotation (Placement(transformation(extent={{-124,-52},{-100,-28}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort HeaPumTemp(redeclare package
@@ -48,14 +48,12 @@ replaceable package MediumHW =
     annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
   Modelica.Blocks.Sources.Constant const(k=mHW_flow_nominal)
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y=if Q_flow > 0 then
+        Q_flow*(1 + 1/4) else Q_flow*(1 - 1/3))
+    annotation (Placement(transformation(extent={{-94,-50},{-74,-30}})));
 equation
-  connect(prescribedHeatFlow.Q_flow, Q_flow) annotation (Line(
-      points={{-80,-40},{-112,-40}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(prescribedHeatFlow.port, HeaPumTan.heatPort) annotation (Line(
-      points={{-60,-40},{-40,-40},{-40,10}},
+      points={{-46,-40},{-40,-40},{-40,10}},
       color={191,0,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -90,6 +88,11 @@ equation
       points={{-28,0},{50,0}},
       color={0,127,255},
       smooth=Smooth.None));
+  connect(realExpression.y, prescribedHeatFlow.Q_flow) annotation (Line(
+      points={{-73,-40},{-66,-40}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

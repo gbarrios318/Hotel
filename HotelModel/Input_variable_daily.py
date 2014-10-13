@@ -4,7 +4,7 @@ from pylab import *
 import numpy as np
 
 rcParams['legend.loc'] = 'best'
-r=Reader('HotelModel.mat','dymola')
+r=Reader('HotelModel_cooling.mat','dymola')
 (t1,y1)=r.values('CooLoa.y[1]')
 (t2,y2)=r.values('GueRooDomWatDem.y[1]')
 (t3,y3)=r.values('KitHotWatDem.y[1]')

@@ -14,7 +14,7 @@ model CoolingWaterControl
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput Tem
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-  Buildings.Controls.Continuous.LimPID conPID(
+  LimPID                               conPID(
     reverseAction=true,
     k=kPCon,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -28,11 +28,14 @@ model CoolingWaterControl
     annotation (Placement(transformation(extent={{4,-4},{24,16}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=if DommasFlow > 0
          then Tem else TDomHotWatSet)
-    annotation (Placement(transformation(extent={{-64,34},{-44,54}})));
+    annotation (Placement(transformation(extent={{-74,24},{-54,44}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-52,-32},{-32,-12}})));
   Modelica.Blocks.Sources.Constant const1(k=0.21)
     annotation (Placement(transformation(extent={{-96,-44},{-76,-24}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=if DommasFlow > 0
+         then 1 else 0)
+    annotation (Placement(transformation(extent={{-74,42},{-54,62}})));
 equation
   connect(conPID.u_s, const.y) annotation (Line(
       points={{-34,80},{-53,80}},
@@ -64,7 +67,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(realExpression.y, conPID.u_m) annotation (Line(
-      points={{-43,44},{-22,44},{-22,68}},
+      points={{-53,34},{-22,34},{-22,68}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -85,6 +88,11 @@ equation
   connect(product1.u2, DommasFlow) annotation (Line(
       points={{38,-60},{0,-60},{0,-56},{-62,-56},{-62,-16},{-74,-16},{-74,0},{
           -120,0}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(realExpression1.y, conPID.On) annotation (Line(
+      points={{-53,52},{-40,52},{-40,88},{-34,88}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

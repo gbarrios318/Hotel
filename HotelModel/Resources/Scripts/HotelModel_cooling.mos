@@ -1,0 +1,6 @@
+simulateModel("HotelModel.HotelModel_cooling", stopTime=86400, method="dassl", resultFile="HotelModel_cooling");
+createPlot(id=1, position={0, 0, 1036, 640}, y={"supCon.y"}, range={0.0, 90000.0, 5.5, 7.5}, grid=true, filename="HotelModel_cooling.mat", leftTitleType=1, bottomTitleType=1, colors={{0,0,255}});
+createPlot(id=1, position={0, 0, 1036, 124}, y={"CooLoa.y[1]"}, range={0.0, 90000.0, 405000.0, 420000.0}, grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}});
+createPlot(id=1, position={0, 0, 1036, 124}, y={"GueRooDomWatDem.y[1]", "KitHotWatDem.y[1]"}, range={0.0, 90000.0, -1.0, 2.0}, grid=true, subPlot=3, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}, {255,0,0}});
+createPlot(id=1, position={0, 0, 1036, 124}, y={"domesticWaterControls.TBoi1"}, range={0.0, 90000.0, 0.0, 100.0}, grid=true, subPlot=4, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}});
+createPlot(id=1, position={0, 0, 1036, 124}, y={"domesticWaterControls.domesticHotWaterSystem.senTemDomHotWat.T"}, range={0.0, 90000.0, 0.0, 100.0}, grid=true, subPlot=5, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}});

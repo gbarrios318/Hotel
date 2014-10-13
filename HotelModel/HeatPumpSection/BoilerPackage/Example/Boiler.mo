@@ -12,7 +12,7 @@ model Boiler "Example for the boiler and its components"
   HotelModel.HeatPumpSection.BoilerPackage.Boiler2 boiler2_1(
     redeclare package MediumHW = MediumHW,
     mHW_flow_nominal=mHW_flow_nominal,
-    dpHW_nominal=dp_nominal)
+    dpHW_nominal=dpHW_nominal)
     annotation (Placement(transformation(extent={{-10,-46},{10,-26}})));
   Buildings.Fluid.Sources.Boundary_pT sin(
     p(displayUnit="Pa") = 300000,

@@ -1,25 +1,28 @@
 within HotelModel.HeatPumpSection.BoilerPackage.Example;
 model BoilerSystem "Example for boiler system"
-  import HotelModel;
   extends Modelica.Icons.Example;
- package MediumCW = Buildings.Media.ConstantPropertyLiquidWater
-    "Medium for condenser water"
+   replaceable package MediumHW =
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
+   parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dpHW_nominal=100
+   parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
+   parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
+   parameter Real TSetBoiIn "Set temperature for boiler";
+ import HotelModel;
   Boiler2WithControls boiler2WithControls(
-    redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal,
-    boi(add(k1=+1, k2=-1)))
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    Q_flow_nominal=Q_flow_nominal,
+    TSetBoiIn=TSetBoiIn)
     annotation (Placement(transformation(extent={{-20,-80},{20,-40}})));
   inner Modelica.Fluid.System system(T_ambient=283.15)
     annotation (Placement(transformation(extent={{40,61},{60,81}})));
   Buildings.Fluid.Sources.Boundary_pT bou1(
     nPorts=1,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     p=0)
     annotation (Placement(transformation(extent={{82,-70},{62,-50}})));
   Modelica.Blocks.Sources.Constant const(k=273.15 + 22.22)
@@ -27,8 +30,8 @@ model BoilerSystem "Example for boiler system"
   Buildings.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
     T=273.15 + 22.22,
-    redeclare package Medium = MediumCW,
-    m_flow=mWater_flow_nominal)
+    redeclare package Medium = MediumHW,
+    m_flow=mHW_flow_nominal)
     annotation (Placement(transformation(extent={{-80,-70},{-60,-50}})));
   Modelica.Blocks.Sources.IntegerTable integerTable(table=[0,1; 100,2; 200,3; 300,
         4; 400,5; 500,6; 600,7])

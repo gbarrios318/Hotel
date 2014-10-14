@@ -7,12 +7,14 @@ model Boiler "Example for the boiler and its components"
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
+  parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
   import HotelModel;
  extends Modelica.Icons.Example;
   HotelModel.HeatPumpSection.BoilerPackage.Boiler2 boiler2_1(
     redeclare package MediumHW = MediumHW,
     mHW_flow_nominal=mHW_flow_nominal,
-    dpHW_nominal=dpHW_nominal)
+    dpHW_nominal=dpHW_nominal,
+    Q_flow_nominal=Q_flow_nominal)
     annotation (Placement(transformation(extent={{-10,-46},{10,-26}})));
   Buildings.Fluid.Sources.Boundary_pT sin(
     p(displayUnit="Pa") = 300000,
@@ -22,8 +24,8 @@ model Boiler "Example for the boiler and its components"
     annotation (Placement(transformation(extent={{74,-50},{54,-30}})));
   Buildings.Fluid.Sources.Boundary_pT sou(
     nPorts=1,
-    p=300000 + dp_nominal,
     redeclare package Medium = MediumHW,
+    p=300000 + dpHW_nominal,
     T=303.15)
     annotation (Placement(transformation(extent={{-78,-50},{-58,-30}})));
   Modelica.Blocks.Sources.TimeTable y(table=[0,0; 1800,1; 1800,0; 2400,0; 2400,

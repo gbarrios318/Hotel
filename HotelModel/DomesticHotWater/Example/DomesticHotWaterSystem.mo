@@ -11,8 +11,19 @@ model DomesticHotWaterSystem "Example for the domestic hot water loop"
     //The nominal flow rate may be different
    parameter Modelica.SIunits.Pressure dpDW_nominal=100
     "Nominal pressure difference";
+        parameter Modelica.SIunits.Volume VTan "Volume of the tank";
+    parameter Modelica.SIunits.Height hTan "Height of the tank";
+    parameter Modelica.SIunits.Thickness dIns "Thickness of the insulation";
+    parameter Modelica.SIunits.HeatFlowRate Q_flow_DWnominal
+    "Nominal heat flow rate";
+
   HotelModel.DomesticHotWater.DomesticHotWaterSystem domesticHotWaterSystem(
-      redeclare package MediumDW = MediumDW, mDW_flow_nominal=mDW_flow_nominal)
+      redeclare package MediumDW = MediumDW, mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal,
+    VTan=VTan,
+    hTan=hTan,
+    dIns=dIns,
+    Q_flow_DWnominal=Q_flow_DWnominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Sources.Constant TBoiSet(k=273.15 + 60)
     annotation (Placement(transformation(extent={{-92,-28},{-72,-8}})));

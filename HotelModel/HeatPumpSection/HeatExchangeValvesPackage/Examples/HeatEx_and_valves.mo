@@ -1,11 +1,11 @@
 within HotelModel.HeatPumpSection.HeatExchangeValvesPackage.Examples;
 model HeatEx_and_valves "Example for the HeatEx and valves"
-     replaceable package MediumCW =
+     replaceable package MediumHW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
+  parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
        replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
@@ -21,9 +21,9 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
  extends Modelica.Icons.Example;
   HotelModel.HeatPumpSection.HeatExchangeValvesPackage.HeatEx_and_valves
     heatEx_and_valves(
-    redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal,
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
     redeclare package MediumDW = MediumDW,
     mDW_flow_nominal=mDW_flow_nominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
@@ -49,14 +49,14 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
     T=273.15 + 50,
     use_T_in=true,
     nPorts=1,
-    redeclare package Medium = MediumCW)
+    redeclare package Medium = MediumHW)
                           annotation (Placement(transformation(extent={{-60,10},
             {-40,30}}, rotation=0)));
   Buildings.Fluid.Sources.Boundary_pT sin_1(
     use_p_in=true,
     T=273.15 + 25,
     nPorts=1,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     p=300000)             annotation (Placement(transformation(extent={{60,10},
             {40,30}},rotation=0)));
   Modelica.Blocks.Sources.Trapezoid trapezoid(

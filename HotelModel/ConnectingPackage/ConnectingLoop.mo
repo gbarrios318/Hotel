@@ -100,6 +100,8 @@ model ConnectingLoop
     annotation (Placement(transformation(extent={{60,70},{40,50}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=val1.y*0.21)
     annotation (Placement(transformation(extent={{20,22},{40,42}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{72,-92},{92,-72}})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},
@@ -148,7 +150,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(Hex2ConGro2.MV2, val2.y) annotation (Line(
-      points={{-35,71},{-35,54},{-20,54},{-20,30},{-12,30}},
+      points={{-35,71},{-35,30},{-26,30},{-26,30},{-12,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -182,11 +184,14 @@ equation
   connect(CitWat.ports[1], pum1.port_a) annotation (Line(
       points={{-78,0},{-70,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      arrow={Arrow.Filled,Arrow.None},
+      thickness=1));
   connect(pum1.port_b, MasFloRatCloWat.port_a) annotation (Line(
       points={{-50,0},{-40,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(pum1.m_flow_in, m_flow_in) annotation (Line(
       points={{-60.2,-12},{-60.2,-20},{-120,-20}},
       color={0,0,127},
@@ -195,11 +200,13 @@ equation
   connect(val4.port_a, senTem.port_b) annotation (Line(
       points={{40,-60},{18,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(senTem.port_a, pum.port_b) annotation (Line(
       points={{-2,-60},{-20,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(realExpression.y, pum.m_flow_in) annotation (Line(
       points={{-47,-42},{-30.2,-42},{-30.2,-48}},
       color={0,0,127},

@@ -47,7 +47,8 @@ equation
   connect(product.y, BoiCtr) annotation (Line(
       points={{81,-20},{110,-20}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(conPID.u_m, TMea) annotation (Line(
       points={{10,-38},{10,-60},{-120,-60}},
       color={0,0,127},

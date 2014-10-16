@@ -1,8 +1,7 @@
 within HotelModel.HeatPumpSection.HeatPumpPackage;
 model HeatPumpwithControls "Heat Pump with its controls"
 replaceable package MediumHW =
-      Modelica.Media.Interfaces.PartialMedium "Medium for condenser water"
-      annotation (choicesAllMatching = true);
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water";
   parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dpHW_nominal

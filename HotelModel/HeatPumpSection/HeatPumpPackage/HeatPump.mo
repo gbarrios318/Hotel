@@ -16,7 +16,7 @@ replaceable package MediumHW =
     m_flow_nominal=mHW_flow_nominal,
     V=HeatPumpVol,
     nPorts=2) "Volume control of the Heat Pump"
-    annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
+    annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow
     prescribedHeatFlow(T_ref=HeaPumTRef)
     "Prescribed Heat flow of the Heat Pump"
@@ -39,21 +39,23 @@ replaceable package MediumHW =
     "Signal of temperature of the passing fluid"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   inner Modelica.Fluid.System system
-    annotation (Placement(transformation(extent={{60,70},{80,90}})));
+    annotation (Placement(transformation(extent={{60,60},{80,80}})));
   Buildings.Fluid.Movers.FlowMachine_m_flow Pum(
     addPowerToMedium=false,
     allowFlowReversal=true,
     redeclare package Medium = MediumHW,
     m_flow_nominal=mHW_flow_nominal)
-    annotation (Placement(transformation(extent={{-82,-10},{-62,10}})));
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
   Modelica.Blocks.Sources.Constant const(k=mHW_flow_nominal)
-    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-70,70})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=if Q_flow > 0 then
         Q_flow*(1 + 1/4) else Q_flow*(1 - 1/3))
     annotation (Placement(transformation(extent={{-94,-50},{-74,-30}})));
 equation
   connect(prescribedHeatFlow.port, HeaPumTan.heatPort) annotation (Line(
-      points={{-46,-40},{-40,-40},{-40,10}},
+      points={{-46,-40},{-20,-40},{-20,10}},
       color={191,0,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -72,22 +74,25 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(const.y, Pum.m_flow_in) annotation (Line(
-      points={{-59,50},{-50,50},{-50,12},{-72.2,12}},
+      points={{-70,59},{-70,12},{-70.2,12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPumTan.ports[1], Pum.port_b) annotation (Line(
-      points={{-32,0},{-62,0}},
+      points={{-12,0},{-60,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(Pum.port_a, port_a1) annotation (Line(
-      points={{-82,0},{-102,0}},
+      points={{-80,0},{-102,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(HeaPumTan.ports[2], HeaPumTemp.port_a) annotation (Line(
-      points={{-28,0},{50,0}},
+      points={{-8,0},{50,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(realExpression.y, prescribedHeatFlow.Q_flow) annotation (Line(
       points={{-73,-40},{-66,-40}},
       color={0,0,127},
@@ -123,12 +128,6 @@ equation
           fillColor={80,0,127},
           pattern=LinePattern.None,
           lineColor={0,0,0}),
-        Line(
-          points={{-100,40},{-80,40},{-80,30},{-60,30}},
-          color={0,0,0},
-          smooth=Smooth.None,
-          pattern=LinePattern.DashDot,
-          thickness=0.5),
         Line(
           points={{-100,-40},{-80,-40},{-80,-30},{-60,-30}},
           color={0,0,0},

@@ -30,7 +30,7 @@ replaceable package MediumDW =
     mHW_flow_nominal=mHW_flow_nominal,
     bolCon(conPID(controllerType=Modelica.Blocks.Types.SimpleController.PI, Ti=
             60))) "Boiler corresponding to the heat pump section"
-    annotation (Placement(transformation(extent={{-40,42},{-80,78}})));
+    annotation (Placement(transformation(extent={{-20,42},{-60,78}})));
   HeatPumpPackage.HeatPumpwithControls HeaPum(
     redeclare package MediumHW = MediumHW,
     dpHW_nominal=dpHW_nominal,
@@ -88,7 +88,7 @@ replaceable package MediumDW =
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={28,110})));
+        origin={40,110})));
 equation
   connect(HexVal.port_a1, HeaPum.port_b1) annotation (Line(
       points={{32,-20},{32,-60},{-20,-60}},
@@ -96,50 +96,53 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(HeaPumBoi.Sta, Sta) annotation (Line(
-      points={{-38.4,71.16},{-38.4,72},{-24,72},{-24,20},{-110,20}},
+      points={{-18.4,71.16},{-18.4,72},{-8,72},{-8,20},{-110,20}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.THeaPum, THeaPum) annotation (Line(
-      points={{-18,-52},{-10,-52},{-10,-40},{60,-40},{60,-110}},
+      points={{-18,-52},{0,-52},{0,-40},{60,-40},{60,-110}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.THeaPum, HeaPumBoi.HPTSen) annotation (Line(
-      points={{-18,-52},{-10,-52},{-10,67.56},{-38.4,67.56}},
+      points={{-18,-52},{0,-52},{0,67.56},{-18.4,67.56}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPumBoi.TBoi, Tboi) annotation (Line(
-      points={{-82.4,67.56},{-82.4,68},{-90,68},{-90,40},{60,40},{60,110}},
+      points={{-62.4,67.56},{-62.4,68},{-80,68},{-80,40},{60,40},{60,110}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
   connect(Sta, HexVal.Sta) annotation (Line(
-      points={{-110,20},{-46,20},{-46,0},{17.6,0}},
+      points={{-110,20},{-8,20},{-8,1.33227e-015},{17.6,1.33227e-015}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HeaPum.Q_flow1, Q_flow1) annotation (Line(
-      points={{-64,-68},{-68,-68},{-68,-66},{-72,-66},{-72,-20},{-120,-20}},
+      points={{-64,-68},{-80,-68},{-80,-20},{-120,-20}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(HexVal.port_b1, HeaPumBoi.port_a1) annotation (Line(
-      points={{32,20},{32,60},{-40,60}},
+      points={{32,20},{32,60},{-20,60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(HexVal.port_b2, port_a2) annotation (Line(
       points={{48.4,-20},{48,-20},{48,-60},{100,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(port_b2, HexVal.port_a2) annotation (Line(
       points={{100,60},{48,60},{48,20}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(HeaPumBoi.port_b1, port_a1) annotation (Line(
-      points={{-80,60},{-100,60}},
+      points={{-60,60},{-100,60}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(HeaPum.port_a1, port_b1) annotation (Line(
@@ -147,9 +150,10 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(HexVal.BypValPos, BypValPos) annotation (Line(
-      points={{28,22},{28,110}},
+      points={{40,22},{40,110}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

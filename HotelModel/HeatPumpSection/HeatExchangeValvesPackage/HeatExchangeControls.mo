@@ -31,7 +31,7 @@ equation
       color={255,127,0},
       smooth=Smooth.None));
   connect(combiTable1D.y[2], ValCtrlByp) annotation (Line(
-      points={{41,0.5},{68,0.5},{68,40},{110,40}},
+      points={{41,0.5},{60,0.5},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(ValCtrl1, ValCtrl2) annotation (Line(
@@ -39,7 +39,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(combiTable1D.y[1], ValCtrl2) annotation (Line(
-      points={{41,-0.5},{80,-0.5},{80,0},{102,0}},
+      points={{41,-0.5},{40,-0.5},{40,0},{110,0}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

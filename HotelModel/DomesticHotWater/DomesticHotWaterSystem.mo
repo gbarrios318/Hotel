@@ -75,7 +75,7 @@ model DomesticHotWaterSystem
         rotation=90,
         origin={20,-10})));
   Modelica.Blocks.Sources.Constant const1(k=0.21)
-    annotation (Placement(transformation(extent={{-36,-16},{-24,-4}})));
+    annotation (Placement(transformation(extent={{-38,-16},{-26,-4}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -105,6 +105,8 @@ model DomesticHotWaterSystem
     annotation (Placement(transformation(extent={{-66,10},{-46,30}})));
   Modelica.Blocks.Interfaces.RealOutput Pum3_flow1
     annotation (Placement(transformation(extent={{100,46},{120,66}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
 equation
   connect(DomColWat.ports[1], senTemDomHotWat.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
@@ -142,7 +144,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(boi.T, TBoi) annotation (Line(
-      points={{-41,-72},{-50,-72},{-50,-28},{80,-28},{80,-40},{110,-40}},
+      points={{-41,-72},{-50,-72},{-50,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -161,7 +163,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(const1.y, pum.m_flow_in) annotation (Line(
-      points={{-23.4,-10},{-8,-10},{-8,-9.8},{8,-9.8}},
+      points={{-25.4,-10},{-8,-10},{-8,-9.8},{8,-9.8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -186,98 +188,42 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-<<<<<<< HEAD
-  connect(senTem1.port_b, senTem.port_a) annotation (Line(
-=======
+  connect(pum.port_b, port_a2) annotation (Line(
+      points={{20,-20},{20,-80},{0,-80},{0,-100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(DomPum.port_a, senTemDomHotWat.port_b) annotation (Line(
+      points={{50,20},{0,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   connect(senTem1.port_b, senTemDomHotWat.port_a) annotation (Line(
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c
       points={{-46,20},{-20,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(cooWatCon.Pum3_flow, Pum3_flow1) annotation (Line(
-      points={{-38,59},{-38,56},{110,56}},
+  connect(DomPum.m_flow_actual, cooWatCon.DommasFlow) annotation (Line(
+      points={{71,25},{76,25},{76,92},{-32,92},{-32,82}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(KitPum.m_flow_actual, cooWatCon.KitmasFlow) annotation (Line(
+      points={{-75,61},{-75,74},{-46,74},{-46,90},{-38,90},{-38,82}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(cooWatCon.CooWat_mas_flow, DomColWat.m_flow_in) annotation (Line(
       points={{-32,59},{-32,50}},
       color={0,0,127},
-      smooth=Smooth.None));
-  connect(DomPum.port_a, senTemDomHotWat.port_b) annotation (Line(
-      points={{50,20},{0,20}},
-      color={0,127,255},
       smooth=Smooth.None,
-      thickness=1));
-  connect(cooWatCon.DommasFlow, m_flow_in_dom) annotation (Line(
-      points={{-32,82},{-32,92},{-50,92},{-50,70},{-120,70}},
+      pattern=LinePattern.Dash));
+  connect(cooWatCon.Pum3_flow, Pum3_flow1) annotation (Line(
+      points={{-38,59},{-38,56},{110,56}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(cooWatCon.KitmasFlow, m_flow_in_kit) annotation (Line(
-      points={{-38,82},{-38,86},{-54,86},{-54,64},{-88,64},{-88,30},{-120,30}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-
-  connect(pum.port_b, port_a2) annotation (Line(
-      points={{20,-20},{20,-80},{0,-80},{0,-100}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
-        Rectangle(
-          extent={{-94,8},{-58,-8}},
-          lineColor={0,128,255},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-20,10},{20,-10}},
-          lineColor={0,128,255},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid,
-          origin={-1.77636e-015,-78},
-          rotation=90),
-        Ellipse(
-          extent={{-60,60},{60,-60}},
-          lineColor={0,128,255},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
-        Ellipse(
-          extent={{-44,42},{44,-44}},
-          lineColor={0,128,255},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-76,74},{72,8}},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{-78,60},{-28,26}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          fillColor={135,135,135}),
-        Rectangle(
-          extent={{28,60},{78,26}},
-          lineColor={0,0,0},
-          fillPattern=FillPattern.Solid,
-          fillColor={135,135,135}),
-        Rectangle(
-          extent={{-60,26},{-44,8}},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{44,26},{60,8}},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid,
-          pattern=LinePattern.None),
-        Rectangle(
-          extent={{-44,8},{44,-8}},
-          lineColor={0,128,255},
-          fillPattern=FillPattern.Solid,
-          fillColor={0,128,255})}));
+            -100},{100,100}}), graphics));
 end DomesticHotWaterSystem;
+

@@ -83,7 +83,10 @@ replaceable package MediumHW =
         rotation=-90,
         origin={0,112})));
   Modelica.Blocks.Interfaces.RealOutput BypValPos "Actual valve position"
-    annotation (Placement(transformation(extent={{100,60},{120,80}})));
+    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
+        iconTransformation(extent={{100,-10},{120,10}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
 equation
   connect(hex.port_a1, hexval1.port_b) annotation (Line(
       points={{-10,-28},{-40,-28},{-40,-10}},
@@ -147,7 +150,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(valbyp.y_actual, BypValPos) annotation (Line(
-      points={{5,47},{80,47},{80,70},{110,70}},
+      points={{5,47},{80,47},{80,0},{110,0}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

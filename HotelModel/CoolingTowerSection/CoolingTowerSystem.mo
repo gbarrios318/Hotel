@@ -126,7 +126,8 @@ equation
   connect(Pum.m_flow_in, coolingTower.On) annotation (Line(
       points={{-76.2,12},{-76.2,30},{-60,30},{-60,4},{-22,4}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

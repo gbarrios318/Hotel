@@ -144,11 +144,13 @@ equation
   connect(HeaPumBoi.port_b1, port_a1) annotation (Line(
       points={{-60,60},{-100,60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(HeaPum.port_a1, port_b1) annotation (Line(
       points={{-60.4,-60},{-100,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(HexVal.BypValPos, BypValPos) annotation (Line(
       points={{40,22},{40,110}},
       color={0,0,127},

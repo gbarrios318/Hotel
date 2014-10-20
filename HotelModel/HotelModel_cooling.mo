@@ -200,11 +200,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(domesticWaterControls.TBoi1, supCon.TBoiDW) annotation (Line(
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-      points={{161,-34},{176,-34},{176,-78},{-176,-78},{-176,68},{-162,68}},
-=======
       points={{161,-34},{176,-34},{176,-72},{-176,-72},{-176,68},{-162,68}},
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -240,14 +236,6 @@ equation
       thickness=1));
   connect(heatPump.port_b2, connectingLoop.port_a2) annotation (Line(
       points={{32,2},{32,-20},{80,-20}},
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(exp3.port_a, heatPump.port_a1) annotation (Line(
-      points={{12,-18},{12,2}},
-=======
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -272,11 +260,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.THeaPum, supCon.THeatPump) annotation (Line(
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-      points={{28,19},{28,92},{-172,92},{-172,84},{-162,84}},
-=======
       points={{28,19},{28,92},{-180,92},{-180,84},{-162,84}},
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -286,14 +270,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-  connect(connectingLoop.m_flow1, supCon.masFloHotWat) annotation (Line(
-      points={{94,-3},{94,88},{-168,88},{-168,76},{-162,76}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-=======
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo
   connect(GueRooDomWatDem.y[1], domesticWaterControls.m_flow_in_dom)
     annotation (Line(
       points={{58.4,-40},{120,-40},{120,-22},{138,-22}},
@@ -316,10 +292,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -100},{200,100}}), graphics), Icon(coordinateSystem(
-=======
   connect(exp3.port_a, heatPump.port_a1) annotation (Line(
       points={{-10,-18},{-10,-20},{12,-20},{12,2}},
       color={0,127,255},
@@ -336,7 +308,6 @@ equation
         "Simulate and plot"),
   Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},{200,
             100}}),            graphics), Icon(coordinateSystem(
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo
           preserveAspectRatio=false)),
     experiment(StopTime=86400),
     __Dymola_experimentSetupOutput,
@@ -463,8 +434,4 @@ equation
 <p><br><h4><span style=\"color:#008000\">Conclusion</span></h4></p>
 <p><br>The system showed that during the greatest changes in system inputs, there was about 25&percnt; energy savings using a heat recovery system. </p>
 </html>"));
-<<<<<<< HEAD:HotelModel/HotelModel.mo
-end HotelModel;
-=======
 end HotelModel_cooling;
->>>>>>> 3d015e8438f3f01db236fd9c498f09eb2e57a94c:HotelModel/HotelModel_cooling.mo

@@ -2,6 +2,9 @@
 cd("Buildings");
 openModel("package.mo");
 cd("../HotelModel");
-openModel("package.mo")
+openModel("package.mo");
+cd("../CollectionTank");
+openmodel("package.mo");
+
 
 

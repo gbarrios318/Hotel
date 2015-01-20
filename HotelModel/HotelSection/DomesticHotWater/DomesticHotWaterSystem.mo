@@ -84,11 +84,6 @@ model DomesticHotWaterSystem
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
-  .HotelModel.Control.CoolingWaterControl cooWatCon(TDomHotWatSet=288.15, kPCon
-      =1) annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-32,70})));
   Modelica.Blocks.Interfaces.RealInput TBoiSet "Part load ratio"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
   Modelica.Blocks.Interfaces.RealOutput TBoi "Boiler temperature"
@@ -107,6 +102,10 @@ model DomesticHotWaterSystem
     annotation (Placement(transformation(extent={{100,46},{120,66}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
+  Control.CoolingWaterControl cooWatCon1 annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-32,72})));
 equation
   connect(DomColWat.ports[1], senTemDomHotWat.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
@@ -123,11 +122,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senTemDomHotWat.T, cooWatCon.Tem) annotation (Line(
-      points={{-10,31},{-10,90},{-26,90},{-26,82}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(boi.port_a, port_a2) annotation (Line(
       points={{-20,-80},{0,-80},{0,-100}},
       color={0,127,255},
@@ -203,23 +197,28 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(DomPum.m_flow_actual, cooWatCon.DommasFlow) annotation (Line(
-      points={{71,25},{76,25},{76,92},{-32,92},{-32,82}},
+  connect(senTemDomHotWat.T, cooWatCon1.Tem) annotation (Line(
+      points={{-10,31},{-10,94},{-26,94},{-26,84}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(KitPum.m_flow_actual, cooWatCon.KitmasFlow) annotation (Line(
-      points={{-75,61},{-75,74},{-46,74},{-46,90},{-38,90},{-38,82}},
+  connect(DomPum.m_flow_actual, cooWatCon1.DommasFlow) annotation (Line(
+      points={{71,25},{76,25},{76,88},{-32,88},{-32,84}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(cooWatCon.CooWat_mas_flow, DomColWat.m_flow_in) annotation (Line(
-      points={{-32,59},{-32,50}},
+  connect(KitPum.m_flow_actual, cooWatCon1.KitmasFlow) annotation (Line(
+      points={{-75,61},{-75,60},{-50,60},{-50,90},{-38,90},{-38,84}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(cooWatCon.Pum3_flow, Pum3_flow1) annotation (Line(
-      points={{-38,59},{-38,56},{110,56}},
+  connect(cooWatCon1.Pum3_flow, Pum3_flow1) annotation (Line(
+      points={{-38,61},{-38,56},{110,56}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(cooWatCon1.CooWat_mas_flow, DomColWat.m_flow_in) annotation (Line(
+      points={{-32,61},{-32,50}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

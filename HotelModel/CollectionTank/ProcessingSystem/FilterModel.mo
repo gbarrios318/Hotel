@@ -73,6 +73,5 @@ equation
         Line(
           points={{-60,-90},{60,-90},{48,-84}},
           color={0,128,255},
-          smooth=Smooth.None,
-          thickness=1)}));
+          smooth=Smooth.None)}));
 end FilterModel;

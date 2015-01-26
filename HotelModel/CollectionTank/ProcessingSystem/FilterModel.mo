@@ -42,8 +42,7 @@ equation
       thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics
-        ={
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Ellipse(
           extent={{-40,-20},{40,60}},
           lineColor={255,0,0},

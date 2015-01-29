@@ -16,6 +16,8 @@ model StorageSystemModel "Storage System Model "
   Modelica.Fluid.Interfaces.FluidPort_a port_a1
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Blocks.Sources.Constant const(k=1)
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{60,0},{100,0}},
@@ -28,7 +30,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(OveFlo.ports[1], ColTan.ports[2]) annotation (Line(
-      points={{0,-54},{0,-28},{0,0},{2.22045e-016,0}},
+      points={{0,-54},{0,0},{2.22045e-016,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -42,10 +44,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(const.y, valB.y) annotation (Line(
+      points={{-59,50},{-50,50},{-50,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(const.y, valF.y) annotation (Line(
+      points={{-59,50},{50,50},{50,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics
-        ={
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
           extent={{-60,60},{60,-80}},
           lineColor={95,95,95},

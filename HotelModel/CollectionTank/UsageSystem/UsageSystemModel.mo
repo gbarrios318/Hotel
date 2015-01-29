@@ -24,6 +24,8 @@ model UsageSystemModel "Usage system model without signals"
   Modelica.Fluid.Interfaces.FluidPort_a CooTow
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Modelica.Blocks.Sources.Constant const(k=1)
+    annotation (Placement(transformation(extent={{-70,-26},{-58,-14}})));
 equation
   connect(fan.port_b,Irr. ports[1]) annotation (Line(
       points={{0,40},{20,40}},
@@ -60,6 +62,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(const.y, val.y) annotation (Line(
+      points={{-57.4,-20},{-48,-20},{-48,-28}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Icon(graphics={
         Rectangle(
           extent={{-60,40},{60,-60}},
@@ -81,5 +88,6 @@ equation
           lineColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={0,128,255},
-          textString="%name")}));
+          textString="%name")}), Diagram(coordinateSystem(preserveAspectRatio=
+            false, extent={{-100,-100},{100,100}}), graphics));
 end UsageSystemModel;

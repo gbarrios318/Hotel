@@ -1,7 +1,14 @@
 within HotelModel.CollectionTank.ProcessingSystem;
 model ProcessingSystemModel
   "System model of the processing of collection tank model"
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valE annotation (Placement(
+  replaceable package MediumRainWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  replaceable package MediumCityWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valE(m_flow_nominal=
+        m_CitWatflow_nominal)                        annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -10,11 +17,13 @@ model ProcessingSystemModel
     annotation (Placement(transformation(extent={{10,30},{30,50}})));
   Buildings.Fluid.Actuators.Valves.ThreeWayLinear val1
     annotation (Placement(transformation(extent={{40,10},{60,-10}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valK
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valK(redeclare package Medium
+      = MediumRainWater)
     annotation (Placement(transformation(extent={{-22,-10},{-2,10}})));
   FilterModel SolSepFil "Solid Separator Filter"
     annotation (Placement(transformation(extent={{8,-10},{28,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumRainWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_1
@@ -36,6 +45,8 @@ model ProcessingSystemModel
     annotation (Placement(transformation(extent={{-50,60},{-30,80}})));
   Modelica.Blocks.Math.Add add(k1=-1, k2=+1)
     annotation (Placement(transformation(extent={{-20,50},{0,70}})));
+  parameter Modelica.SIunits.MassFlowRate m_CitWatflow_nominal
+    "Nominal mass flow rate";
 equation
   connect(valK.port_b, SolSepFil.port_a1) annotation (Line(
       points={{-2,0},{8,0}},
@@ -48,7 +59,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(valL.port_a, port_a1) annotation (Line(
-      points={{10,40},{-40,40},{-40,0},{-80,0},{-80,0},{-100,0}},
+      points={{10,40},{-40,40},{-40,0},{-100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

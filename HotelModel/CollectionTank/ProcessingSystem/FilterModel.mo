@@ -1,24 +1,34 @@
 within HotelModel.CollectionTank.ProcessingSystem;
 model FilterModel "Model of a filter including a simple pressure drop"
-  Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil
+  replaceable package MediumRainWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(dp_nominal=
+        dpfilter_nominal, redeclare package Medium = MediumRainWater)
     "Representation of the pressure drop in the filter model"
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear val annotation (Placement(
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear val(redeclare package Medium =
+        MediumRainWater)                            annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={20,-40})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumRainWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumRainWater)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Buildings.Fluid.Sources.Boundary_pT sin(nPorts=1) annotation (Placement(
+  Buildings.Fluid.Sources.Boundary_pT sin(nPorts=1, redeclare package Medium =
+        MediumRainWater)                            annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-70})));
+  parameter Modelica.SIunits.Pressure dpfilter_nominal
+    "Pressure drop at nominal mass flow rate";
 equation
   connect(Fil.port_a, port_a1) annotation (Line(
       points={{-60,0},{-100,0}},

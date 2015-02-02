@@ -1,20 +1,49 @@
 within HotelModel.CollectionTank.CollectionSystem;
-model CollectionTankModel "Collection Tank Model"
-
-  Modelica.Blocks.Continuous.Integrator integrator
-    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-  Modelica.Blocks.Sources.Constant const(k=area)
-    annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
-  Modelica.Blocks.Math.Product product
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+model CollectionTankModel "Model of the collection tank system"
+  replaceable package MediumRainWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  CollectionTankSignal collectionTankSignal(area=area)
+    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+  Modelica.Blocks.Interfaces.RealInput RaiWatIn1
+    "Connector of Real input signal"
+    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+  Buildings.Fluid.Sources.MassFlowSource_h boundary(use_m_flow_in=true,nPorts=1,
+    redeclare package Medium = MediumRainWater)
+    annotation (Placement(transformation(extent={{2,-18},{22,2}})));
+  Modelica.Fluid.Interfaces.FluidPorts_b ports1[1]
+    annotation (Placement(transformation(extent={{88,-40},{108,40}})));
+  parameter Real area "Constant output value";
 equation
-  connect(integrator.y, product.u1) annotation (Line(
-      points={{1,30},{10,30},{10,6},{18,6}},
+  connect(collectionTankSignal.RaiWatIn, RaiWatIn1) annotation (Line(
+      points={{-62,0},{-120,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(const.y, product.u2) annotation (Line(
-      points={{1,-30},{10,-30},{10,-6},{18,-6}},
+  connect(collectionTankSignal.MasRai, boundary.m_flow_in) annotation (Line(
+      points={{-39,0},{2,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  annotation (Diagram(graphics));
+  connect(boundary.ports[1:1], ports1) annotation (Line(
+      points={{22,-8},{60,-8},{60,0},{98,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics), Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+        Ellipse(
+          extent={{-80,80},{80,-80}},
+          lineColor={0,128,255},
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{70,40},{90,-40}},
+          lineColor={0,128,255},
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-40,96},{40,80}},
+          lineColor={0,128,255},
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid,
+          textString="%name")}));
 end CollectionTankModel;

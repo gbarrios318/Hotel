@@ -5,6 +5,8 @@ model StorageSystemModel "Storage System Model "
     "Medium in the condenser water side";
   parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
     "Nominal mass flow rate";
+  parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
+
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
     V=ColTanVol) "Collection tank"

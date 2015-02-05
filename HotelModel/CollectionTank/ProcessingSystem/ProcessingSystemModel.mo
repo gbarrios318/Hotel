@@ -13,6 +13,7 @@ model ProcessingSystemModel
     "Pressure drop of solid separator filter";
   parameter Modelica.SIunits.Pressure dpUVFil_nominal
     "Pressure drop of UV filter";
+  parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valE(m_flow_nominal=
         m_CitWatflow_nominal, redeclare package Medium = MediumCityWater)
                                                      annotation (Placement(

@@ -5,6 +5,8 @@ model FilterModel "Model of a filter including a simple pressure drop"
     "Medium in the condenser water side";
   parameter Modelica.SIunits.Pressure dpfilter_nominal
     "Pressure drop at nominal mass flow rate";
+    parameter Modelica.SIunits.MassFlowRate m_valveflow_nominal
+    "Nominal mass flow rate";
   Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(
                           redeclare package Medium = MediumRainWater,
     dp_nominal=dpfilter_nominal,
@@ -12,11 +14,13 @@ model FilterModel "Model of a filter including a simple pressure drop"
     "Representation of the pressure drop in the filter model"
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val(redeclare package Medium =
-        MediumRainWater)                            annotation (Placement(
+        MediumRainWater,
+    m_flow_nominal=m_valveflow_nominal,
+    dpValve_nominal=dpValve_nominal)                annotation (Placement(
         transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{-10,10},{10,-10}},
         rotation=-90,
-        origin={20,-40})));
+        origin={20,-30})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumRainWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -25,15 +29,20 @@ model FilterModel "Model of a filter including a simple pressure drop"
         MediumRainWater)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Buildings.Fluid.Sources.Boundary_pT sin(nPorts=1, redeclare package Medium =
-        MediumRainWater)                            annotation (Placement(
+  Buildings.Fluid.Sources.Boundary_pT sin(          redeclare package Medium =
+        MediumRainWater, nPorts=1)                  annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-70})));
-
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal
     "Nominal mass flow rate";
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{60,60},{80,80}})));
+  Modelica.Blocks.Sources.Constant const(k=1)
+    annotation (Placement(transformation(extent={{-30,-40},{-10,-20}})));
+  parameter Modelica.SIunits.Pressure dpValve_nominal
+    "Nominal pressure drop of fully open valve, used if CvData=Buildings.Fluid.Types.CvTypes.OpPoint";
 equation
   connect(Fil.port_a, port_a1) annotation (Line(
       points={{-60,0},{-100,0}},
@@ -45,16 +54,21 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(val.port_a, port_b1) annotation (Line(
-      points={{20,-30},{20,0},{100,0}},
+  connect(Fil.port_b, val.port_a) annotation (Line(
+      points={{-40,0},{20,0},{20,-20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(val.port_b, sin.ports[1]) annotation (Line(
-      points={{20,-50},{20,-60}},
+  connect(sin.ports[1], val.port_b) annotation (Line(
+      points={{20,-60},{20,-40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(const.y, val.y) annotation (Line(
+      points={{-9,-30},{8,-30}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

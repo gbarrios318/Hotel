@@ -3,6 +3,8 @@ model StorageSystemModel "Storage System Model "
   replaceable package MediumRainWater =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
+  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+    "Nominal mass flow rate";
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
     V=ColTanVol) "Collection tank"
@@ -45,8 +47,7 @@ model StorageSystemModel "Storage System Model "
         rotation=-90,
         origin={0,-50})));
   parameter Modelica.SIunits.Volume ColTanVol "Volume";
-  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
-    "Nominal mass flow rate";
+
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{80,0},{100,0}},
@@ -101,7 +102,8 @@ equation
   connect(OveFlo.ports[1], OveFloVal.port_b) annotation (Line(
       points={{6.66134e-016,-70},{0,-70},{0,-60},{-1.83187e-015,-60}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(OveFloVal.port_a, ColTan.ports[3]) annotation (Line(
       points={{0,-40},{0,0},{2.66667,0}},
       color={0,127,255},

@@ -3,8 +3,12 @@ model FilterModel "Model of a filter including a simple pressure drop"
   replaceable package MediumRainWater =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
-  Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(dp_nominal=
-        dpfilter_nominal, redeclare package Medium = MediumRainWater)
+  parameter Modelica.SIunits.Pressure dpfilter_nominal
+    "Pressure drop at nominal mass flow rate";
+  Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(
+                          redeclare package Medium = MediumRainWater,
+    dp_nominal=dpfilter_nominal,
+    m_flow_nominal=m_flow_nominal)
     "Representation of the pressure drop in the filter model"
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val(redeclare package Medium =
@@ -27,8 +31,9 @@ model FilterModel "Model of a filter including a simple pressure drop"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,-70})));
-  parameter Modelica.SIunits.Pressure dpfilter_nominal
-    "Pressure drop at nominal mass flow rate";
+
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+    "Nominal mass flow rate";
 equation
   connect(Fil.port_a, port_a1) annotation (Line(
       points={{-60,0},{-100,0}},

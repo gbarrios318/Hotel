@@ -39,25 +39,25 @@ model ProcessingSystemModel "Example for the processing system model"
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         MediumRainWater)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Blocks.Sources.Trapezoid trapezoid(
-    amplitude=2500,
-    period=1/3600,
-    offset=0,
-    rising=450,
-    width=450,
-    falling=450)
-    annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
-  Modelica.Blocks.Sources.TimeTable timeTable(table=[0,0; 1800,1; 2700,0])
-    "input signal for valve E to open or close"
-    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   Modelica.Blocks.Sources.Pulse pulse(
     amplitude=1,
     width=50,
     period=1/1800,
     nperiod=2)
-    annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));
+    annotation (Placement(transformation(extent={{-60,-50},{-40,-30}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
+  Modelica.Blocks.Sources.Sine sine(
+    amplitude=2000,
+    freqHz=1/3600,
+    offset=3000,
+    startTime=0)
+    annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
+  Modelica.Blocks.Sources.Step step(
+    height=1,
+    offset=0,
+    startTime=1800)
+    annotation (Placement(transformation(extent={{-62,30},{-42,50}})));
 equation
 
   connect(boundary.ports[1], processingSystemModel.port_a1) annotation (Line(
@@ -85,18 +85,18 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(boundary.m_flow_in, trapezoid.y) annotation (Line(
+  connect(pulse.y, processingSystemModel.ValByP) annotation (Line(
+      points={{-39,-40},{-20,-40},{-20,-6},{-12,-6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(boundary.m_flow_in, sine.y) annotation (Line(
       points={{-60,8},{-70,8},{-70,0},{-79,0}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(timeTable.y, processingSystemModel.ValE) annotation (Line(
-      points={{-39,-30},{-20,-30},{-20,-4},{-12,-4}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(pulse.y, processingSystemModel.ValByP) annotation (Line(
-      points={{-39,-60},{-16,-60},{-16,-7},{-12,-7}},
+  connect(step.y, processingSystemModel.ValE) annotation (Line(
+      points={{-41,40},{-20,40},{-20,6},{-12,6}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

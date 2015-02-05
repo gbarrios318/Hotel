@@ -18,16 +18,17 @@ model ProcessingSystemModel
         m_CitWatflow_nominal, redeclare package Medium = MediumCityWater,
     dpValve_nominal=dpValve_nominal)                 annotation (Placement(
         transformation(
-        extent={{-10,-10},{10,10}},
+        extent={{-10,10},{10,-10}},
         rotation=-90,
-        origin={-80,60})));
+        origin={-50,60})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valL(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
     dpValve_nominal=dpValve_nominal)
     annotation (Placement(transformation(extent={{10,30},{30,50}})));
   Buildings.Fluid.Actuators.Valves.ThreeWayLinear val1(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
-    dpValve_nominal=dpValve_nominal)
+    dpValve_nominal=dpValve_nominal,
+    l={0.05,0.05})
     annotation (Placement(transformation(extent={{40,10},{60,-10}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valK(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
@@ -62,10 +63,10 @@ model ProcessingSystemModel
     annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
   Modelica.Blocks.Interfaces.RealInput ValE
     "Actuator position (0: closed, 1: open)"
-    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
+    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealInput ValByP
     "Actuator position (0: closed, 1: open)"
-    annotation (Placement(transformation(extent={{-140,-90},{-100,-50}})));
+    annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
   parameter Modelica.SIunits.MassFlowRate m_CitWatflow_nominal
     "Nominal mass flow rate";
   Buildings.Examples.ChillerPlant.BaseClasses.Controls.KMinusU kMinu(k=1)
@@ -74,6 +75,16 @@ model ProcessingSystemModel
     "Nominal mass flow rate";
   parameter Modelica.SIunits.Pressure dpValve_nominal
     "Nominal pressure drop of fully open valve, used if CvData=Buildings.Fluid.Types.CvTypes.OpPoint";
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valK1(
+                                                     redeclare package Medium
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    dpValve_nominal=dpValve_nominal)
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+  Modelica.Blocks.Sources.Constant const1(
+                                         k=1)
+    annotation (Placement(transformation(extent={{-94,22},{-80,36}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{70,70},{90,90}})));
 equation
   connect(valK.port_b, SolSepFil.port_a1) annotation (Line(
       points={{-2,0},{8,0}},
@@ -85,18 +96,8 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(valL.port_a, port_a1) annotation (Line(
-      points={{10,40},{-40,40},{-40,0},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(valE.port_b, port_a1) annotation (Line(
-      points={{-80,50},{-80,0},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(valE.port_a, CitWat) annotation (Line(
-      points={{-80,70},{-80,88},{0,88},{0,98}},
+      points={{-50,70},{-50,88},{0,88},{0,98}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -121,27 +122,47 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(valE.y, ValE) annotation (Line(
-      points={{-68,60},{-60,60},{-60,-40},{-120,-40}},
+      points={{-62,60},{-120,60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(valK.y, ValByP) annotation (Line(
-      points={{-12,12},{-12,20},{-30,20},{-30,-70},{-120,-70}},
+      points={{-12,12},{-12,20},{-30,20},{-30,-60},{-120,-60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(valK.port_a, port_a1) annotation (Line(
-      points={{-22,0},{-100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(kMinu.y, valL.y) annotation (Line(
       points={{1,70},{20,70},{20,52}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(kMinu.u, ValByP) annotation (Line(
-      points={{-21.8,70},{-30,70},{-30,-70},{-120,-70}},
+      points={{-21.8,70},{-30,70},{-30,-60},{-120,-60}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(port_a1, valK1.port_a) annotation (Line(
+      points={{-100,0},{-80,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(valE.port_b, valK1.port_b) annotation (Line(
+      points={{-50,50},{-50,0},{-60,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(valK1.port_b, valK.port_a) annotation (Line(
+      points={{-60,0},{-22,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(valL.port_a, valK1.port_b) annotation (Line(
+      points={{10,40},{-40,40},{-40,0},{-40,0},{-40,0},{-60,0},{-60,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(const1.y, valK1.y) annotation (Line(
+      points={{-79.3,29},{-70,29},{-70,12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

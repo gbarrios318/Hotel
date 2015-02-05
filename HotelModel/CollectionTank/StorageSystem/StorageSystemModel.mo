@@ -6,25 +6,28 @@ model StorageSystemModel "Storage System Model "
   parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
     "Nominal mass flow rate";
   parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
-
+  parameter Modelica.SIunits.Pressure dpValve_nominal "Nominal Pressure drop";
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
-    V=ColTanVol) "Collection tank"
+    V=ColTanVol,
+    use_portsData=false) "Collection tank"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
-  Buildings.Fluid.Sources.Boundary_pT OveFlo(nPorts=1, redeclare package Medium
-      = MediumRainWater) "Overflow, when "
+  Buildings.Fluid.Sources.Boundary_pT OveFlo(          redeclare package Medium
+      = MediumRainWater, nPorts=1) "Overflow, when "
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-80})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valF(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal)
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
+    dpValve_nominal=dpRW_nominal)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumRainWater)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valB(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal)
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
+    dpValve_nominal=dpRW_nominal)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumRainWater)
@@ -40,16 +43,20 @@ model StorageSystemModel "Storage System Model "
         MediumRainWater)
     "Mass flow rate of water going into the collection tank"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  OverflowControls overflowControls
-    annotation (Placement(transformation(extent={{30,-38},{50,-18}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage OveFloVal(redeclare
-      package Medium = MediumRainWater, m_flow_nominal=m_RWflow_nominal)
-    "Overflow valve" annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={0,-50})));
   parameter Modelica.SIunits.Volume ColTanVol "Volume";
 
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valF1(
+                                                     redeclare package Medium
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
+    dpValve_nominal=-dpValve_nominal)
+    annotation (Placement(transformation(extent={{-10,10},{10,-10}},
+        rotation=-90,
+        origin={0,-40})));
+  Modelica.Blocks.Sources.Constant const1(
+                                         k=1)
+    annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{70,70},{90,90}})));
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{80,0},{100,0}},
@@ -81,41 +88,31 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(ColTan.ports[2], senMasFloOut.port_a) annotation (Line(
-      points={{2.22045e-016,0},{20,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(valF.port_a, senMasFloOut.port_b) annotation (Line(
       points={{60,0},{40,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senMasFloOut.m_flow, overflowControls.MassOut) annotation (Line(
-      points={{30,11},{30,20},{16,20},{16,-24},{28,-24}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(senMasFloIn.m_flow, overflowControls.MassIn) annotation (Line(
-      points={{-30,11},{-30,20},{-16,20},{-16,-32},{28,-32}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(OveFlo.ports[1], OveFloVal.port_b) annotation (Line(
-      points={{6.66134e-016,-70},{0,-70},{0,-60},{-1.83187e-015,-60}},
+  connect(valF1.port_a, ColTan.ports[2]) annotation (Line(
+      points={{1.77636e-015,-30},{0,-30},{0,0},{2.22045e-016,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(OveFloVal.port_a, ColTan.ports[3]) annotation (Line(
-      points={{0,-40},{0,0},{2.66667,0}},
+  connect(OveFlo.ports[1], valF1.port_b) annotation (Line(
+      points={{6.66134e-016,-70},{0,-70},{0,-50}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(overflowControls.ValCon, OveFloVal.y) annotation (Line(
-      points={{51,-28},{56,-28},{56,-50},{12,-50}},
+  connect(const1.y, valF1.y) annotation (Line(
+      points={{-29,-40},{-12,-40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(senMasFloOut.port_a, ColTan.ports[3]) annotation (Line(
+      points={{20,0},{2.66667,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

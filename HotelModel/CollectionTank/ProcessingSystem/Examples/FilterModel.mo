@@ -23,7 +23,7 @@ model FilterModel "Filter Model example"
     annotation (Placement(transformation(extent={{-94,20},{-74,40}})));
   Buildings.Fluid.Sensors.Pressure senPre(redeclare package Medium =
         MediumRainWater)
-    annotation (Placement(transformation(extent={{10,0},{30,20}})));
+    annotation (Placement(transformation(extent={{20,0},{40,20}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
   Buildings.Fluid.Sources.FixedBoundary sinc(nPorts=1, redeclare package Medium
@@ -41,12 +41,12 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(filterModel.port_b1, senPre.port) annotation (Line(
-      points={{10,0},{20,0}},
+      points={{10,0},{30,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(senPre.port, sinc.ports[1]) annotation (Line(
-      points={{20,0},{46,0}},
+      points={{30,0},{46,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

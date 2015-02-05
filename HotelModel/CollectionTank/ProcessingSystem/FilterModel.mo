@@ -43,6 +43,9 @@ model FilterModel "Model of a filter including a simple pressure drop"
     annotation (Placement(transformation(extent={{-30,-40},{-10,-20}})));
   parameter Modelica.SIunits.Pressure dpValve_nominal
     "Nominal pressure drop of fully open valve, used if CvData=Buildings.Fluid.Types.CvTypes.OpPoint";
+  Buildings.Fluid.Sensors.Pressure senPre(redeclare package Medium =
+        MediumRainWater)
+    annotation (Placement(transformation(extent={{50,0},{70,20}})));
 equation
   connect(Fil.port_a, port_a1) annotation (Line(
       points={{-60,0},{-100,0}},
@@ -69,6 +72,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(Fil.port_b, senPre.port) annotation (Line(
+      points={{-40,0},{60,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

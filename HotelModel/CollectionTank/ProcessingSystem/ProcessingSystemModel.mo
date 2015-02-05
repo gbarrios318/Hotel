@@ -15,42 +15,48 @@ model ProcessingSystemModel
     "Pressure drop of UV filter";
   parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valE(m_flow_nominal=
-        m_CitWatflow_nominal, redeclare package Medium = MediumCityWater)
-                                                     annotation (Placement(
+        m_CitWatflow_nominal, redeclare package Medium = MediumCityWater,
+    dpValve_nominal=dpValve_nominal)                 annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-80,60})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valL(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal)
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    dpValve_nominal=dpValve_nominal)
     annotation (Placement(transformation(extent={{10,30},{30,50}})));
   Buildings.Fluid.Actuators.Valves.ThreeWayLinear val1(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal)
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    dpValve_nominal=dpValve_nominal)
     annotation (Placement(transformation(extent={{40,10},{60,-10}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valK(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal)
+      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    dpValve_nominal=dpValve_nominal)
     annotation (Placement(transformation(extent={{-22,-10},{-2,10}})));
   FilterModel SolSepFil(
     redeclare package MediumRainWater = MediumRainWater,
-    m_RWflow_nominal=m_RWflow_nominal,
-    dpfilter_nominal=dpSSfil_nominal,
-    m_flow_nominal=m_CitWatflow_nominal + m_RWflow_nominal)
-    "Solid Separator Filter"
+    m_flow_nominal=m_CitWatflow_nominal + m_RWflow_nominal,
+    m_valveflow_nominal=m_valveflow_nominal,
+    dpfilter_nominal=dpSSFil_nominal,
+    dpValve_nominal=dpValve_nominal) "Solid Separator Filter"
     annotation (Placement(transformation(extent={{8,-10},{28,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumRainWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_1
+  Modelica.Fluid.Interfaces.FluidPort_b port_1(redeclare package Medium =
+        MediumRainWater)
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a CitWat
+  Modelica.Fluid.Interfaces.FluidPort_a CitWat(redeclare package Medium =
+        MediumCityWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,88},{10,108}})));
   FilterModel UVFil(
     redeclare package MediumRainWater = MediumRainWater,
-    m_RWflow_nominal=m_RWflow_nominal,
-    dpfilter_nominal=dpUVfil_nominal,
-    m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal) "UV Filter System"
+    m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    m_valveflow_nominal=m_valveflow_nominal,
+    dpfilter_nominal=dpUVFil_nominal,
+    dpValve_nominal=dpValve_nominal) "UV Filter System"
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
@@ -64,10 +70,10 @@ model ProcessingSystemModel
     "Nominal mass flow rate";
   Buildings.Examples.ChillerPlant.BaseClasses.Controls.KMinusU kMinu(k=1)
     annotation (Placement(transformation(extent={{-20,60},{0,80}})));
-  parameter Modelica.SIunits.Pressure dpSSfil_nominal
-    "Pressure drop at nominal mass flow rate";
-  parameter Modelica.SIunits.Pressure dpUVfil_nominal
-    "Pressure drop at nominal mass flow rate";
+  parameter Modelica.SIunits.MassFlowRate m_valveflow_nominal
+    "Nominal mass flow rate";
+  parameter Modelica.SIunits.Pressure dpValve_nominal
+    "Nominal pressure drop of fully open valve, used if CvData=Buildings.Fluid.Types.CvTypes.OpPoint";
 equation
   connect(valK.port_b, SolSepFil.port_a1) annotation (Line(
       points={{-2,0},{8,0}},

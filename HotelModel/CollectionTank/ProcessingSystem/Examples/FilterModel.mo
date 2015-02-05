@@ -16,10 +16,6 @@ model FilterModel "Filter Model example"
     redeclare package Medium = MediumRainWater,
     use_p_in=true)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Buildings.Fluid.Sources.Boundary_pT Sinc(
-                                          nPorts=1, redeclare package Medium =
-        MediumRainWater)
-    annotation (Placement(transformation(extent={{60,-10},{40,10}})));
   Modelica.Blocks.Sources.Step step(
     height=150000,
     offset=100000,
@@ -30,14 +26,12 @@ model FilterModel "Filter Model example"
     annotation (Placement(transformation(extent={{10,0},{30,20}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
+  Buildings.Fluid.Sources.FixedBoundary sinc(nPorts=1, redeclare package Medium
+      = MediumRainWater)
+    annotation (Placement(transformation(extent={{66,-10},{46,10}})));
 equation
   connect(filterModel.port_a1, Sou.ports[1]) annotation (Line(
       points={{-10,0},{-40,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(filterModel.port_b1,Sinc. ports[1]) annotation (Line(
-      points={{10,0},{40,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -48,6 +42,11 @@ equation
       pattern=LinePattern.Dash));
   connect(filterModel.port_b1, senPre.port) annotation (Line(
       points={{10,0},{20,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(senPre.port, sinc.ports[1]) annotation (Line(
+      points={{20,0},{46,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

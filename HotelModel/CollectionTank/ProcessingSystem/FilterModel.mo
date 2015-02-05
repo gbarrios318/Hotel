@@ -7,7 +7,6 @@ model FilterModel "Model of a filter including a simple pressure drop"
     "Pressure drop at nominal mass flow rate";
     parameter Modelica.SIunits.MassFlowRate m_valveflow_nominal
     "Nominal mass flow rate";
-  parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
   Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(
                           redeclare package Medium = MediumRainWater,
     dp_nominal=dpfilter_nominal,

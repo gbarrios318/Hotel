@@ -141,7 +141,7 @@ equation
           pattern=LinePattern.None,
           smooth=Smooth.None),
         Text(
-          extent={{-40,90},{40,70}},
+          extent={{-100,100},{100,60}},
           pattern=LinePattern.None,
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,

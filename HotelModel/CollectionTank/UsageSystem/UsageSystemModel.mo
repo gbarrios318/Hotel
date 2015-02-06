@@ -170,7 +170,7 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={0,128,255}),
         Text(
-          extent={{-60,80},{60,60}},
+          extent={{-100,100},{100,60}},
           lineColor={0,0,255},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={0,128,255},

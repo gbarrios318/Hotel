@@ -204,5 +204,9 @@ equation
           extent={{-60,40},{60,-40}},
           lineColor={135,135,135},
           fillColor={135,135,135},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-100,-60},{100,-100}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end ProcessingSystemModel;

@@ -6,7 +6,8 @@ model StorageSystemModel "Storage System Model "
   parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
     "Nominal mass flow rate";
   parameter Modelica.SIunits.Pressure dpRW_nominal "Nominal Pressure drop";
-  parameter Modelica.SIunits.Pressure dpValve_nominal "Nominal Pressure drop";
+  parameter Modelica.SIunits.Pressure dp_OFnominal
+    "Pressure drop at nominal mass flow rate";
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
     V=ColTanVol,
@@ -45,18 +46,17 @@ model StorageSystemModel "Storage System Model "
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   parameter Modelica.SIunits.Volume ColTanVol "Volume";
 
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valF1(
-                                                     redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
-    dpValve_nominal=dpValve_nominal)
-    annotation (Placement(transformation(extent={{-10,10},{10,-10}},
-        rotation=-90,
-        origin={0,-40})));
-  Modelica.Blocks.Sources.Constant const1(
-                                         k=1)
-    annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{70,70},{90,90}})));
+  Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(
+                          redeclare package Medium = MediumRainWater,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_OFnominal)
+    "Representation of the pressure drop in the filter model"
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={0,-30})));
+
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{80,0},{100,0}},
@@ -93,23 +93,18 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(valF1.port_a, ColTan.ports[2]) annotation (Line(
-      points={{1.77636e-015,-30},{0,-30},{0,0},{2.22045e-016,0}},
+  connect(Fil.port_b, OveFlo.ports[1]) annotation (Line(
+      points={{0,-40},{0,-70}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(OveFlo.ports[1], valF1.port_b) annotation (Line(
-      points={{6.66134e-016,-70},{0,-70},{0,-50}},
+  connect(senMasFloOut.port_a, ColTan.ports[2]) annotation (Line(
+      points={{20,0},{2.22045e-016,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(const1.y, valF1.y) annotation (Line(
-      points={{-29,-40},{-12,-40}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(senMasFloOut.port_a, ColTan.ports[3]) annotation (Line(
-      points={{20,0},{2.66667,0}},
+  connect(Fil.port_a, ColTan.ports[3]) annotation (Line(
+      points={{0,-20},{0,0},{2.66667,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

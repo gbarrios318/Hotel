@@ -18,7 +18,9 @@ model ProcessingSystemModel "Example for the processing system model"
     m_CitWatflow_nominal=4.5,
     m_valveflow_nominal=0.39,
     dpRW_nominal(displayUnit="kPa") = 1103160,
-    dpValve_nominal(displayUnit="kPa") = 1000)
+    dpValve_nominal(displayUnit="kPa") = 1000,
+    SSFilIn=0,
+    UVFilIn=0)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.Fluid.Sources.FixedBoundary sinc(
     redeclare package Medium = MediumRainWater,

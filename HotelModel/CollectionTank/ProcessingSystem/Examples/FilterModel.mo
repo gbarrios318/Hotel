@@ -29,6 +29,8 @@ model FilterModel "Filter Model example"
   Buildings.Fluid.Sources.FixedBoundary sinc(nPorts=1, redeclare package Medium
       = MediumRainWater)
     annotation (Placement(transformation(extent={{66,-10},{46,10}})));
+  Modelica.Blocks.Sources.Constant FluValCon(k=0) "Flush valve controls"
+    annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
 equation
   connect(filterModel.port_a1, Sou.ports[1]) annotation (Line(
       points={{-10,0},{-40,0}},
@@ -50,6 +52,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(FluValCon.y, filterModel.FlushFil) annotation (Line(
+      points={{-39,-30},{-20,-30},{-20,-6},{-12,-6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}),
                       graphics));

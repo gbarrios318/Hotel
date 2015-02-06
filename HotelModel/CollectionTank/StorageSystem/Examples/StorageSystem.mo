@@ -9,7 +9,8 @@ model StorageSystem "Storage System example"
     m_RWflow_nominal=7.89,
     dpRW_nominal(displayUnit="kPa") = 1103160,
     ColTanVol=10,
-    dpValve_nominal(displayUnit="kPa") = -1000)
+    dpValve_nominal(displayUnit="kPa") = 0,
+    dp_OFnominal(displayUnit="kPa") = 1000)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
@@ -34,7 +35,8 @@ equation
   connect(storageSystemModel.port_a1, boundary.ports[1]) annotation (Line(
       points={{-10,0},{-40,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(boundary.m_flow_in, sine.y) annotation (Line(
       points={{-60,8},{-64,8},{-64,0},{-69,0}},
       color={0,0,127},
@@ -42,11 +44,13 @@ equation
   connect(senMasFlo.port_a, storageSystemModel.port_b1) annotation (Line(
       points={{20,0},{10,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   connect(senMasFlo.port_b, bou.ports[1]) annotation (Line(
       points={{40,0},{60,0}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end StorageSystem;

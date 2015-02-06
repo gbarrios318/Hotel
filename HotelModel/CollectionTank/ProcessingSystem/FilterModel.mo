@@ -13,11 +13,11 @@ model FilterModel "Model of a filter including a simple pressure drop"
     m_flow_nominal=m_flow_nominal)
     "Representation of the pressure drop in the filter model"
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear val(redeclare package Medium =
-        MediumRainWater,
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear FlushVal(
+    redeclare package Medium = MediumRainWater,
     m_flow_nominal=m_valveflow_nominal,
-    dpValve_nominal=dpValve_nominal)                annotation (Placement(
-        transformation(
+    dpValve_nominal=dpValve_nominal) "Flush solids through the valve"
+    annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=-90,
         origin={20,-30})));
@@ -39,13 +39,14 @@ model FilterModel "Model of a filter including a simple pressure drop"
     "Nominal mass flow rate";
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
-  Modelica.Blocks.Sources.Constant const(k=1)
-    annotation (Placement(transformation(extent={{-30,-40},{-10,-20}})));
   parameter Modelica.SIunits.Pressure dpValve_nominal
     "Nominal pressure drop of fully open valve, used if CvData=Buildings.Fluid.Types.CvTypes.OpPoint";
   Buildings.Fluid.Sensors.Pressure senPre(redeclare package Medium =
         MediumRainWater)
     annotation (Placement(transformation(extent={{50,0},{70,20}})));
+  Modelica.Blocks.Interfaces.RealInput FlushFil
+    "Actuator position (0: closed, 1: open)"
+    annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
 equation
   connect(Fil.port_a, port_a1) annotation (Line(
       points={{-60,0},{-100,0}},
@@ -57,26 +58,26 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Fil.port_b, val.port_a) annotation (Line(
+  connect(Fil.port_b, FlushVal.port_a) annotation (Line(
       points={{-40,0},{20,0},{20,-20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(sin.ports[1], val.port_b) annotation (Line(
+  connect(sin.ports[1], FlushVal.port_b) annotation (Line(
       points={{20,-60},{20,-40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(const.y, val.y) annotation (Line(
-      points={{-9,-30},{8,-30}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(Fil.port_b, senPre.port) annotation (Line(
       points={{-40,0},{60,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(FlushVal.y, FlushFil) annotation (Line(
+      points={{8,-30},{-60,-30},{-60,-60},{-120,-60}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

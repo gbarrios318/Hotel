@@ -24,16 +24,11 @@ model ProcessingSystemModel
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valL(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
     dpValve_nominal=dpValve_nominal)
-    annotation (Placement(transformation(extent={{10,30},{30,50}})));
-  Buildings.Fluid.Actuators.Valves.ThreeWayLinear val1(redeclare package Medium
-      = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
-    dpValve_nominal=dpValve_nominal,
-    l={0.05,0.05})
-    annotation (Placement(transformation(extent={{40,10},{60,-10}})));
+    annotation (Placement(transformation(extent={{10,40},{30,60}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valK(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
     dpValve_nominal=dpValve_nominal)
-    annotation (Placement(transformation(extent={{-22,-10},{-2,10}})));
+    annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   FilterModel SolSepFil(
     redeclare package MediumRainWater = MediumRainWater,
     m_flow_nominal=m_CitWatflow_nominal + m_RWflow_nominal,
@@ -59,8 +54,6 @@ model ProcessingSystemModel
     dpfilter_nominal=dpUVFil_nominal,
     dpValve_nominal=dpValve_nominal) "UV Filter System"
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
-  Modelica.Blocks.Sources.Constant const(k=1)
-    annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
   Modelica.Blocks.Interfaces.RealInput ValE
     "Actuator position (0: closed, 1: open)"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
@@ -85,14 +78,22 @@ model ProcessingSystemModel
     annotation (Placement(transformation(extent={{-94,22},{-80,36}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{70,70},{90,90}})));
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear OneWayVal(
+    redeclare package Medium = MediumRainWater,
+    m_flow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
+    dpValve_nominal=dpValve_nominal) "one way valve, always open"
+    annotation (Placement(transformation(extent={{34,-10},{54,10}})));
+  Modelica.Blocks.Sources.Constant SSFilSig(k=SSFilIn)
+    "Solid separator controls signal (0: no flush; 1: flush)"
+    annotation (Placement(transformation(extent={{-20,-48},{-4,-32}})));
+  Modelica.Blocks.Sources.Constant UVFilSig(k=UVFilIn)
+    "UV filter control signal (0: no flush; 1: flush)"
+    annotation (Placement(transformation(extent={{40,-48},{56,-32}})));
+  parameter Real SSFilIn "Constant output value";
+  parameter Real UVFilIn "Constant output value";
 equation
   connect(valK.port_b, SolSepFil.port_a1) annotation (Line(
-      points={{-2,0},{8,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val1.port_1, SolSepFil.port_b1) annotation (Line(
-      points={{40,0},{28,0}},
+      points={{0,0},{8,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -101,38 +102,23 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(valL.port_b, val1.port_3) annotation (Line(
-      points={{30,40},{50,40},{50,10}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val1.port_2, UVFil.port_a1) annotation (Line(
-      points={{60,0},{70,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(port_1, UVFil.port_b1) annotation (Line(
       points={{100,0},{90,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(const.y, val1.y) annotation (Line(
-      points={{41,-50},{50,-50},{50,-12}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(valE.y, ValE) annotation (Line(
       points={{-62,60},{-120,60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(valK.y, ValByP) annotation (Line(
-      points={{-12,12},{-12,20},{-30,20},{-30,-60},{-120,-60}},
+      points={{-10,12},{-10,20},{-30,20},{-30,-60},{-120,-60}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(kMinu.y, valL.y) annotation (Line(
-      points={{1,70},{20,70},{20,52}},
+      points={{1,70},{20,70},{20,62}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -152,17 +138,47 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(valK1.port_b, valK.port_a) annotation (Line(
-      points={{-60,0},{-22,0}},
+      points={{-60,0},{-20,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(valL.port_a, valK1.port_b) annotation (Line(
-      points={{10,40},{-40,40},{-40,0},{-60,0}},
+      points={{10,50},{-40,50},{-40,0},{-60,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(const1.y, valK1.y) annotation (Line(
       points={{-79.3,29},{-70,29},{-70,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(valL.port_b, UVFil.port_a1) annotation (Line(
+      points={{30,50},{60,50},{60,0},{70,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(SolSepFil.port_b1, OneWayVal.port_a) annotation (Line(
+      points={{28,0},{34,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(UVFil.port_a1, OneWayVal.port_b) annotation (Line(
+      points={{70,0},{54,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(const1.y, OneWayVal.y) annotation (Line(
+      points={{-79.3,29},{44,29},{44,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(SSFilSig.y, SolSepFil.FlushFil) annotation (Line(
+      points={{-3.2,-40},{0,-40},{0,-6},{6,-6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(UVFilSig.y, UVFil.FlushFil) annotation (Line(
+      points={{56.8,-40},{60,-40},{60,-6},{68,-6}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

@@ -48,7 +48,7 @@ model StorageSystemModel "Storage System Model "
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valF1(
                                                      redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
-    dpValve_nominal=-dpValve_nominal)
+    dpValve_nominal=dpValve_nominal)
     annotation (Placement(transformation(extent={{-10,10},{10,-10}},
         rotation=-90,
         origin={0,-40})));

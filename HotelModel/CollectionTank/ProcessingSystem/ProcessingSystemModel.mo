@@ -157,7 +157,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(valL.port_a, valK1.port_b) annotation (Line(
-      points={{10,40},{-40,40},{-40,0},{-40,0},{-40,0},{-60,0},{-60,0}},
+      points={{10,40},{-40,40},{-40,0},{-60,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

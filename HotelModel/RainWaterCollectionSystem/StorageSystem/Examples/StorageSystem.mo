@@ -9,8 +9,8 @@ model StorageSystem "Storage System example"
     m_RWflow_nominal=7.89,
     dpRW_nominal(displayUnit="kPa") = 1103160,
     ColTanVol=10,
-    dpValve_nominal(displayUnit="kPa") = 0,
-    dp_OFnominal(displayUnit="kPa") = 1000)
+    dp_OFnominal(displayUnit="kPa") = 1000,
+    m_OFflow_nominal=0.5)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
@@ -24,12 +24,16 @@ model StorageSystem "Storage System example"
     annotation (Placement(transformation(extent={{-90,-10},{-70,10}})));
   Buildings.Fluid.Sources.FixedBoundary bou(redeclare package Medium =
         MediumRainWater, nPorts=1)
-    annotation (Placement(transformation(extent={{80,-10},{60,10}})));
+    annotation (Placement(transformation(extent={{90,-10},{70,10}})));
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         MediumRainWater)
-    annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+    annotation (Placement(transformation(extent={{20,-6},{32,6}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{70,70},{90,90}})));
+  Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
+        MediumRainWater, m_flow_nominal=5.0)
+    "Pump to simulate control of water to the sinc"
+    annotation (Placement(transformation(extent={{42,-10},{62,10}})));
 equation
 
   connect(storageSystemModel.port_a1, boundary.ports[1]) annotation (Line(
@@ -46,8 +50,13 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senMasFlo.port_b, bou.ports[1]) annotation (Line(
-      points={{40,0},{60,0}},
+  connect(bou.ports[1], pum.port_b) annotation (Line(
+      points={{70,0},{62,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(pum.port_a, senMasFlo.port_b) annotation (Line(
+      points={{42,0},{32,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

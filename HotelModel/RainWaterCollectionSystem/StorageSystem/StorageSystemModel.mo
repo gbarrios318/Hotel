@@ -10,8 +10,8 @@ model StorageSystemModel "Storage System Model "
     "Pressure drop at nominal mass flow rate";
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
-    V=ColTanVol,
-    use_portsData=false) "Collection tank"
+    use_portsData=false,
+    V=ColTanVol) "Collection tank"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
   Buildings.Fluid.Sources.Boundary_pT OveFlo(          redeclare package Medium
       = MediumRainWater, nPorts=1) "Overflow, when "
@@ -20,7 +20,8 @@ model StorageSystemModel "Storage System Model "
         origin={0,-80})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valF(redeclare package Medium
       = MediumRainWater, m_flow_nominal=m_RWflow_nominal,
-    dpValve_nominal=dpRW_nominal)
+    dpValve_nominal=dpRW_nominal,
+    dpFixed_nominal=0)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumRainWater)
@@ -50,13 +51,15 @@ model StorageSystemModel "Storage System Model "
     annotation (Placement(transformation(extent={{70,70},{90,90}})));
   Buildings.Fluid.FixedResistances.FixedResistanceDpM Fil(
                           redeclare package Medium = MediumRainWater,
-    m_flow_nominal=m_flow_nominal,
-    dp_nominal=dp_OFnominal)
+    dp_nominal=dp_OFnominal,
+    m_flow_nominal=m_OFflow_nominal)
     "Representation of the pressure drop in the filter model"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,-30})));
 
+  parameter Modelica.SIunits.MassFlowRate m_OFflow_nominal
+    "Nominal mass flow rate";
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{80,0},{100,0}},

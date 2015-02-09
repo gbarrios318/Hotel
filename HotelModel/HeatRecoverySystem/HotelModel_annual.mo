@@ -25,7 +25,7 @@ model HotelModel_annual
     "Nominal mass flow rate of water";
   parameter Modelica.SIunits.Pressure dpHW_nominal=1000
     "Nominal pressure difference";
-  .HotelModel.CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
+ .HeatRecoverySystem.CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
     redeclare package MediumCW = MediumCW,
     P_nominal=2200,
     Motor_eta={0.85},
@@ -44,7 +44,7 @@ model HotelModel_annual
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-90,26})));
-  .HotelModel.HeatPumpSection.HeatPump heatPump(
+  .HeatRecoverySystem.HeatPumpSection.HeatPump heatPump(
     redeclare package MediumDW = MediumDW,
     HeatPumpVol=25.99029318,
     dpDW_nominal=dpDW_nominal,
@@ -61,7 +61,7 @@ model HotelModel_annual
     HeaPumTRef=273.15 + 22.22,
     TSetBoiIn=273.15 + 16.11)
     annotation (Placement(transformation(extent={{12,18},{32,-2}})));
-  .HotelModel.ConnectingPackage.ConnectingLoop connectingLoop(
+  .HeatRecoverySystem.ConnectingPackage.ConnectingLoop connectingLoop(
     redeclare package MediumDW = MediumDW,
     dpDW_nominal=dpDW_nominal,
     mDW_flow_nominal=mDW_flow_nominal,

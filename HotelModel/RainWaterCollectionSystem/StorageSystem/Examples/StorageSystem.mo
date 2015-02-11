@@ -7,10 +7,10 @@ model StorageSystem "Storage System example"
   StorageSystemModel storageSystemModel(
     redeclare package MediumRainWater = MediumRainWater,
     m_RWflow_nominal=7.89,
-    dpRW_nominal(displayUnit="kPa") = 1103160,
-    ColTanVol=10,
     dp_OFnominal(displayUnit="kPa") = 1000,
-    m_OFflow_nominal=0.5)
+    m_OFflow_nominal=0.5,
+    dpRW_nominal(displayUnit="kPa") = 500000,
+    ColTanVol=10)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.Fluid.Sources.MassFlowSource_T boundary(
     nPorts=1,
@@ -31,9 +31,11 @@ model StorageSystem "Storage System example"
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{70,70},{90,90}})));
   Buildings.Fluid.Movers.FlowMachine_m_flow pum(redeclare package Medium =
-        MediumRainWater, m_flow_nominal=5.0)
-    "Pump to simulate control of water to the sinc"
+        MediumRainWater, m_flow_nominal=5.0,
+    addPowerToMedium=false) "Pump to simulate control of water to the sinc"
     annotation (Placement(transformation(extent={{42,-10},{62,10}})));
+  Modelica.Blocks.Sources.Constant MasFloRatIn(k=3) "input mass flow rate"
+    annotation (Placement(transformation(extent={{20,40},{40,60}})));
 equation
 
   connect(storageSystemModel.port_a1, boundary.ports[1]) annotation (Line(
@@ -60,6 +62,10 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(MasFloRatIn.y, pum.m_flow_in) annotation (Line(
+      points={{41,50},{51.8,50},{51.8,12}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end StorageSystem;

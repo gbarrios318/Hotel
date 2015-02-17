@@ -60,12 +60,6 @@ model ConnectingLoop
   Buildings.Fluid.Sensors.MassFlowRate MasFloRatCloWat(redeclare package Medium
       = MediumDW) "Mass flow rate of the cooling water load"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
-  .HotelModel.Control.Hex2ControlGroup2 Hex2ConGro2(mDW_flow_nominal=
-        mDW_flow_nominal, dpDW_nominal=dpDW_nominal) annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-40,82})));
   Modelica.Blocks.Interfaces.IntegerInput sta1 annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
@@ -102,6 +96,10 @@ model ConnectingLoop
     annotation (Placement(transformation(extent={{20,22},{40,42}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{72,-92},{92,-72}})));
+  Control.Hex2ControlGroup2 Hex2ConGro2 annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-40,80})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},
@@ -139,30 +137,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Hex2ConGro2.MV4, val4.y) annotation (Line(
-      points={{-41,71},{-41,14},{20,14},{20,-20},{50,-20},{50,-48}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(Hex2ConGro2.MV3, val3.y) annotation (Line(
-      points={{-38,71},{-38,20},{48,20},{48,12}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(Hex2ConGro2.MV2, val2.y) annotation (Line(
-      points={{-35,71},{-35,30},{-26,30},{-26,30},{-12,30}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(Hex2ConGro2.MV1, val1.y) annotation (Line(
-      points={{-32,71},{-32,64},{20,64},{20,80},{80,80},{80,72}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(Hex2ConGro2.sta, sta1) annotation (Line(
-      points={{-40,94},{-40,120}},
-      color={255,127,0},
-      smooth=Smooth.None));
   connect(MasFloRatCloWat.m_flow, m_flow1) annotation (Line(
       points={{-30,11},{-30,46},{30,46},{30,86},{40,86},{40,110}},
       color={0,0,127},
@@ -224,6 +198,30 @@ equation
       thickness=1));
   connect(realExpression2.y, pum2.m_flow_in) annotation (Line(
       points={{41,32},{50.2,32},{50.2,48}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(sta1, Hex2ConGro2.sta) annotation (Line(
+      points={{-40,120},{-40,92}},
+      color={255,127,0},
+      smooth=Smooth.None));
+  connect(Hex2ConGro2.MV1, val1.y) annotation (Line(
+      points={{-32,69},{-32,64},{20,64},{20,80},{80,80},{80,72}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(Hex2ConGro2.MV2, val2.y) annotation (Line(
+      points={{-35,69},{-35,30},{-12,30}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(Hex2ConGro2.MV3, val3.y) annotation (Line(
+      points={{-38,69},{-38,16},{48,16},{48,12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(Hex2ConGro2.MV4, val4.y) annotation (Line(
+      points={{-41,69},{-41,-30},{50,-30},{50,-48}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

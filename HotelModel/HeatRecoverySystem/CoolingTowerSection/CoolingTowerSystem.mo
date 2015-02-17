@@ -51,8 +51,6 @@ model CoolingTowerSystem
     tIntPi=tIntPi,
     v_flow_rate=v_flow_rate,
     eta=eta) annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
-  HotelModel.Control.CoolingTowerControl cooTowCon(pum1MasFlo=mCW_flow_nominal)
-    annotation (Placement(transformation(extent={{-86,50},{-66,70}})));
   Modelica.Blocks.Interfaces.IntegerInput sta "System status"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
         iconTransformation(extent={{-140,40},{-100,80}})));
@@ -73,12 +71,9 @@ model CoolingTowerSystem
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
+  HotelModel.HeatRecoverySystem.Control.CoolingTowerControl cooTowCon
+    annotation (Placement(transformation(extent={{-84,50},{-64,70}})));
 equation
-  connect(cooTowCon.sta, sta) annotation (Line(
-      points={{-88,60},{-120,60}},
-      color={255,127,0},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(coolingTower.TWetBul, TWet) annotation (Line(
       points={{-22,-4},{-50,-4},{-50,-60},{-114,-60}},
       color={0,0,127},
@@ -104,11 +99,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(cooTowCon.pum1, coolingTower.On) annotation (Line(
-      points={{-65,60},{-60,60},{-60,4},{-22,4}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(coolingTower.port_a_CW, Pum.port_b) annotation (Line(
       points={{-20,0},{-66,0}},
       color={0,127,255},
@@ -126,6 +116,16 @@ equation
       thickness=1));
   connect(Pum.m_flow_in, coolingTower.On) annotation (Line(
       points={{-76.2,12},{-76.2,30},{-60,30},{-60,4},{-22,4}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(sta, cooTowCon.sta) annotation (Line(
+      points={{-120,60},{-86,60}},
+      color={255,127,0},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(cooTowCon.pum1, coolingTower.On) annotation (Line(
+      points={{-63,60},{-60,60},{-60,4},{-22,4}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

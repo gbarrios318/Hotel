@@ -17,6 +17,11 @@ model CoolingTowerSystem
     "Pressure difference between the outlet and inlet of the module ";
   parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate";
+  replaceable package MediumRainWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+    "Nominal mass flow rate";
   parameter Real GaiPi "Gain of the component PI controller";
   parameter Real tIntPi "Integration time of the component PI controller";
   parameter Real v_flow_rate[:] "Volume flow rate";
@@ -67,12 +72,15 @@ model CoolingTowerSystem
     addPowerToMedium=false,
     allowFlowReversal=true,
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mCW_flow_nominal)
+    m_flow_nominal=mCW_flow_nomina + m_RWflow_nominall)
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
   HotelModel.HeatRecoverySystem.Control.CoolingTowerControl cooTowCon
     annotation (Placement(transformation(extent={{-84,50},{-64,70}})));
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumRainWater) "fluid connector from the rain water collection"
+    annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
 equation
   connect(coolingTower.TWetBul, TWet) annotation (Line(
       points={{-22,-4},{-50,-4},{-50,-60},{-114,-60}},
@@ -129,6 +137,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(Pum.port_a, port_a1) annotation (Line(
+      points={{-86,0},{-102,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

@@ -15,12 +15,11 @@ model RainWaterCollectionTankModel
   Modelica.Fluid.Interfaces.FluidPort_a CitWat1
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Blocks.Interfaces.RealInput RaiWatIn1
-    "Connector of Real input signal"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Fluid.Interfaces.FluidPort_a CooTow1
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+  Buildings.BoundaryConditions.WeatherData.Bus weaBus1
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 equation
   connect(ColTan.ports1[1], StoSys.port_a1) annotation (Line(
       points={{-70,20.2},{-70,0},{-60,0}},
@@ -42,16 +41,19 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(ColTan.RaiWatIn1, RaiWatIn1) annotation (Line(
-      points={{-70,42},{-70,60},{-120,60}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(UseSys.CooTow, CooTow1) annotation (Line(
       points={{80,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(ColTan.weaBus, weaBus1) annotation (Line(
+      points={{-70,40},{-70,60},{-86,60},{-86,0},{-100,0}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None), Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics), Icon(coordinateSystem(extent={{-100,
             -100},{100,100}}, preserveAspectRatio=false), graphics={
@@ -110,10 +112,10 @@ equation
           fillPattern=FillPattern.Solid,
           lineColor={0,0,0}),
         Text(
-          extent={{-100,-60},{100,-100}},
+          extent={{-60,40},{58,-60}},
           pattern=LinePattern.None,
           fillColor={0,128,255},
           fillPattern=FillPattern.Solid,
           lineColor={0,0,0},
-          textString="%name")}));
+          textString="RWC")}));
 end RainWaterCollectionTankModel;

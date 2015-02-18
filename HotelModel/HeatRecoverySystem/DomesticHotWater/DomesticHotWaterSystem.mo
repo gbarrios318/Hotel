@@ -24,18 +24,6 @@ model DomesticHotWaterSystem
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-70,50})));
-  Buildings.Fluid.Sources.Boundary_pT KitColWat(nPorts=1, redeclare package
-      Medium = MediumDW) "Kitchen domestic cold water"
-                                  annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=-90,
-        origin={-70,90})));
-  Buildings.Fluid.Sources.Boundary_pT DomHotWat(nPorts=1, redeclare package
-      Medium = MediumDW) "Domestic hot water"
-    annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=0,
-        origin={90,20})));
   Buildings.Fluid.Sources.MassFlowSource_T DomColWat(nPorts=1, use_m_flow_in=true,
     redeclare package Medium = MediumDW) "Domestic cold water "
                            annotation (Placement(transformation(
@@ -106,19 +94,17 @@ model DomesticHotWaterSystem
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-32,72})));
+  Modelica.Fluid.Interfaces.FluidPort_b KitWat(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-80,90},{-60,110}})));
+  Modelica.Fluid.Interfaces.FluidPort_b DomHotWat(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{90,10},{110,30}})));
 equation
   connect(DomColWat.ports[1], senTemDomHotWat.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(KitPum.port_b, KitColWat.ports[1]) annotation (Line(
-      points={{-70,60},{-70,80}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(DomPum.port_b, DomHotWat.ports[1]) annotation (Line(
-      points={{70,20},{80,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -222,6 +208,16 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(KitPum.port_b, KitWat) annotation (Line(
+      points={{-70,60},{-70,100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(DomPum.port_b, DomHotWat) annotation (Line(
+      points={{70,20},{100,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end DomesticHotWaterSystem;

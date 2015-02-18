@@ -47,13 +47,20 @@ model DomesticWaterControls "Domestic water with controls"
     Q_flow_DWnominal=Q_flow_DWnominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Interfaces.RealOutput Pum3_flow
-    annotation (Placement(transformation(extent={{100,-4},{120,16}})));
+    annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealInput m_flow_in_kit
     "Prescribed mass flow rate for kitchen pump"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
   Modelica.Blocks.Interfaces.RealInput m_flow_in_dom
     "Prescribed mass flow rate for domestic water pump"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
+  Modelica.Fluid.Interfaces.FluidPort_b KitWat1(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-10,90},{10,110}})));
+  Modelica.Fluid.Interfaces.FluidPort_b DomHotWat1
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 equation
   connect(TBoiSet.y, conPID.u_s) annotation (Line(
       points={{-69,-30},{-62,-30}},
@@ -85,7 +92,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(domesticHotWaterSystem.Pum3_flow1, Pum3_flow) annotation (Line(
-      points={{11,5.6},{57.5,5.6},{57.5,6},{110,6}},
+      points={{11,5.6},{36,5.6},{36,6},{60,6},{60,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -99,6 +106,20 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(domesticHotWaterSystem.KitWat, KitWat1) annotation (Line(
+      points={{-7,10},{-7,40},{0,40},{0,100}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(domesticHotWaterSystem.DomHotWat, DomHotWat1) annotation (Line(
+      points={{10,2},{40,2},{40,0},{100,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(DomHotWat1, DomHotWat1) annotation (Line(
+      points={{100,0},{100,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

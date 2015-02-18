@@ -236,7 +236,7 @@ equation
       pattern=LinePattern.Dash));
   connect(domesticWaterControls.Pum3_flow, connectingLoop.m_flow_in)
     annotation (Line(
-      points={{155,-3.4},{160,-3.4},{160,30},{72,30},{72,-12},{78,-12}},
+      points={{155,0},{160,0},{160,30},{72,30},{72,-12},{78,-12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

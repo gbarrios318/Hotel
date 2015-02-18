@@ -54,9 +54,6 @@ model ConnectingLoop
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-  Buildings.Fluid.Sources.Boundary_pT CitWat(          redeclare package Medium
-      = MediumDW, nPorts=1) "City Water"
-    annotation (Placement(transformation(extent={{-98,-10},{-78,10}})));
   Buildings.Fluid.Sensors.MassFlowRate MasFloRatCloWat(redeclare package Medium
       = MediumDW) "Mass flow rate of the cooling water load"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
@@ -100,6 +97,10 @@ model ConnectingLoop
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-40,80})));
+  Modelica.Fluid.Interfaces.FluidPort_a CitWat(redeclare package Medium =
+        MediumDW)
+    "Fluid connector a (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 equation
   connect(val3.port_b, port_b1) annotation (Line(
       points={{58,0},{80,0},{80,-60},{102,-60}},
@@ -155,12 +156,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 
-  connect(CitWat.ports[1], pum1.port_a) annotation (Line(
-      points={{-78,0},{-70,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      arrow={Arrow.Filled,Arrow.None},
-      thickness=1));
   connect(pum1.port_b, MasFloRatCloWat.port_a) annotation (Line(
       points={{-50,0},{-40,0}},
       color={0,127,255},
@@ -225,6 +220,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(pum1.port_a, CitWat) annotation (Line(
+      points={{-70,0},{-100,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

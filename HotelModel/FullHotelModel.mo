@@ -18,8 +18,8 @@ model FullHotelModel
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={70,50})));
-  Buildings.Fluid.Sources.Boundary_pT CitWat(nPorts=2) "City Water" annotation
-    (Placement(transformation(
+  Buildings.Fluid.Sources.Boundary_pT CitWat(nPorts=2) "City Water" annotation (
+     Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={20,70})));
@@ -28,12 +28,14 @@ equation
       points={{-60,30},{-10,30}},
       color={255,204,51},
       thickness=0.5,
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(weaDat.weaBus, heatRecoverySystem.weaBus) annotation (Line(
       points={{-60,30},{-20,30},{-20,6},{20,6}},
       color={255,204,51},
       thickness=0.5,
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(rainWaterCollectionTankModel.CooTow1, heatRecoverySystem.port_a1)
     annotation (Line(
       points={{10,30},{20,30},{20,14}},

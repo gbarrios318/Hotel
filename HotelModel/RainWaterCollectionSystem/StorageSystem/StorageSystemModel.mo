@@ -10,8 +10,13 @@ model StorageSystemModel "Storage System Model "
     "Pressure drop at nominal mass flow rate";
   Modelica.Fluid.Vessels.ClosedVolume ColTan(nPorts=3,
     redeclare package Medium = MediumRainWater,
-    use_portsData=false,
-    V=ColTanVol) "Collection tank"
+    V=ColTanVol,
+    use_portsData=true,
+    portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.20,
+        height=1.93),Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(
+        diameter=0.20, height=1.93),
+        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.05,
+        height=0)}) "Collection tank"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
   Buildings.Fluid.Sources.Boundary_pT OveFlo(          redeclare package Medium
       = MediumRainWater, nPorts=1) "Overflow, when "

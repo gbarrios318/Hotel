@@ -6,7 +6,9 @@ model OutputVolume "Output Volume model from simple liquid water systems"
   Modelica.Fluid.Vessels.ClosedVolume Vol(
     redeclare package Medium = Medium,
     V=V,
-    nPorts=1) "Volume model"
+    nPorts=1,
+    use_portsData=use_portsData,
+    portsData=portsData) "Volume model"
     annotation (Placement(transformation(extent={{-10,-38},{10,-18}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=Vol.fluidVolume)
     "Outputs actual volume of the fluid "

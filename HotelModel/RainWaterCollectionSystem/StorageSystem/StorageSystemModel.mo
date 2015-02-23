@@ -55,17 +55,13 @@ model StorageSystemModel "Storage System Model "
 
   parameter Modelica.SIunits.MassFlowRate m_OFflow_nominal
     "Nominal mass flow rate";
-  OutputVolume outVol(
-    redeclare package Medium = MediumRainWater,
-    V=ColTanVol,
-    portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.20,
-        height=1.93),Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(
-        diameter=0.20, height=1.93),
-        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.05,
-        height=0)})
-    annotation (Placement(transformation(extent={{-10,0},{10,20}})));
   Modelica.Blocks.Interfaces.RealOutput VolOut1 "Value of Real output"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
+  OutputVolume OutVol(
+    redeclare package Medium = MediumRainWater,
+    V=ColTanVol,
+    use_portsData=false)
+    annotation (Placement(transformation(extent={{-10,0},{10,20}})));
 equation
   connect(valF.port_b, port_b1) annotation (Line(
       points={{80,0},{100,0}},
@@ -102,22 +98,22 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(Fil.port_a, outVol.ports_b) annotation (Line(
-      points={{0,-20},{0,0}},
+  connect(OutVol.ports1[1], senMasFloIn.port_b) annotation (Line(
+      points={{-3.46667,0.1},{-10,0.1},{-10,0},{-20,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(senMasFloIn.port_b, outVol.ports_b) annotation (Line(
-      points={{-20,0},{0,0}},
+  connect(OutVol.ports1[2], Fil.port_a) annotation (Line(
+      points={{0,0.1},{0,-20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(outVol.ports_b, senMasFloOut.port_a) annotation (Line(
-      points={{0,0},{20,0}},
+  connect(OutVol.ports1[3], senMasFloOut.port_a) annotation (Line(
+      points={{3.46667,0.1},{10,0.1},{10,0},{20,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(outVol.VolOut, VolOut1) annotation (Line(
+  connect(OutVol.VolOut, VolOut1) annotation (Line(
       points={{11,10},{20,10},{20,60},{110,60}},
       color={0,0,127},
       smooth=Smooth.None,

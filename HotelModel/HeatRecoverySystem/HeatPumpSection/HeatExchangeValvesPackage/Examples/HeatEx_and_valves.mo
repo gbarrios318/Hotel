@@ -19,20 +19,12 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
     "Nominal pressure difference";
   import HotelModel;
  extends Modelica.Icons.Example;
-  HotelModel.HeatPumpSection.HeatExchangeValvesPackage.HeatEx_and_valves
-    heatEx_and_valves(
-    redeclare package MediumHW = MediumHW,
-    mHW_flow_nominal=mHW_flow_nominal,
-    dpHW_nominal=dpHW_nominal,
-    redeclare package MediumDW = MediumDW,
-    mDW_flow_nominal=mDW_flow_nominal)
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Buildings.Fluid.Sources.Boundary_pT sin_2(
     use_p_in=true,
     T=273.15 + 10,
-    nPorts=1,
     redeclare package Medium = MediumDW,
-    X={1})                annotation (Placement(transformation(extent={{-60,-30},
+    X={1},
+    nPorts=1)             annotation (Placement(transformation(extent={{-60,-30},
             {-40,-10}},rotation=0)));
     Modelica.Blocks.Sources.Ramp TWat(
     height=10,
@@ -48,16 +40,15 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
     p=300000 + 5000,
     T=273.15 + 50,
     use_T_in=true,
-    nPorts=1,
-    redeclare package Medium = MediumHW)
-                          annotation (Placement(transformation(extent={{-60,10},
+    redeclare package Medium = MediumHW,
+    nPorts=1)             annotation (Placement(transformation(extent={{-60,10},
             {-40,30}}, rotation=0)));
   Buildings.Fluid.Sources.Boundary_pT sin_1(
     use_p_in=true,
     T=273.15 + 25,
-    nPorts=1,
     redeclare package Medium = MediumHW,
-    p=300000)             annotation (Placement(transformation(extent={{60,10},
+    p=300000,
+    nPorts=1)             annotation (Placement(transformation(extent={{60,10},
             {40,30}},rotation=0)));
   Modelica.Blocks.Sources.Trapezoid trapezoid(
     amplitude=5000,
@@ -89,6 +80,15 @@ model HeatEx_and_valves "Example for the HeatEx and valves"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
+  HotelModel.HeatRecoverySystem.HeatPumpSection.HeatExchangeValvesPackage.HeatEx_and_valves
+    heatEx_and_valves(
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal)
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 equation
 
   connect(TWat.y,sou_1. T_in)
@@ -100,26 +100,46 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(sin_2.ports[1], heatEx_and_valves.port_b2) annotation (Line(
-      points={{-40,-20},{-20,-20},{-20,-4},{-10,-4}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(sou_1.ports[1], heatEx_and_valves.port_a1) annotation (Line(
-      points={{-40,20},{-20,20},{-20,4},{-10,4}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(trapezoid.y,sin_1. p_in) annotation (Line(
       points={{81,60},{88,60},{88,28},{62,28}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(PIn.y, sou_2.p_in) annotation (Line(
+      points={{41,-50},{80,-50},{80,-12},{62,-12}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(TDb.y, sou_2.T_in) annotation (Line(
+      points={{41,-80},{70,-80},{70,-16},{62,-16}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(sin_1.ports[1], heatEx_and_valves.port_b1) annotation (Line(
-      points={{40,20},{20,20},{20,4},{10,4}},
+      points={{40,20},{26,20},{26,4},{10,4}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(sou_2.ports[1], heatEx_and_valves.port_a2) annotation (Line(
+      points={{40,-20},{26,-20},{26,-4},{10,-4}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(sin_2.ports[1], heatEx_and_valves.port_b2) annotation (Line(
+      points={{-40,-20},{-24,-20},{-24,-4},{-10,-4}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(sou_1.ports[1], heatEx_and_valves.port_a1) annotation (Line(
+      points={{-40,20},{-24,20},{-24,4},{-10,4}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(heatEx_and_valves.ValCtrl1, heatEx_and_valves.BypValCtrl) annotation
+    (Line(
+      points={{-6,11.2},{6,11.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
   connect(step.y, heatEx_and_valves.ValCtrl1) annotation (Line(
       points={{-19,50},{-6,50},{-6,11.2}},
       color={0,0,127},
@@ -132,21 +152,6 @@ equation
       pattern=LinePattern.Dash));
   connect(pulse.y, heatEx_and_valves.BypValCtrl) annotation (Line(
       points={{-19,80},{6,80},{6,11.2}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(sou_2.ports[1], heatEx_and_valves.port_a2) annotation (Line(
-      points={{40,-20},{20,-20},{20,-4},{10,-4}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(PIn.y, sou_2.p_in) annotation (Line(
-      points={{41,-50},{80,-50},{80,-12},{62,-12}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(TDb.y, sou_2.T_in) annotation (Line(
-      points={{41,-80},{70,-80},{70,-16},{62,-16}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

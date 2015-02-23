@@ -5,6 +5,7 @@ model CoolingTowerSystem
   replaceable package MediumCW =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
+
   parameter Modelica.SIunits.Power P_nominal
     "Nominal cooling tower component power (at y=1)";
   parameter Modelica.SIunits.TemperatureDifference dTCW_nominal

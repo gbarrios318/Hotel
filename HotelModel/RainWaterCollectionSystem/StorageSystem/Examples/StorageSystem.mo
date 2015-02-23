@@ -46,7 +46,8 @@ equation
   connect(boundary.m_flow_in, sine.y) annotation (Line(
       points={{-60,8},{-64,8},{-64,0},{-69,0}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(senMasFlo.port_a, storageSystemModel.port_b1) annotation (Line(
       points={{20,0},{10,0}},
       color={0,127,255},
@@ -65,7 +66,8 @@ equation
   connect(MasFloRatIn.y, pum.m_flow_in) annotation (Line(
       points={{41,50},{51.8,50},{51.8,12}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end StorageSystem;

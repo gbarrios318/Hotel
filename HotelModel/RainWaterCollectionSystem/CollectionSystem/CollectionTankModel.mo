@@ -1,8 +1,7 @@
 within HotelModel.RainWaterCollectionSystem.CollectionSystem;
 model CollectionTankModel "Model of the collection tank system"
   replaceable package MediumRainWater =
-      Buildings.Media.ConstantPropertyLiquidWater
-    "Medium in the condenser water side";
+      Buildings.Media.ConstantPropertyLiquidWater "Medium of rain water";
   CollectionTankSignal collectionTankSignal(area=area)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Buildings.Fluid.Sources.MassFlowSource_h RainWater(

@@ -6,34 +6,32 @@ model OutputVolume "Output Volume model from simple liquid water systems"
   Modelica.Fluid.Vessels.ClosedVolume Vol(
     redeclare package Medium = Medium,
     V=V,
-    use_portsData=use_portsData,
-    portsData=portsData) "Volume model"
+    nPorts=3,
+    portsData=portsData,
+    use_portsData=false) "Volume model"
     annotation (Placement(transformation(extent={{-10,-38},{10,-18}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=Vol.fluidVolume)
     "Outputs actual volume of the fluid "
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
   Modelica.Blocks.Interfaces.RealOutput VolOut "Value of Real output"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b ports_b(redeclare
-      package Medium = Medium)
-    annotation (Placement(transformation(extent={{-38,-112},{38,-88}})));
   parameter Modelica.SIunits.Volume V "Volume";
   parameter Boolean use_portsData=true
     "= false to neglect pressure loss and kinetic energy";
-  parameter Modelica.Fluid.Vessels.BaseClasses.VesselPortsData portsData[if
-    use_portsData then nPorts else 0] "Data of inlet/outlet ports";
+
+  Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b ports1[3](redeclare
+      package Medium = Medium) "Fluid inlets and outlets"
+    annotation (Placement(transformation(extent={{-52,-114},{52,-84}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{80,80},{100,100}})));
 equation
   connect(realExpression.y, VolOut) annotation (Line(
       points={{61,0},{110,0}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(ports_b, ports_b) annotation (Line(
-      points={{0,-100},{0,-100}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(Vol.ports[1], ports_b) annotation (Line(
-      points={{0,-38},{0,-100}},
+  connect(Vol.ports, ports1) annotation (Line(
+      points={{0,-38},{0,-99}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

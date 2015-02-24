@@ -56,7 +56,6 @@ model CoolingTowerSystem
     redeclare package Medium = MediumCW,
     use_T_in=false)
     annotation (Placement(transformation(extent={{-50,-70},{-30,-50}})));
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Sources.CombiTimeTable sta(table=[0.0, 1; 40, 2; 80, 3; 120,
         4; 160, 5; 200, 6; 240, 7])
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
@@ -108,6 +107,7 @@ equation
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})),
+              Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end CoolingTowerSystem;

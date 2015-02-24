@@ -20,16 +20,6 @@ model HexValves_with_Control
     "Nominal pressure difference";
   import HotelModel;
  extends Modelica.Icons.Example;
-  HotelModel.HeatPumpSection.HeatExchangeValvesPackage.HexValves_with_Control
-    hexValves_with_Control(
-    redeclare package MediumCW = MediumCW,
-    mWater_flow_nominal=mWater_flow_nominal,
-    dp_nominal=dp_nominal,
-    redeclare package MediumDW = MediumDW,
-    mDW_flow_nominal=mDW_flow_nominal)
-    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
-        rotation=90,
-        origin={0,0})));
   Buildings.Fluid.Sources.Boundary_pT sin_2(
     use_p_in=true,
     T=273.15 + 10,
@@ -52,15 +42,15 @@ model HexValves_with_Control
     T=273.15 + 50,
     use_T_in=true,
     redeclare package Medium = MediumCW,
-    nPorts=1)             annotation (Placement(transformation(extent={{-54,16},
-            {-34,36}}, rotation=0)));
+    nPorts=1)             annotation (Placement(transformation(extent={{-50,10},
+            {-30,30}}, rotation=0)));
   Buildings.Fluid.Sources.Boundary_pT sin_1(
     use_p_in=true,
     T=273.15 + 25,
     redeclare package Medium = MediumCW,
     p=300000,
-    nPorts=1)             annotation (Placement(transformation(extent={{70,10},{
-            50,30}}, rotation=0)));
+    nPorts=1)             annotation (Placement(transformation(extent={{50,10},
+            {30,30}},rotation=0)));
   Modelica.Blocks.Sources.Trapezoid trapezoid(
     amplitude=5000,
     rising=10,
@@ -81,8 +71,8 @@ model HexValves_with_Control
     use_p_in=true,
     use_T_in=true,
     redeclare package Medium = MediumDW,
-    nPorts=1)             annotation (Placement(transformation(extent={{70,-30},
-            {50,-10}}, rotation=0)));
+    nPorts=1)             annotation (Placement(transformation(extent={{50,-30},
+            {30,-10}}, rotation=0)));
   Modelica.Blocks.Sources.Constant TDb(k=293.15) "Drybulb temperature"
     annotation (Placement(transformation(extent={{20,-90},{40,-70}}, rotation=0)));
   inner Modelica.Fluid.System system
@@ -91,20 +81,15 @@ model HexValves_with_Control
         4; 400,5; 500,6; 600,7])
     "Representation of all the states in the supervisory control"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
+  HotelModel.HeatRecoverySystem.HeatPumpSection.HeatExchangeValvesPackage.HexValves_with_Control
+    hexValves_with_Control annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={0,0})));
 equation
 
-  connect(hexValves_with_Control.port_b1, sin_2.ports[1]) annotation (Line(
-      points={{-4,-10},{-20,-10},{-20,-20},{-30,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(sou_1.ports[1], hexValves_with_Control.port_a1) annotation (Line(
-      points={{-34,26},{-20,26},{-20,10},{-4,10}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(TWat.y, sou_1.T_in) annotation (Line(
-      points={{-79,50},{-60,50},{-60,30},{-56,30}},
+      points={{-79,50},{-60,50},{-60,24},{-52,24}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -114,32 +99,42 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(trapezoid.y,sin_1. p_in) annotation (Line(
-      points={{81,50},{90,50},{90,28},{72,28}},
+      points={{81,50},{90,50},{90,28},{52,28}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(PIn.y, sou_2.p_in) annotation (Line(
-      points={{41,-50},{90,-50},{90,-12},{72,-12}},
+      points={{41,-50},{90,-50},{90,-12},{52,-12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(TDb.y, sou_2.T_in) annotation (Line(
-      points={{41,-80},{80,-80},{80,-16},{72,-16}},
+      points={{41,-80},{80,-80},{80,-16},{52,-16}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(sin_1.ports[1], hexValves_with_Control.port_b2) annotation (Line(
-      points={{50,20},{20,20},{20,10},{4.2,10}},
+  connect(sin_2.ports[1], hexValves_with_Control.port_a1) annotation (Line(
+      points={{-30,-20},{-4,-20},{-4,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(sou_2.ports[1], hexValves_with_Control.port_a2) annotation (Line(
-      points={{50,-20},{20,-20},{20,-10},{4,-10}},
+  connect(sou_1.ports[1], hexValves_with_Control.port_b1) annotation (Line(
+      points={{-30,20},{-4,20},{-4,10}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(sin_1.ports[1], hexValves_with_Control.port_a2) annotation (Line(
+      points={{30,20},{4,20},{4,10}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(sou_2.ports[1], hexValves_with_Control.port_b2) annotation (Line(
+      points={{30,-20},{4.2,-20},{4.2,-10}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(integerTable.y, hexValves_with_Control.Sta) annotation (Line(
-      points={{-19,80},{-11.2,80},{-11.2,0}},
+      points={{-19,80},{-16,80},{-16,0},{-11.2,0}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));

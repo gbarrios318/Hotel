@@ -64,10 +64,6 @@ model DomesticHotWaterSystem
         origin={20,-10})));
   Modelica.Blocks.Sources.Constant const1(k=0.21)
     annotation (Placement(transformation(extent={{-38,-16},{-26,-4}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-        MediumDW)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -90,7 +86,8 @@ model DomesticHotWaterSystem
     annotation (Placement(transformation(extent={{100,46},{120,66}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
-  Control.CoolingWaterControl cooWatCon1 annotation (Placement(transformation(
+  Control.CoolingWaterControl cooWatCon1(TDomHotWatSet=273 + 49, kPCon=1)
+                                         annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-32,72})));
@@ -102,6 +99,10 @@ model DomesticHotWaterSystem
         MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,10},{110,30}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
 equation
   connect(DomColWat.ports[1], senTemDomHotWat.port_a) annotation (Line(
       points={{-40,30},{-40,20},{-20,20}},
@@ -152,11 +153,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       arrow={Arrow.Filled,Arrow.None},
-      thickness=1));
-  connect(port_a1, tan.port_b) annotation (Line(
-      points={{-100,0},{-70,0},{-70,-20}},
-      color={0,127,255},
-      smooth=Smooth.None,
       thickness=1));
   connect(pum.port_a, senTemDomHotWat.port_b) annotation (Line(
       points={{20,0},{20,20},{0,20}},
@@ -215,6 +211,11 @@ equation
       thickness=1));
   connect(DomPum.port_b, DomHotWat) annotation (Line(
       points={{70,20},{100,20}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(tan.port_b, port_b1) annotation (Line(
+      points={{-70,-20},{-70,0},{-100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

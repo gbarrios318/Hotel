@@ -93,7 +93,8 @@ model ConnectingLoop
     annotation (Placement(transformation(extent={{20,22},{40,42}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{72,-92},{92,-72}})));
-  Control.Hex2ControlGroup2 Hex2ConGro2 annotation (Placement(transformation(
+  Control.Hex2ControlGroup2 Hex2ConGro2(mDW_flow_nominal=mDW_flow_nominal,
+      dpDW_nominal=dpDW_nominal)        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-40,80})));

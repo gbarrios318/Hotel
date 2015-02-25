@@ -1,12 +1,12 @@
 within HotelModel.HeatRecoverySystem.HeatPumpSection.HeatExchangeValvesPackage.Examples;
 model HexValves_with_Control
   "Examples for the heat exchange valves with the controls"
-     replaceable package MediumCW =
+     replaceable package MediumHW =
       Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
       annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.MassFlowRate mWater_flow_nominal=10
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal=10
     "Nominal mass flow rate of water";
-  parameter Modelica.SIunits.Pressure dp_nominal=100
+  parameter Modelica.SIunits.Pressure dpHW_nominal=100
     "Nominal pressure difference";
       replaceable package MediumDW =
       Buildings.Media.ConstantPropertyLiquidWater
@@ -41,13 +41,13 @@ model HexValves_with_Control
     p=300000 + 5000,
     T=273.15 + 50,
     use_T_in=true,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     nPorts=1)             annotation (Placement(transformation(extent={{-50,10},
             {-30,30}}, rotation=0)));
   Buildings.Fluid.Sources.Boundary_pT sin_1(
     use_p_in=true,
     T=273.15 + 25,
-    redeclare package Medium = MediumCW,
+    redeclare package Medium = MediumHW,
     p=300000,
     nPorts=1)             annotation (Placement(transformation(extent={{50,10},
             {30,30}},rotation=0)));
@@ -82,7 +82,14 @@ model HexValves_with_Control
     "Representation of all the states in the supervisory control"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
   HotelModel.HeatRecoverySystem.HeatPumpSection.HeatExchangeValvesPackage.HexValves_with_Control
-    hexValves_with_Control annotation (Placement(transformation(
+    hexValves_with_Control(
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal)
+                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,0})));

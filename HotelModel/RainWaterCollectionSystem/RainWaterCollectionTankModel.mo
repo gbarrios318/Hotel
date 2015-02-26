@@ -56,7 +56,7 @@ parameter Modelica.SIunits.MassFlowRate m_CitWatflow_nominal
     dpValve_nominal=dpValve_nominal,
     SSFilIn=SSFilIn,
     UVFilIn=UVFilIn)
-    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+    annotation (Placement(transformation(extent={{30,-10},{50,10}})));
   UsageSystem.UsageSystemModel UseSys(
     redeclare package MediumRainWater = MediumRainWater,
     m_RWflow_nominal=m_RWflow_nominal + m_CitWatflow_nominal,
@@ -73,6 +73,8 @@ parameter Modelica.SIunits.MassFlowRate m_CitWatflow_nominal
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus1
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  RainWaterControls rainWaterControls(ColTanVol=ColTanVol)
+    annotation (Placement(transformation(extent={{-10,20},{10,40}})));
 equation
   connect(ColTan.ports1[1], StoSys.port_a1) annotation (Line(
       points={{-70,20.2},{-70,0},{-60,0}},
@@ -80,17 +82,17 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(StoSys.port_b1, ProSys.port_a1) annotation (Line(
-      points={{-40,0},{-10,0}},
+      points={{-40,0},{30,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(ProSys.port_1, UseSys.port_a1) annotation (Line(
-      points={{10,0},{60,0}},
+      points={{50,0},{60,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(ProSys.CitWat, CitWat1) annotation (Line(
-      points={{0,9.8},{0,100}},
+      points={{40,9.8},{40,60},{0,60},{0,100}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -109,6 +111,21 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
+  connect(StoSys.VolOut1, rainWaterControls.FluidVol) annotation (Line(
+      points={{-39,6},{-20,6},{-20,30},{-12,30}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(rainWaterControls.ValCon, ProSys.ValE) annotation (Line(
+      points={{11,30},{20,30},{20,6},{28,6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(rainWaterControls.ValCon, ProSys.ValByP) annotation (Line(
+      points={{11,30},{20,30},{20,-6},{28,-6}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics), Icon(coordinateSystem(extent={{-100,
             -100},{100,100}}, preserveAspectRatio=false), graphics={

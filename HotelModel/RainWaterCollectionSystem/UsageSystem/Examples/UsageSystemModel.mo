@@ -36,11 +36,6 @@ model UsageSystemModel "Example of the usage system being implemented"
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
 equation
-  connect(usageSystemModel.CooTow, senMasFloOUT.port_a) annotation (Line(
-      points={{10,0},{20,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(sinc.ports[1], senMasFloOUT.port_b) annotation (Line(
       points={{60,0},{40,0}},
       color={0,127,255},
@@ -61,5 +56,12 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  annotation (Diagram(graphics));
+  connect(usageSystemModel.port_b1, senMasFloOUT.port_a) annotation (Line(
+      points={{10,0},{20,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                      graphics));
 end UsageSystemModel;

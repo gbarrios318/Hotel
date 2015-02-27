@@ -19,13 +19,10 @@ model CollectionTankModel "Collection tank model example "
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         MediumRainWater)
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+  inner Modelica.Fluid.System system
+    annotation (Placement(transformation(extent={{80,80},{100,100}})));
 equation
 
-  connect(ColTan.RaiWatIn1, sine.y) annotation (Line(
-      points={{-42,0},{-59,0}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(bou.ports[1], senMasFlo.port_b) annotation (Line(
       points={{60,0},{40,0}},
       color={0,127,255},
@@ -36,6 +33,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
+  connect(sine.y, ColTan.RaiWatIn1) annotation (Line(
+      points={{-59,0},{-50,0},{-50,-4},{-42,-4}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end CollectionTankModel;

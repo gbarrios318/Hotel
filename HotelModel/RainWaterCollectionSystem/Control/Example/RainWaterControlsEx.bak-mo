@@ -1,0 +1,17 @@
+within HotelModel.RainWaterCollectionSystem.Control.Example;
+model RainWaterControlsEx
+
+  RainWaterControls rainWaterControls(ColTanVol=10)
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+  Modelica.Blocks.Sources.Sine sine(
+    amplitude=5,
+    freqHz=1/3600,
+    offset=5)
+    annotation (Placement(transformation(extent={{-52,-10},{-32,10}})));
+equation
+  connect(rainWaterControls.FluidVol, sine.y) annotation (Line(
+      points={{-12,0},{-31,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  annotation (Diagram(graphics));
+end RainWaterControlsEx;

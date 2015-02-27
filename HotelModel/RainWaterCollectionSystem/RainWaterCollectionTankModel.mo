@@ -67,14 +67,14 @@ parameter Modelica.SIunits.MassFlowRate m_CitWatflow_nominal
         MediumCityWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_a CooTow1(redeclare package Medium =
-        MediumRainWater)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus1
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  RainWaterControls rainWaterControls(ColTanVol=ColTanVol)
-    annotation (Placement(transformation(extent={{-10,20},{10,40}})));
+    annotation (Placement(transformation(extent={{-120,-20},{-80,20}})));
+  Control.RainWaterControls rainWaterControls(ColTanVol=ColTanVol)
+    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+  Modelica.Fluid.Interfaces.FluidPort_b CooTow(redeclare package Medium =
+        MediumRainWater)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 equation
   connect(ColTan.ports1[1], StoSys.port_a1) annotation (Line(
       points={{-70,20.2},{-70,0},{-60,0}},
@@ -96,11 +96,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(UseSys.CooTow, CooTow1) annotation (Line(
-      points={{80,0},{100,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(ColTan.weaBus, weaBus1) annotation (Line(
       points={{-70,40},{-70,60},{-86,60},{-86,0},{-100,0}},
       color={255,204,51},
@@ -112,20 +107,25 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(StoSys.VolOut1, rainWaterControls.FluidVol) annotation (Line(
-      points={{-39,6},{-20,6},{-20,30},{-12,30}},
+      points={{-39,6},{-30,6},{-30,30},{-22,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(rainWaterControls.ValCon, ProSys.ValE) annotation (Line(
-      points={{11,30},{20,30},{20,6},{28,6}},
+  connect(ProSys.ValE, rainWaterControls.ValCon) annotation (Line(
+      points={{28,6},{14,6},{14,30},{1,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(rainWaterControls.ValCon, ProSys.ValByP) annotation (Line(
-      points={{11,30},{20,30},{20,-6},{28,-6}},
+  connect(ProSys.ValByP, rainWaterControls.ValCon) annotation (Line(
+      points={{28,-6},{14,-6},{14,30},{1,30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(UseSys.port_b1, CooTow) annotation (Line(
+      points={{80,0},{100,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false), graphics), Icon(coordinateSystem(extent={{-100,
             -100},{100,100}}, preserveAspectRatio=false), graphics={

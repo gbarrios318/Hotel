@@ -1,4 +1,4 @@
-within HotelModel.RainWaterCollectionSystem;
+within HotelModel.RainWaterCollectionSystem.Control;
 model RainWaterControls
   parameter Modelica.SIunits.Volume ColTanVol "Volume";
   Modelica.Blocks.Logical.LessThreshold lessThreshold(threshold=const.k)

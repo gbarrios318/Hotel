@@ -40,10 +40,6 @@ model UsageSystemModel "Usage system model without signals"
         MediumRainWater)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a CooTow(redeclare package Medium =
-        MediumRainWater)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Sources.Constant const(k=1)
     annotation (Placement(transformation(extent={{-86,74},{-74,86}})));
   Modelica.Blocks.Sources.Constant dpIrr(k=413.7)
@@ -72,6 +68,10 @@ model UsageSystemModel "Usage system model without signals"
         MediumRainWater)
     "mass flow rate of the water going out of the usage system"
     annotation (Placement(transformation(extent={{22,32},{38,48}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumRainWater)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 equation
   connect(val.port_a, port_a1) annotation (Line(
       points={{-60,-40},{-80,-40},{-80,0},{-100,0}},
@@ -118,11 +118,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(CooTow, val2.port_b) annotation (Line(
-      points={{100,0},{-10,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(port_a1, val2.port_a) annotation (Line(
       points={{-100,0},{-30,0}},
       color={0,127,255},
@@ -150,6 +145,11 @@ equation
       thickness=1));
   connect(Irr.ports[1], senMasFloIrr.port_b) annotation (Line(
       points={{50,40},{38,40}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(val2.port_b, port_b1) annotation (Line(
+      points={{-10,0},{100,0}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

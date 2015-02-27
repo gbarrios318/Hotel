@@ -19,7 +19,10 @@ model CollectionTankModel "Model of the collection tank system"
         rotation=90,
         origin={0,110})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(transformation(extent={{-120,-20},{-80,20}})));
+  Modelica.Blocks.Interfaces.RealInput RaiWatIn1
+    "Connector of Real input signal"
+    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
 equation
   connect(RainWater.ports[1:1], ports1) annotation (Line(
       points={{22,-8},{60,-8},{60,0},{98,0}},
@@ -44,6 +47,11 @@ equation
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
+  connect(collectionTankSignal.RaiWatIn, RaiWatIn1) annotation (Line(
+      points={{-62,0},{-80,0},{-80,-40},{-120,-40}},
+      color={0,0,127},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

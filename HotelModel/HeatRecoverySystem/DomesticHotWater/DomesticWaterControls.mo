@@ -66,7 +66,8 @@ equation
   connect(TBoiSet.y, conPID.u_s) annotation (Line(
       points={{-69,-30},{-62,-30}},
       color={0,0,127},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(domesticHotWaterSystem.port_a2, port_a2) annotation (Line(
       points={{0,-10},{0,-100}},
       color={0,127,255},

@@ -91,17 +91,55 @@ model HotelModel_annual
         50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5; 72000,0.0;
         75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0])
     annotation (Placement(transformation(extent={{48,-36},{56,-28}})));
-  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem
+  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
+    redeclare package MediumCW = MediumCW,
+    P_nominal=coolingTowerSystem.P_nominal,
+    dTCW_nominal=coolingTowerSystem.dTCW_nominal,
+    dTApp_nominal=coolingTowerSystem.dTApp_nominal,
+    TWetBul_nominal=coolingTowerSystem.TWetBul_nominal,
+    dP_nominal=coolingTowerSystem.dP_nominal,
+    mCW_flow_nominal=coolingTowerSystem.mCW_flow_nominal,
+    redeclare package MediumRainWater = MediumHW,
+    m_RWflow_nominal=coolingTowerSystem.m_RWflow_nominal,
+    GaiPi=coolingTowerSystem.GaiPi,
+    tIntPi=coolingTowerSystem.tIntPi,
+    v_flow_rate=coolingTowerSystem.v_flow_rate,
+    eta=coolingTowerSystem.eta,
+    TSet=coolingTowerSystem.TSet,
+    Motor_eta=coolingTowerSystem.Motor_eta,
+    Hydra_eta=coolingTowerSystem.Hydra_eta)
     annotation (Placement(transformation(extent={{-100,14},{-80,34}})));
-  HeatPumpSection.HeatPump heatPump
+  HeatPumpSection.HeatPump heatPump(
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=mHW_flow_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal,
+    Q_flow_nominal=heatPump.Q_flow_nominal,
+    HeatPumpVol=heatPump.HeatPumpVol,
+    HeaPumTRef=heatPump.HeaPumTRef,
+    TSetBoiIn=heatPump.TSetBoiIn)
     annotation (Placement(transformation(extent={{0,20},{20,0}})));
   Control.SupervisoryControl supCon
     annotation (Placement(transformation(extent={{-168,58},{-148,78}})));
   Load.Load TDryBul
     annotation (Placement(transformation(extent={{-68,-48},{-60,-36}})));
-  ConnectingPackage.ConnectingLoop connectingLoop
+  ConnectingPackage.ConnectingLoop connectingLoop(
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal)
     annotation (Placement(transformation(extent={{80,-20},{100,0}})));
-  DomesticHotWater.DomesticWaterControls domesticWaterControls
+  DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
+      package MediumDW = MediumDW, mDW_flow_nominal=dpDW_nominal,
+    dpDW_nominal=dpDW_nominal,
+    VTan=domesticWaterControls.VTan,
+    hTan=domesticWaterControls.hTan,
+    dIns=domesticWaterControls.dIns,
+    Q_flow_DWnominal=domesticWaterControls.Q_flow_DWnominal,
+    MassFloDomIn=domesticWaterControls.MassFloDomIn,
+    MassFloKitIn=domesticWaterControls.MassFloKitIn,
+    TBoiSetIn=domesticWaterControls.TBoiSetIn)
     annotation (Placement(transformation(extent={{134,-14},{154,6}})));
 equation
   connect(exp4.port_a, hex.port_b1) annotation (Line(
@@ -206,22 +244,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(connectingLoop.port_a1, domesticWaterControls.port_a1) annotation (
-      Line(
-      points={{100,-4},{134,-4}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(connectingLoop.port_b1, domesticWaterControls.port_a2) annotation (
-      Line(
-      points={{100.2,-16},{102,-16},{102,-40},{144,-40},{144,-14}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(exp2.port_a, domesticWaterControls.port_a1) annotation (Line(
-      points={{126,16},{126,-4},{134,-4}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(KitHotWatDem.y[1], domesticWaterControls.m_flow_in_kit) annotation (
       Line(
       points={{58.4,-56},{120,-56},{120,0},{132,0}},
@@ -255,6 +277,23 @@ equation
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(connectingLoop.port_a1, domesticWaterControls.port_b1) annotation (
+      Line(
+      points={{100,-4},{134,-4}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(connectingLoop.port_b1, domesticWaterControls.port_a2) annotation (
+      Line(
+      points={{100.2,-16},{100,-16},{100,-40},{144,-40},{144,-14}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(exp2.port_a, domesticWaterControls.port_b1) annotation (Line(
+      points={{126,16},{126,-4},{134,-4}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (__Dymola_Commands(file=
           "modelica://HotelModel/Resources/Scripts/HotelModel_annual.mos"
         "Simulate and plot"),

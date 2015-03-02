@@ -73,7 +73,7 @@ model CoolingTowerSystem
     addPowerToMedium=false,
     allowFlowReversal=true,
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mCW_flow_nomina + m_RWflow_nominall)
+    m_flow_nominal=mCW_flow_nominal + m_RWflow_nominal)
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));

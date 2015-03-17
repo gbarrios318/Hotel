@@ -49,13 +49,9 @@ model CoolingTowerSystem
     Motor_eta=Motor_eta,
     Hydra_eta=Hydra_eta,
     redeclare package MediumRainWater = MediumRainWater,
-    m_RWflow_nominal=m_RWflow_nominal)
+    m_RWflow_nominal=m_RWflow_nominal,
+    dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-  Buildings.Fluid.Sources.Boundary_pT bou1(
-    nPorts=1,
-    redeclare package Medium = MediumCW,
-    use_T_in=false)
-    annotation (Placement(transformation(extent={{-50,-70},{-30,-50}})));
   Modelica.Blocks.Sources.CombiTimeTable sta(table=[0.0, 1; 40, 2; 80, 3; 120,
         4; 160, 5; 200, 6; 240, 7])
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
@@ -66,6 +62,16 @@ model CoolingTowerSystem
     redeclare package Medium = MediumCW,
     nPorts=1)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+  Buildings.Fluid.Sources.MassFlowSource_T boundary(
+    nPorts=1,
+    redeclare package Medium = MediumRainWater,
+    use_m_flow_in=true)
+    annotation (Placement(transformation(extent={{-50,-80},{-30,-60}})));
+  Modelica.Blocks.Sources.Ramp ramp(
+    height=7.89,
+    duration=900,
+    startTime=900)
+    annotation (Placement(transformation(extent={{-90,-80},{-70,-60}})));
 equation
   connect(TCWLea.port_b, sinCW.ports[1]) annotation (Line(
       points={{58,0},{76,0}},
@@ -82,11 +88,6 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(bou1.ports[1], cooTow.port_a1) annotation (Line(
-      points={{-30,-60},{-16,-60},{-16,0},{-10.2,0}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(bou.ports[1], cooTow.port_a) annotation (Line(
       points={{-40,0},{-20,0},{-20,20},{0,20},{0,9.8}},
       color={0,127,255},
@@ -105,6 +106,16 @@ equation
   connect(realToInteger.y, cooTow.sta) annotation (Line(
       points={{-39,50},{-28,50},{-28,6},{-12,6}},
       color={255,127,0},
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
+  connect(boundary.ports[1], cooTow.port_a1) annotation (Line(
+      points={{-30,-70},{-16,-70},{-16,0},{-10.2,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(boundary.m_flow_in, ramp.y) annotation (Line(
+      points={{-50,-62},{-60,-62},{-60,-70},{-69,-70}},
+      color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})),

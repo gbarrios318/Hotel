@@ -38,18 +38,10 @@ model ConnectingLoop
         MediumDW, m_flow_nominal=mDW_flow_nominal,
     motorCooledByFluid=false)
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-        MediumDW)
-    "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{92,-70},{112,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,50},{110,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
-        MediumDW)
-    "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -102,27 +94,19 @@ model ConnectingLoop
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+        MediumDW)
+    "Fluid connector b (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
 equation
-  connect(val3.port_b, port_b1) annotation (Line(
-      points={{58,0},{80,0},{80,-60},{102,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(val4.port_b, port_b1) annotation (Line(
-      points={{60,-60},{102,-60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(val1.port_a, port_a1) annotation (Line(
       points={{90,60},{100,60}},
       color={0,127,255},
       smooth=Smooth.None,
-      thickness=1));
-  connect(val2.port_b, port_b2) annotation (Line(
-      points={{0,40},{0,60},{-100,60}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      arrow={Arrow.Filled,Arrow.None},
       thickness=1));
   connect(val2.port_a, val3.port_a) annotation (Line(
       points={{0,20},{0,0},{38,0}},
@@ -150,10 +134,6 @@ equation
       smooth=Smooth.None));
   connect(port_a1, port_a1) annotation (Line(
       points={{100,60},{100,60}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(port_b1, port_b1) annotation (Line(
-      points={{102,-60},{102,-65},{102,-65},{102,-60}},
       color={0,127,255},
       smooth=Smooth.None));
 
@@ -188,7 +168,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(pum2.port_b, val2.port_b) annotation (Line(
-      points={{40,60},{0,60},{0,40}},
+      points={{40,60},{4.44089e-016,60},{4.44089e-016,40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -223,6 +203,21 @@ equation
       pattern=LinePattern.Dash));
   connect(pum1.port_a, CitWat) annotation (Line(
       points={{-70,0},{-100,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(pum2.port_b, port_b1) annotation (Line(
+      points={{40,60},{-100,60}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(val4.port_b, port_b2) annotation (Line(
+      points={{60,-60},{100,-60}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(val3.port_b, port_b2) annotation (Line(
+      points={{58,0},{80,0},{80,-60},{100,-60}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

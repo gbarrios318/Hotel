@@ -1,14 +1,85 @@
 within HotelModel.HeatRecoverySystem;
 model HeatRecoverySystem "Full heat recovery set as a model"
+
+//Parameters for the Cooling Tower System
+     replaceable package MediumCW =
+      Buildings.Media.ConstantPropertyLiquidWater "Medium for condenser water"
+      annotation (choicesAllMatching = true);
+  parameter Modelica.SIunits.Power P_nominal
+    "Nominal cooling tower component power (at y=1)";
+  parameter Modelica.SIunits.TemperatureDifference dTCW_nominal
+    "Temperature difference between the outlet and inlet of the module";
+  parameter Modelica.SIunits.TemperatureDifference dTApp_nominal
+    "Nominal approach temperature";
+  parameter Modelica.SIunits.Temperature TWetBul_nominal
+    "Nominal wet bulb temperature";
+  parameter Modelica.SIunits.Pressure dp_nominal
+    "Pressure difference between the outlet and inlet of the module ";
+  parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
+    "Nominal mass flow rate";
+  replaceable package MediumRainWater =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium in the condenser water side";
+  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+    "Nominal mass flow rate";
+  parameter Real GaiPi "Gain of the component PI controller";
+  parameter Real tIntPi "Integration time of the component PI controller";
+  parameter Real v_flow_rate[:] "Volume flow rate";
+  parameter Real eta[:] "Fan efficiency";
+  parameter Modelica.SIunits.Temperature TSet
+    "Temperature set point for CW water leaving the cooling tower";
+    parameter Real Motor_eta[:] "Motor efficiency";
+    parameter Real Hydra_eta[:] "Hydraulic efficiency";
+
+//Parameters for the HeatPump section
+
+replaceable package MediumHW =
+        Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for condenser water"
+      annotation (choicesAllMatching = true);
+  parameter Modelica.SIunits.MassFlowRate mHW_flow_nominal
+    "Nominal mass flow rate of water";
+  parameter Modelica.SIunits.Pressure dpHW_nominal
+    "Nominal pressure difference";
+replaceable package MediumDW =
+      Buildings.Media.ConstantPropertyLiquidWater
+    "Medium for domestic hot water";
+      //Buildings.Media.Interfaces.PartialSimpleMedium
+   parameter Modelica.SIunits.MassFlowRate mDW_flow_nominal
+    "Nominal mass flow rate";
+    //Nominal flow rate is value I gave, probably different
+   parameter Modelica.SIunits.Pressure dpDW_nominal
+    "Nominal pressure difference";
+  parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heat flow";
+  parameter Modelica.SIunits.Volume HeatPumpVol "Volume of the Heat Pump";
+  parameter Modelica.SIunits.Temperature HeaPumTRef
+    "Reference tempearture of heat pump";
+  parameter Modelica.SIunits.Temp_K TSetBoiIn "Set temperature for boiler";
+
+// Parameters for the Domestic Hot water
+
+    parameter Modelica.SIunits.Volume VTan "Volume of the tank";
+    parameter Modelica.SIunits.Height hTan "Height of the tank";
+    parameter Modelica.SIunits.Thickness dIns "Thickness of the insulation";
+    parameter Modelica.SIunits.HeatFlowRate Q_flow_DWnominal
+    "Nominal heat flow rate";
+    parameter Modelica.SIunits.MassFlowRate MassFloDomIn
+    "Mass flow rate of water going into domestic water usage";
+    parameter Modelica.SIunits.MassFlowRate MassFloKitIn
+    "Mass flow rate of water going to kitchen";
+    parameter Modelica.SIunits.Temp_K TBoiSetIn "Boiler setting";
+
+//Connecting loop parameters just used the same as the domestic water
+
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{150,70},{170,90}})));
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = MediumCW,
     redeclare package Medium2 = MediumHW,
     m1_flow_nominal=mCW_flow_nominal,
-    dp1_nominal=dp_nominal,
     dp2_nominal=dpHW_nominal,
-    m2_flow_nominal=mHW_flow_nominal)                      annotation (
+    m2_flow_nominal=mHW_flow_nominal,
+    dp1_nominal=dp_nominal)                                annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -48,7 +119,7 @@ model HeatRecoverySystem "Full heat recovery set as a model"
     annotation (Placement(transformation(extent={{120,62},{140,82}})));
   Buildings.Fluid.Storage.ExpansionVessel exp2(
     redeclare package Medium = MediumCW, V_start=10)
-              annotation (Placement(transformation(extent={{134,8},{142,16}})));
+              annotation (Placement(transformation(extent={{132,8},{140,16}})));
   Modelica.Blocks.Sources.CombiTimeTable GueRooDomWatDem(
     fileName="Twb1.txt",
     tableName="table1",
@@ -60,31 +131,73 @@ model HeatRecoverySystem "Full heat recovery set as a model"
         50400,0.0; 54000,0; 57600,0; 61200,1.5; 64800,1.5; 68400,1.5; 72000,0.0;
         75600,0.0; 79200,0.0; 82800,0.0; 86400,0.0])
     annotation (Placement(transformation(extent={{60,-44},{68,-36}})));
-  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem
+  CoolingTowerSection.CoolingTowerSystem coolingTowerSystem(
+    redeclare package MediumCW = MediumCW,
+    P_nominal=P_nominal,
+    dTCW_nominal=dTCW_nominal,
+    dTApp_nominal=TWetBul_nominal,
+    TWetBul_nominal=TWetBul_nominal,
+    dp_nominal=dp_nominal,
+    mCW_flow_nominal=mCW_flow_nominal,
+    redeclare package MediumRainWater = MediumRainWater,
+    m_RWflow_nominal=m_RWflow_nominal,
+    GaiPi=GaiPi,
+    tIntPi=tIntPi,
+    v_flow_rate=v_flow_rate,
+    eta=eta,
+    TSet=TSet,
+    Motor_eta=Motor_eta,
+    Hydra_eta=Hydra_eta)
     annotation (Placement(transformation(extent={{-88,6},{-68,26}})));
-  HeatPumpSection.HeatPump heatPump
-    annotation (Placement(transformation(extent={{12,12},{32,-8}})));
+  HeatPumpSection.HeatPump heatPump(
+    redeclare package MediumHW = MediumHW,
+    mHW_flow_nominal=mHW_flow_nominal,
+    dpHW_nominal=dpHW_nominal,
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal,
+    Q_flow_nominal=Q_flow_nominal,
+    HeatPumpVol=HeatPumpVol,
+    HeaPumTRef=HeaPumTRef,
+    TSetBoiIn=TSetBoiIn)
+    annotation (Placement(transformation(extent={{10,14},{30,-6}})));
   Control.SupervisoryControl supCon
     annotation (Placement(transformation(extent={{-156,50},{-136,70}})));
   Load.Load TDryBul
     annotation (Placement(transformation(extent={{-56,-56},{-48,-44}})));
-  ConnectingPackage.ConnectingLoop connectingLoop
+  ConnectingPackage.ConnectingLoop connectingLoop(
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal)
     annotation (Placement(transformation(extent={{92,-28},{112,-8}})));
-  DomesticHotWater.DomesticWaterControls domesticWaterControls
+  DomesticHotWater.DomesticWaterControls domesticWaterControls(
+    redeclare package MediumDW = MediumDW,
+    mDW_flow_nominal=mDW_flow_nominal,
+    dpDW_nominal=dpDW_nominal,
+    VTan=VTan,
+    hTan=hTan,
+    dIns=dIns,
+    Q_flow_DWnominal=Q_flow_DWnominal,
+    MassFloDomIn=MassFloDomIn,
+    MassFloKitIn=MassFloKitIn,
+    TBoiSetIn=TBoiSetIn)
     annotation (Placement(transformation(extent={{146,-22},{166,-2}})));
   Buildings.BoundaryConditions.WeatherData.Bus
                                      weaBus
     annotation (Placement(transformation(extent={{-210,-50},{-190,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a1
-    "fluid connector from the rain water collection"
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumRainWater) "fluid connector from the rain water collection"
     annotation (Placement(transformation(extent={{-210,30},{-190,50}})));
-  Modelica.Fluid.Interfaces.FluidPort_a CitWat1
+  Modelica.Fluid.Interfaces.FluidPort_a CitWat1(redeclare package Medium =
+        MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b DomHotWat1
+  Modelica.Fluid.Interfaces.FluidPort_b DomHotWat1(redeclare package Medium =
+        MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{190,-70},{210,-50}})));
-  Modelica.Fluid.Interfaces.FluidPort_b KitWat1
+  Modelica.Fluid.Interfaces.FluidPort_b KitWat1(redeclare package Medium =
+        MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{190,50},{210,70}})));
 equation
@@ -120,7 +233,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(TDryBul.Loa,heatPump. Q_flow1) annotation (Line(
-      points={{-47.6,-50},{8,-50},{8,4},{10,4}},
+      points={{-47.6,-50},{8,-50},{8,6}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -130,47 +243,42 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(supCon.y,heatPump. Sta) annotation (Line(
-      points={{-135,60},{-8,60},{-8,0},{11,0}},
+      points={{-135,60},{-8,60},{-8,2},{9,2}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.port_b1,hex. port_a2) annotation (Line(
-      points={{12,8},{12,32},{-32,32},{-32,12}},
+      points={{10,10},{10,32},{-32,32},{-32,12}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(hex.port_b2,heatPump. port_a1) annotation (Line(
-      points={{-32,-8},{-32,-28},{12,-28},{12,-4}},
+      points={{-32,-8},{-32,-28},{10,-28},{10,-2}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(exp3.port_a,heatPump. port_a1) annotation (Line(
-      points={{-8,-24},{-8,-28},{12,-28},{12,-4}},
+      points={{-8,-24},{-8,-28},{10,-28},{10,-2}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(heatPump.THeaPum,supCon. THeatPump) annotation (Line(
-      points={{28,13},{28,80},{-168,80},{-168,72},{-158,72}},
+      points={{26,15},{26,80},{-168,80},{-168,72},{-158,72}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.BypValPos,supCon. BypasValPos) annotation (Line(
-      points={{26,-9},{26,-62},{-102,-62},{-102,52},{-134,52}},
+      points={{24,-7},{24,-62},{-102,-62},{-102,52},{-134,52}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.Tboi,supCon. TBoiHP) annotation (Line(
-      points={{28,-9},{28,-68},{-168,-68},{-168,48},{-158,48}},
+      points={{26,-7},{26,-68},{-168,-68},{-168,48},{-158,48}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(heatPump.port_a2,connectingLoop. port_b2) annotation (Line(
-      points={{32,8},{32,32},{92,32},{92,-12}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(heatPump.port_b2,connectingLoop. port_a2) annotation (Line(
-      points={{32,-4},{36,-4},{36,-28},{92,-28},{92,-24}},
+      points={{30,-2},{30,-28},{92,-28},{92,-24}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -179,25 +287,9 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(connectingLoop.port_a1,domesticWaterControls. port_a1) annotation (
-      Line(
-      points={{112,-12},{146,-12}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(connectingLoop.port_b1,domesticWaterControls. port_a2) annotation (
-      Line(
-      points={{112.2,-24},{114,-24},{114,-48},{156,-48},{156,-22}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
-  connect(exp2.port_a,domesticWaterControls. port_a1) annotation (Line(
-      points={{138,8},{138,-12},{146,-12}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(KitHotWatDem.y[1],domesticWaterControls. m_flow_in_kit) annotation (
       Line(
-      points={{70.4,-64},{132,-64},{132,-8},{144,-8}},
+      points={{70.4,-64},{130,-64},{130,-8},{144,-8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -224,7 +316,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.sta1,heatPump. Sta) annotation (Line(
-      points={{98,-6},{98,60},{-8,60},{-8,0},{11,0}},
+      points={{98,-6},{98,60},{-8,60},{-8,2},{9,2}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -245,6 +337,28 @@ equation
       thickness=1));
   connect(domesticWaterControls.KitWat1, KitWat1) annotation (Line(
       points={{156,-2},{156,60},{200,60}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(domesticWaterControls.port_b1, exp2.port_a) annotation (Line(
+      points={{146,-12},{136,-12},{136,8}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(connectingLoop.port_b1, heatPump.port_a2) annotation (Line(
+      points={{92,-12},{92,32},{30,32},{30,10}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(connectingLoop.port_b2, domesticWaterControls.port_a1) annotation (
+      Line(
+      points={{112,-24},{112,-56},{156,-56},{156,-22}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(connectingLoop.port_a1, domesticWaterControls.port_b1) annotation (
+      Line(
+      points={{112,-12},{146,-12}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

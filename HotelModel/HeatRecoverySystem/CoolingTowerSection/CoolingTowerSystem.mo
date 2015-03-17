@@ -14,7 +14,7 @@ model CoolingTowerSystem
     "Nominal approach temperature";
   parameter Modelica.SIunits.Temperature TWetBul_nominal
     "Nominal wet bulb temperature";
-  parameter Modelica.SIunits.Pressure dP_nominal
+  parameter Modelica.SIunits.Pressure dp_nominal
     "Pressure difference between the outlet and inlet of the module ";
   parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate";
@@ -51,7 +51,7 @@ model CoolingTowerSystem
     dTCW_nominal=dTCW_nominal,
     dTApp_nominal=dTApp_nominal,
     TWetBul_nominal=TWetBul_nominal,
-    dP_nominal=dP_nominal,
+    dp_nominal=dp_nominal,
     mCW_flow_nominal=mCW_flow_nominal,
     GaiPi=GaiPi,
     tIntPi=tIntPi,
@@ -77,7 +77,8 @@ model CoolingTowerSystem
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
-  HotelModel.HeatRecoverySystem.Control.CoolingTowerControl cooTowCon
+  HotelModel.HeatRecoverySystem.Control.CoolingTowerControl cooTowCon(
+      pum1MasFlo=44.10)
     annotation (Placement(transformation(extent={{-84,50},{-64,70}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
         MediumRainWater) "fluid connector from the rain water collection"

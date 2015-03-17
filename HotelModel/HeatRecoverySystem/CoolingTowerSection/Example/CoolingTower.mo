@@ -51,7 +51,8 @@ model CoolingTower
     GaiPi=GaiPi,
     tIntPi=tIntPi,
     v_flow_rate=v_flow_rate,
-    eta=eta)
+    eta=eta,
+    dp_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
 equation
   connect(TCWLeachi.y, souCW.T_in) annotation (Line(

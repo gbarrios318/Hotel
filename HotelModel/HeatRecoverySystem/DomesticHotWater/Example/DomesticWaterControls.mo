@@ -81,11 +81,6 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
-  connect(boundary1.ports[1], domesticWaterControls.port_a2) annotation (Line(
-      points={{20,-50},{0,-50},{0,-10}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(bou2.ports[1], domesticWaterControls.KitWat1) annotation (Line(
       points={{20,50},{0,50},{0,10}},
       color={0,127,255},
@@ -103,6 +98,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(boundary1.ports[1], domesticWaterControls.port_a1) annotation (Line(
+      points={{20,-50},{0,-50},{0,-10}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
 end DomesticWaterControls;

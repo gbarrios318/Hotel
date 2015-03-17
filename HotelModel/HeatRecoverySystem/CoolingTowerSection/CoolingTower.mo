@@ -12,7 +12,7 @@ model CoolingTower "Single module of the cooling tower"
     "Nominal approach temperature";
   parameter Modelica.SIunits.Temperature TWetBul_nominal
     "Nominal wet bulb temperature";
-  parameter Modelica.SIunits.Pressure dP_nominal
+  parameter Modelica.SIunits.Pressure dp_nominal
     "Pressure difference between the outlet and inlet of the module ";
   parameter Modelica.SIunits.MassFlowRate mCW_flow_nominal
     "Nominal mass flow rate";
@@ -23,7 +23,7 @@ model CoolingTower "Single module of the cooling tower"
   Buildings.Fluid.HeatExchangers.CoolingTowers.YorkCalc                    yorkCalc(
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal,
-    dp_nominal=0,
+    dp_nominal=dp_nominal,
     TRan_nominal=dTCW_nominal,
     TAirInWB_nominal=TWetBul_nominal,
     TApp_nominal=dTApp_nominal,
@@ -44,7 +44,7 @@ model CoolingTower "Single module of the cooling tower"
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage                    val(
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal,
-    dpValve_nominal=dP_nominal)
+    dpValve_nominal=dp_nominal)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Buildings.Controls.Continuous.LimPID                    conPI(
     reverseAction=true,

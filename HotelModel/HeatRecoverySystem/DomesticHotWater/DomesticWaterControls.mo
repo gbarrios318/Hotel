@@ -19,10 +19,6 @@ model DomesticWaterControls "Domestic water with controls"
     "Mass flow rate of water going to kitchen";
     parameter Modelica.SIunits.Temp_K TBoiSetIn "Boiler setting";
 
-  Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
-        MediumDW)
-    "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
   Modelica.Blocks.Sources.Constant TBoiSet(k=TBoiSetIn)
     annotation (Placement(transformation(extent={{-90,-40},{-70,-20}})));
   Buildings.Controls.Continuous.LimPID conPID(
@@ -62,17 +58,16 @@ model DomesticWaterControls "Domestic water with controls"
         MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+  Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+        MediumDW)
+    "Fluid connector a (positive design flow direction is from port_a to port_b)"
+    annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 equation
   connect(TBoiSet.y, conPID.u_s) annotation (Line(
       points={{-69,-30},{-62,-30}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
-  connect(domesticHotWaterSystem.port_a2, port_a2) annotation (Line(
-      points={{0,-10},{0,-100}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      thickness=1));
   connect(domesticHotWaterSystem.TBoi, TBoi1) annotation (Line(
       points={{11,-4},{20,-4},{20,-40},{110,-40}},
       color={0,0,127},
@@ -119,6 +114,11 @@ equation
       smooth=Smooth.None));
   connect(domesticHotWaterSystem.port_b1, port_b1) annotation (Line(
       points={{-10,0},{-100,0}},
+      color={0,127,255},
+      smooth=Smooth.None,
+      thickness=1));
+  connect(domesticHotWaterSystem.port_a2, port_a1) annotation (Line(
+      points={{0,-10},{0,-100}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

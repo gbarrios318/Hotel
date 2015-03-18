@@ -93,7 +93,7 @@ model ConnectingLoop
   Modelica.Fluid.Interfaces.FluidPort_a CitWat(redeclare package Medium =
         MediumDW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
+    annotation (Placement(transformation(extent={{-110,10},{-90,30}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
         MediumDW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -202,7 +202,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(pum1.port_a, CitWat) annotation (Line(
-      points={{-70,0},{-100,0}},
+      points={{-70,0},{-80,0},{-80,20},{-100,20}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

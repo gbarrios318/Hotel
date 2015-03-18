@@ -21,7 +21,7 @@ model CoolingTowerSystem
   replaceable package MediumRainWater =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
-  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+  parameter Modelica.SIunits.MassFlowRate mRW_flow_nominal
     "Nominal mass flow rate";
   parameter Real GaiPi "Gain of the component PI controller";
   parameter Real tIntPi "Integration time of the component PI controller";
@@ -73,7 +73,7 @@ model CoolingTowerSystem
     addPowerToMedium=false,
     allowFlowReversal=true,
     redeclare package Medium = MediumCW,
-    m_flow_nominal=mCW_flow_nominal + m_RWflow_nominal)
+    m_flow_nominal=mCW_flow_nominal + mRW_flow_nominal)
     annotation (Placement(transformation(extent={{-86,-10},{-66,10}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{60,60},{80,80}})));

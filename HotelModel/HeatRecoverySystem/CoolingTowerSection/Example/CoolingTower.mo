@@ -46,13 +46,12 @@ model CoolingTower
     dTCW_nominal=dTCW_nominal,
     dTApp_nominal=dTApp_nominal,
     TWetBul_nominal=TWetBul_nominal,
-    dP_nominal=dP_nominal,
-    mCW_flow_nominal=mCW_flow_nominal,
     GaiPi=GaiPi,
     tIntPi=tIntPi,
     v_flow_rate=v_flow_rate,
     eta=eta,
-    dp_nominal=dp_nominal)
+    dp_nominal(displayUnit="kPa") = 7890,
+    mCW_flow_nominal=44.12)
     annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
 equation
   connect(TCWLeachi.y, souCW.T_in) annotation (Line(

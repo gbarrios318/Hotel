@@ -11,7 +11,7 @@ model CoolingTowerSystem
   replaceable package MediumRainWater =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
-  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+  parameter Modelica.SIunits.MassFlowRate mRW_flow_nominal = 7.89
     "Nominal mass flow rate";
   Modelica.Blocks.Sources.Sine TCWLeachi(
     freqHz=1/86400,
@@ -39,8 +39,6 @@ model CoolingTowerSystem
     dTCW_nominal=dTCW_nominal,
     dTApp_nominal=dTApp_nominal,
     TWetBul_nominal=TWetBul_nominal,
-    dP_nominal=dP_nominal,
-    mCW_flow_nominal=mCW_flow_nominal,
     GaiPi=GaiPi,
     tIntPi=tIntPi,
     v_flow_rate=v_flow_rate,
@@ -49,8 +47,9 @@ model CoolingTowerSystem
     Motor_eta=Motor_eta,
     Hydra_eta=Hydra_eta,
     redeclare package MediumRainWater = MediumRainWater,
-    m_RWflow_nominal=m_RWflow_nominal,
-    dp_nominal=dp_nominal)
+    dp_nominal(displayUnit="kPa") = 70000,
+    mCW_flow_nominal=44.12,
+    mRW_flow_nominal=7.89)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Sources.CombiTimeTable sta(table=[0.0, 1; 40, 2; 80, 3; 120,
         4; 160, 5; 200, 6; 240, 7])

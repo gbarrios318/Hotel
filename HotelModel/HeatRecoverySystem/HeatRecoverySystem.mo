@@ -20,7 +20,7 @@ model HeatRecoverySystem "Full heat recovery set as a model"
   replaceable package MediumRainWater =
       Buildings.Media.ConstantPropertyLiquidWater
     "Medium in the condenser water side";
-  parameter Modelica.SIunits.MassFlowRate m_RWflow_nominal
+  parameter Modelica.SIunits.MassFlowRate mRW_flow_nominal
     "Nominal mass flow rate";
   parameter Real GaiPi "Gain of the component PI controller";
   parameter Real tIntPi "Integration time of the component PI controller";
@@ -140,7 +140,7 @@ replaceable package MediumDW =
     dp_nominal=dp_nominal,
     mCW_flow_nominal=mCW_flow_nominal,
     redeclare package MediumRainWater = MediumRainWater,
-    m_RWflow_nominal=m_RWflow_nominal,
+    mRW_flow_nominal=mRW_flow_nominal,
     GaiPi=GaiPi,
     tIntPi=tIntPi,
     v_flow_rate=v_flow_rate,
@@ -326,7 +326,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(connectingLoop.CitWat, CitWat1) annotation (Line(
-      points={{92,-18},{80,-18},{80,70},{0,70},{0,100}},
+      points={{92,-16},{80,-16},{80,70},{0,70},{0,100}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));

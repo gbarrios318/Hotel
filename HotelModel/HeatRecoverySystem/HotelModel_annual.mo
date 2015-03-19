@@ -99,15 +99,14 @@ model HotelModel_annual
     TWetBul_nominal=coolingTowerSystem.TWetBul_nominal,
     mCW_flow_nominal=coolingTowerSystem.mCW_flow_nominal,
     redeclare package MediumRainWater = MediumHW,
-    m_RWflow_nominal=coolingTowerSystem.m_RWflow_nominal,
     GaiPi=coolingTowerSystem.GaiPi,
     tIntPi=coolingTowerSystem.tIntPi,
-    v_flow_rate=coolingTowerSystem.v_flow_rate,
     eta=coolingTowerSystem.eta,
     TSet=coolingTowerSystem.TSet,
     Motor_eta=coolingTowerSystem.Motor_eta,
     Hydra_eta=coolingTowerSystem.Hydra_eta,
-    dp_nominal=dp_nominal)
+    dp_nominal=dp_nominal,
+    mRW_flow_nominal=mCW_flow_nominal)
     annotation (Placement(transformation(extent={{-100,10},{-80,30}})));
   HeatPumpSection.HeatPump heatPump(
     redeclare package MediumHW = MediumHW,
@@ -129,7 +128,7 @@ model HotelModel_annual
     redeclare package MediumDW = MediumDW,
     mDW_flow_nominal=mDW_flow_nominal,
     dpDW_nominal=dpDW_nominal)
-    annotation (Placement(transformation(extent={{80,-20},{100,0}})));
+    annotation (Placement(transformation(extent={{80,0},{100,20}})));
   DomesticHotWater.DomesticWaterControls domesticWaterControls(redeclare
       package MediumDW = MediumDW,
     dpDW_nominal=dpDW_nominal,
@@ -141,7 +140,7 @@ model HotelModel_annual
     MassFloKitIn=domesticWaterControls.MassFloKitIn,
     TBoiSetIn=domesticWaterControls.TBoiSetIn,
     mDW_flow_nominal=mDW_flow_nominal)
-    annotation (Placement(transformation(extent={{134,-14},{154,6}})));
+    annotation (Placement(transformation(extent={{134,6},{154,26}})));
   Buildings.Fluid.Sources.FixedBoundary KitWat(nPorts=1, redeclare package
       Medium = MediumDW) "Kitchen Water " annotation (Placement(transformation(
         extent={{-8,-8},{8,8}},
@@ -149,13 +148,13 @@ model HotelModel_annual
         origin={144,42})));
   Buildings.Fluid.Sources.FixedBoundary DomHotWat(redeclare package Medium =
         MediumDW, nPorts=1) "Domestic Hot Water"
-    annotation (Placement(transformation(extent={{186,-12},{170,4}})));
+    annotation (Placement(transformation(extent={{188,8},{172,24}})));
   Buildings.Fluid.Sources.Boundary_pT CitWat(
     redeclare package Medium = MediumDW,
-    use_p_in=false,
     p(displayUnit="kPa") = 275800,
-    nPorts=1) "City Water pressure boundry"
-    annotation (Placement(transformation(extent={{42,2},{58,18}})));
+    nPorts=1,
+    use_p_in=false) "City Water pressure boundry"
+    annotation (Placement(transformation(extent={{40,4},{56,20}})));
   Buildings.Fluid.Sources.FixedBoundary RaiWat(redeclare package Medium =
         MediumCW, nPorts=1)
     "Rain water collection in this simulation is zero so it is simulated by a fixed boundry"
@@ -249,78 +248,78 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(heatPump.port_b2, connectingLoop.port_a2) annotation (Line(
-      points={{20,4},{20,-20},{80,-20},{80,-16}},
+      points={{20,4},{20,-20},{80,-20},{80,4}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(exp1.port_a, connectingLoop.port_a2) annotation (Line(
-      points={{60,-14},{60,-20},{80,-20},{80,-16}},
+      points={{60,-14},{60,-20},{80,-20},{80,4}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(KitHotWatDem.y[1], domesticWaterControls.m_flow_in_kit) annotation (
       Line(
-      points={{58.4,-60},{120,-60},{120,0},{132,0}},
+      points={{58.4,-60},{120,-60},{120,20},{132,20}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(GueRooDomWatDem.y[1], domesticWaterControls.m_flow_in_dom)
     annotation (Line(
-      points={{58.4,-46},{114,-46},{114,4},{132,4}},
+      points={{58.4,-46},{114,-46},{114,24},{132,24}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(domesticWaterControls.Pum3_flow, connectingLoop.m_flow_in)
     annotation (Line(
-      points={{155,0},{160,0},{160,20},{72,20},{72,-12},{78,-12}},
+      points={{155,20},{160,20},{160,28},{72,28},{72,8},{78,8}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(supCon.TBoiDW, domesticWaterControls.TBoi1) annotation (Line(
-      points={{-170,64},{-190,64},{-190,-80},{160,-80},{160,-8},{155,-8}},
+      points={{-170,64},{-190,64},{-190,-80},{160,-80},{160,12},{155,12}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.m_flow1, supCon.masFloHotWat) annotation (Line(
-      points={{94,1},{92,1},{92,96},{-192,96},{-192,72},{-170,72}},
+      points={{94,21},{92,21},{92,96},{-192,96},{-192,72},{-170,72}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.sta1, heatPump.Sta) annotation (Line(
-      points={{86,2},{86,68},{-20,68},{-20,8},{-1,8}},
+      points={{86,22},{86,68},{-20,68},{-20,8},{-1,8}},
       color={255,127,0},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(connectingLoop.port_a1, domesticWaterControls.port_b1) annotation (
       Line(
-      points={{100,-4},{134,-4}},
+      points={{100,16},{134,16}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(exp2.port_a, domesticWaterControls.port_b1) annotation (Line(
-      points={{126,36},{126,-4},{134,-4}},
+      points={{126,36},{126,16},{134,16}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(connectingLoop.port_b1, heatPump.port_a2) annotation (Line(
-      points={{80,-4},{80,40},{20,40},{20,16}},
+      points={{80,16},{80,40},{20,40},{20,16}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(connectingLoop.port_b2, domesticWaterControls.port_a1) annotation (
       Line(
-      points={{100,-16},{100,-40},{144,-40},{144,-14}},
+      points={{100,4},{100,-20},{144,-20},{144,6}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(domesticWaterControls.KitWat1, KitWat.ports[1]) annotation (Line(
-      points={{144,6},{144,34}},
+      points={{144,26},{144,34}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
   connect(domesticWaterControls.DomHotWat1, DomHotWat.ports[1]) annotation (
       Line(
-      points={{154,-4},{170,-4}},
+      points={{154,16},{172,16}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
@@ -330,7 +329,7 @@ equation
       smooth=Smooth.None,
       thickness=1));
   connect(connectingLoop.CitWat, CitWat.ports[1]) annotation (Line(
-      points={{80,-8},{68,-8},{68,10},{58,10}},
+      points={{80,12},{56,12}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=1));
